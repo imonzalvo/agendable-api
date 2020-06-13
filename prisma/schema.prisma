@@ -1,0 +1,142 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgres"
+  url      = env("DATABASE_URL")
+}
+
+model AvailabilityItem {
+  id         Int      @default(autoincrement()) @id
+  day        Day
+  from       String
+  to         String
+  employee   Employee @relation(fields: [employeeId], references: [id])
+  employeeId Int
+}
+
+model VacationsItem {
+  id         Int      @default(autoincrement()) @id
+  from       String
+  to         String
+  employee   Employee @relation(fields: [employeeId], references: [id])
+  employeeId Int
+}
+
+model Booking {
+  id               Int           @default(autoincrement()) @id
+  start            String
+  end              String
+  status           BookingStatus
+  client           User?         @relation(fields: [clientId], references: [id])
+  clientId         Int?
+  branch           Branch        @relation(fields: [branchId], references: [id])
+  branchId         Int
+  services         Service[]
+  employee         Employee      @relation(fields: [employeeId], references: [id])
+  employeeId       Int
+  clientEmail      String?
+  clientPhone      String?
+  clientName       String?
+  clientFamilyName String?
+}
+
+enum BookingStatus {
+  COMPLETED
+  CONFIRMED
+  PENDING
+  CANCELLED
+}
+
+model Employee {
+  id           Int                @default(autoincrement()) @id
+  givenName    String
+  familyName   String
+  user         User?              @relation(fields: [userId], references: [id])
+  userId       Int?
+  phone        String
+  services     Service[]
+  branches     Branch[]
+  bookings     Booking[]
+  availability AvailabilityItem[]
+  vacations    VacationsItem[]
+}
+
+model Service {
+  id          Int        @default(autoincrement()) @id
+  name        String
+  price       Float
+  currency    String
+  duration    Int
+  branches    Branch[]
+  description String
+  employees   Employee[]
+  bookings    Booking[]
+}
+
+model Branch {
+  id          Int        @default(autoincrement()) @id
+  address     String
+  phone       String
+  email       String
+  name        String
+  description String
+  image       String?
+  business    Business   @relation(fields: [businessId], references: [id])
+  businessId  Int
+  employees   Employee[]
+  services    Service[]
+  bookings    Booking[]
+}
+
+model Business {
+  id       Int      @default(autoincrement()) @id
+  name     String
+  email    String   @unique
+  phone    String   @unique
+  owner    User     @relation(fields: [ownerId], references: [id])
+  ownerId  Int
+  handle   String
+  branches Branch[]
+}
+
+model User {
+  email      String     @unique
+  id         Int        @default(autoincrement()) @id
+  name       String?
+  password   String     @default("")
+  posts      Post[]
+  business   Business?
+  givenName  String
+  familyName String
+  userName   String
+  userType   UserType
+  bookings   Booking[]
+  Employee   Employee[]
+}
+
+model Post {
+  authorId  Int?
+  content   String?
+  id        Int     @default(autoincrement()) @id
+  published Boolean @default(false)
+  title     String
+  author    User?   @relation(fields: [authorId], references: [id])
+}
+
+enum UserType {
+  ADMIN
+  USER
+  GUEST
+}
+
+enum Day {
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+  SATURDAY
+  SUNDAY
+}
