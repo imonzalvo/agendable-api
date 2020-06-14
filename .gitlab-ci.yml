@@ -21,7 +21,7 @@ deploy_staging:
     - cd agendable-api
     - git pull origin develop
     - rm -rf node_modules
-    - sudo apt install npm -y
+    - sudo apt install npm -qq
     - npm install
     - npx prisma generate
     - sudo npx prisma migrate up --experimental
