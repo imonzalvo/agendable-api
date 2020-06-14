@@ -16,6 +16,6 @@ deploy_staging:
     # url: example.com
   script:
     # - ssh ubuntu@34.217.146.69  "cd var/www/ && git checkout dev && git pull origin dev && exit"
-    - ssh ubuntu@34.217.146.69  "cd agendable-api && git pull origin develop && rm -rf node_modules && which npm && npm install && npx prisma generate && sudo npx prisma migrate up --experimental"
+    - ssh ubuntu@34.217.146.69  "cd agendable-api && git pull origin develop && which npm && npm install && npx prisma generate && sudo npx prisma migrate up --experimental"
   only:
     - develop
