@@ -1,4 +1,4 @@
-image: 'alpine'
+# image: 'alpine'
 before_script:
   - apt-get update -qq
   - apt-get install -qq git
