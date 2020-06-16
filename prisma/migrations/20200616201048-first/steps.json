@@ -44,7 +44,7 @@
         "source": "db"
       },
       "argument": "provider",
-      "value": "\"postgresql\""
+      "value": "\"postgres\""
     },
     {
       "tag": "CreateArgument",
@@ -53,7 +53,7 @@
         "source": "db"
       },
       "argument": "url",
-      "value": "\"postgresql://nacho:nacho@localhost:5432/agendable\""
+      "value": "env(\"DATABASE_URL\")"
     },
     {
       "tag": "CreateModel",
@@ -63,7 +63,7 @@
       "tag": "CreateField",
       "model": "AvailabilityItem",
       "field": "id",
-      "type": "Int",
+      "type": "String",
       "arity": "Required"
     },
     {
@@ -89,7 +89,7 @@
         "directive": "default"
       },
       "argument": "",
-      "value": "autoincrement()"
+      "value": "cuid()"
     },
     {
       "tag": "CreateDirective",
@@ -173,7 +173,7 @@
       "tag": "CreateField",
       "model": "AvailabilityItem",
       "field": "employeeId",
-      "type": "Int",
+      "type": "String",
       "arity": "Required"
     },
     {
@@ -184,7 +184,7 @@
       "tag": "CreateField",
       "model": "VacationsItem",
       "field": "id",
-      "type": "Int",
+      "type": "String",
       "arity": "Required"
     },
     {
@@ -210,7 +210,7 @@
         "directive": "default"
       },
       "argument": "",
-      "value": "autoincrement()"
+      "value": "cuid()"
     },
     {
       "tag": "CreateDirective",
@@ -287,7 +287,7 @@
       "tag": "CreateField",
       "model": "VacationsItem",
       "field": "employeeId",
-      "type": "Int",
+      "type": "String",
       "arity": "Required"
     },
     {
@@ -298,7 +298,7 @@
       "tag": "CreateField",
       "model": "Booking",
       "field": "id",
-      "type": "Int",
+      "type": "String",
       "arity": "Required"
     },
     {
@@ -324,7 +324,7 @@
         "directive": "default"
       },
       "argument": "",
-      "value": "autoincrement()"
+      "value": "cuid()"
     },
     {
       "tag": "CreateDirective",
@@ -408,7 +408,7 @@
       "tag": "CreateField",
       "model": "Booking",
       "field": "clientId",
-      "type": "Int",
+      "type": "String",
       "arity": "Optional"
     },
     {
@@ -461,7 +461,7 @@
       "tag": "CreateField",
       "model": "Booking",
       "field": "branchId",
-      "type": "Int",
+      "type": "String",
       "arity": "Required"
     },
     {
@@ -521,7 +521,7 @@
       "tag": "CreateField",
       "model": "Booking",
       "field": "employeeId",
-      "type": "Int",
+      "type": "String",
       "arity": "Required"
     },
     {
@@ -560,7 +560,7 @@
       "tag": "CreateField",
       "model": "Employee",
       "field": "id",
-      "type": "Int",
+      "type": "String",
       "arity": "Required"
     },
     {
@@ -586,7 +586,7 @@
         "directive": "default"
       },
       "argument": "",
-      "value": "autoincrement()"
+      "value": "cuid()"
     },
     {
       "tag": "CreateDirective",
@@ -663,7 +663,7 @@
       "tag": "CreateField",
       "model": "Employee",
       "field": "userId",
-      "type": "Int",
+      "type": "String",
       "arity": "Optional"
     },
     {
@@ -716,7 +716,7 @@
       "tag": "CreateField",
       "model": "Service",
       "field": "id",
-      "type": "Int",
+      "type": "String",
       "arity": "Required"
     },
     {
@@ -742,7 +742,7 @@
         "directive": "default"
       },
       "argument": "",
-      "value": "autoincrement()"
+      "value": "cuid()"
     },
     {
       "tag": "CreateDirective",
@@ -819,7 +819,7 @@
       "tag": "CreateField",
       "model": "Branch",
       "field": "id",
-      "type": "Int",
+      "type": "String",
       "arity": "Required"
     },
     {
@@ -845,7 +845,7 @@
         "directive": "default"
       },
       "argument": "",
-      "value": "autoincrement()"
+      "value": "cuid()"
     },
     {
       "tag": "CreateDirective",
@@ -950,7 +950,7 @@
       "tag": "CreateField",
       "model": "Branch",
       "field": "businessId",
-      "type": "Int",
+      "type": "String",
       "arity": "Required"
     },
     {
@@ -982,7 +982,7 @@
       "tag": "CreateField",
       "model": "Business",
       "field": "id",
-      "type": "Int",
+      "type": "String",
       "arity": "Required"
     },
     {
@@ -1008,7 +1008,7 @@
         "directive": "default"
       },
       "argument": "",
-      "value": "autoincrement()"
+      "value": "cuid()"
     },
     {
       "tag": "CreateDirective",
@@ -1114,7 +1114,7 @@
       "tag": "CreateField",
       "model": "Business",
       "field": "ownerId",
-      "type": "Int",
+      "type": "String",
       "arity": "Required"
     },
     {
@@ -1157,7 +1157,7 @@
       "tag": "CreateField",
       "model": "User",
       "field": "id",
-      "type": "Int",
+      "type": "String",
       "arity": "Required"
     },
     {
@@ -1183,7 +1183,7 @@
         "directive": "default"
       },
       "argument": "",
-      "value": "autoincrement()"
+      "value": "cuid()"
     },
     {
       "tag": "CreateDirective",
@@ -1299,7 +1299,7 @@
       "tag": "CreateField",
       "model": "Post",
       "field": "authorId",
-      "type": "Int",
+      "type": "String",
       "arity": "Optional"
     },
     {
@@ -1313,7 +1313,7 @@
       "tag": "CreateField",
       "model": "Post",
       "field": "id",
-      "type": "Int",
+      "type": "String",
       "arity": "Required"
     },
     {
@@ -1339,7 +1339,7 @@
         "directive": "default"
       },
       "argument": "",
-      "value": "autoincrement()"
+      "value": "cuid()"
     },
     {
       "tag": "CreateDirective",

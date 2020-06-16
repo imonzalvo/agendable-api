@@ -42,7 +42,7 @@ const UpdateBranch = (
   })
 
   const branch = ctx.prisma.branch.update({
-    where: { id: Number(id) },
+    where: { id: id },
     data: {
       address,
       name,

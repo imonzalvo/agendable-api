@@ -28,7 +28,7 @@ const Query = queryType({
       type: 'Business',
       nullable: true,
       args: {
-        id: intArg(),
+        id: stringArg(),
       },
       resolve: (parent, args, ctx) => getBusiness(parent, args, ctx),
     })
@@ -43,7 +43,7 @@ const Query = queryType({
       type: 'Branch',
       nullable: true,
       args: {
-        id: intArg(),
+        id: stringArg(),
       },
       resolve: (parent, args, ctx) => getBranch(parent, args, ctx),
     })
@@ -58,7 +58,7 @@ const Query = queryType({
       type: 'Service',
       nullable: true,
       args: {
-        id: intArg(),
+        id: stringArg(),
       },
       resolve: (parent, args, ctx) => getService(parent, args, ctx),
     })
@@ -73,7 +73,7 @@ const Query = queryType({
       type: 'Employee',
       nullable: true,
       args: {
-        id: intArg(),
+        id: stringArg(),
       },
       resolve: (parent, args, ctx) => getEmployee(parent, args, ctx),
     })
@@ -88,7 +88,7 @@ const Query = queryType({
       type: 'Booking',
       nullable: true,
       args: {
-        id: intArg(),
+        id: stringArg(),
       },
       resolve: (parent, args, ctx) => getBooking(parent, args, ctx),
     })
@@ -102,7 +102,7 @@ const Query = queryType({
     t.list.field('getBookingsByBranch', {
       type: 'Booking',
       args: {
-        branchId: intArg(),
+        branchId: stringArg(),
       },
       nullable: true,
       resolve: (parent, args, ctx) => getBookingsByBranch(parent, args, ctx),
@@ -111,7 +111,7 @@ const Query = queryType({
     t.list.field('getBookingsByBusiness', {
       type: 'Booking',
       args: {
-        businessId: intArg(),
+        businessId: stringArg(),
       },
       nullable: true,
       resolve: (parent, args, ctx) => getBookingsByBusiness(parent, args, ctx),

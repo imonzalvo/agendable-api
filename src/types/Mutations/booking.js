@@ -94,7 +94,7 @@ const UpdateBooking = async (
   }
 
   const booking = ctx.prisma.booking.update({
-    where: { id: Number(id) },
+    where: { id: id },
     data: bookingInfo,
   })
 

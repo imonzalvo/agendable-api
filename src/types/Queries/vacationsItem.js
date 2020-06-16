@@ -1,7 +1,7 @@
 const getVacationsItem = (parent, { id }, ctx) => {
   return ctx.prisma.vacationsItem.findOne({
     where: {
-      id: Number(id),
+      id: id,
     },
   })
 }

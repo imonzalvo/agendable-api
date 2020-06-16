@@ -12,7 +12,7 @@ const CreateBusiness = (parent, { name, email, phone, handle }, ctx) => {
       email,
       phone,
       handle,
-      owner: { connect: { id: Number(ownerId) } },
+      owner: { connect: { id: ownerId } },
     },
   })
   return business
@@ -20,7 +20,7 @@ const CreateBusiness = (parent, { name, email, phone, handle }, ctx) => {
 
 const UpdateBusiness = (parent, { id, name, email, phone, handle }, ctx) => {
   const business = ctx.prisma.business.update({
-    where: { id: Number(id) },
+    where: { id: id },
     data: {
       name,
       email,

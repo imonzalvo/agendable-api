@@ -11,7 +11,7 @@ type AvailabilityItem {
   day: Day!
   employee: Employee!
   from: String!
-  id: Int!
+  id: String!
   to: String!
 }
 
@@ -24,7 +24,7 @@ type Booking {
   clientPhone: String
   employee: Employee!
   end: String!
-  id: Int!
+  id: String!
   services(skip: Int): [Service!]!
   start: String!
   status: BookingStatus!
@@ -44,7 +44,7 @@ type Branch {
   description: String!
   email: String!
   employees(skip: Int): [Employee!]!
-  id: Int!
+  id: String!
   image: String
   name: String!
   phone: String!
@@ -55,7 +55,7 @@ type Business {
   branches(skip: Int): [Branch!]!
   email: String!
   handle: String!
-  id: Int!
+  id: String!
   name: String!
   owner: User!
   phone: String!
@@ -76,37 +76,37 @@ type Employee {
   branches(skip: Int): [Branch!]!
   familyName: String!
   givenName: String!
-  id: Int!
+  id: String!
   phone: String!
   services(skip: Int): [Service!]!
   user: User
 }
 
 type Mutation {
-  createAvailabilityItem(day: String, employeeId: Int, from: String, to: String): AvailabilityItem!
-  createBooking(branchId: Int!, clientEmail: String, clientFamilyName: String, clientId: Int, clientName: String, clientPhone: String, employeeId: Int!, end: String, servicesId: [Int!]!, start: String, status: String): Booking!
+  createAvailabilityItem(day: String, employeeId: String, from: String, to: String): AvailabilityItem!
+  createBooking(branchId: String!, clientEmail: String, clientFamilyName: String, clientId: String, clientName: String, clientPhone: String, employeeId: String!, end: String, servicesId: [String!]!, start: String, status: String): Booking!
   createBranch(address: String, description: String, email: String, image: String, name: String, phone: String): Branch!
   createBusiness(email: String, handle: String, name: String, phone: String): Business!
   createDraft(content: String, title: String): Post!
-  createEmployee(branchesId: [Int!], familyName: String, givenName: String, phone: String, servicesId: [Int!], userId: Int): Employee!
-  createService(branchesId: [Int!]!, currency: String, description: String, duration: Int, name: String, price: Float): Service!
-  createVacationsItem(employeeId: Int, from: String, to: String): VacationsItem!
+  createEmployee(branchesId: [String!], familyName: String, givenName: String, phone: String, servicesId: [String!], userId: String): Employee!
+  createService(branchesId: [String!]!, currency: String, description: String, duration: Int, name: String, price: Float): Service!
+  createVacationsItem(employeeId: String, from: String, to: String): VacationsItem!
   deletePost(id: ID): Post
   login(email: String, password: String): AuthPayload!
   publish(id: ID): Post
   signup(email: String, familyName: String, givenName: String, name: String, password: String, userName: String, userType: String): AuthPayload!
   updateAvailabilityItem(day: String, from: String, id: ID, to: String): AvailabilityItem!
-  updateBooking(branchId: Int, clientEmail: String, clientFamilyName: String, clientId: Int, clientName: String, clientPhone: String, employeeId: Int, end: String, id: ID, servicesId: [Int!], start: String, status: String): Booking!
-  updateBranch(address: String, description: String, email: String, id: ID, image: String, name: String, phone: String, servicesId: [Int!]): Branch!
+  updateBooking(branchId: String, clientEmail: String, clientFamilyName: String, clientId: String, clientName: String, clientPhone: String, employeeId: String, end: String, id: ID, servicesId: [String!], start: String, status: String): Booking!
+  updateBranch(address: String, description: String, email: String, id: ID, image: String, name: String, phone: String, servicesId: [String!]): Branch!
   updateBusiness(email: String, handle: String, id: ID, name: String, phone: String): Business!
-  updateEmployee(branchesId: [Int!], familyName: String, givenName: String, id: ID, phone: String, servicesId: [Int!], userId: Int): Employee!
-  updateVacationsItem(employeeId: Int, from: String, id: ID, to: String): VacationsItem!
+  updateEmployee(branchesId: [String!], familyName: String, givenName: String, id: ID, phone: String, servicesId: [String!], userId: String): Employee!
+  updateVacationsItem(employeeId: String, from: String, id: ID, to: String): VacationsItem!
 }
 
 type Post {
   author: User
   content: String
-  id: Int!
+  id: String!
   published: Boolean!
   title: String!
 }
@@ -116,17 +116,17 @@ type Query {
   filterPosts(searchString: String): [Post!]!
   getAvailabilityItem(id: ID): AvailabilityItem
   getAvailabilityItems: [AvailabilityItem!]
-  getBooking(id: Int): Booking
+  getBooking(id: String): Booking
   getBookings: [Booking!]
-  getBookingsByBranch(branchId: Int): [Booking!]
-  getBookingsByBusiness(businessId: Int): [Booking!]
-  getBranch(id: Int): Branch
+  getBookingsByBranch(branchId: String): [Booking!]
+  getBookingsByBusiness(businessId: String): [Booking!]
+  getBranch(id: String): Branch
   getBranches: [Branch!]
-  getBusiness(id: Int): Business
+  getBusiness(id: String): Business
   getBusinesses: [Business!]
-  getEmployee(id: Int): Employee
+  getEmployee(id: String): Employee
   getEmployees: [Employee!]
-  getService(id: Int): Service
+  getService(id: String): Service
   getServices: [Service!]
   getVacationsItem(id: ID): VacationsItem
   getVacationsItems: [VacationsItem!]
@@ -141,7 +141,7 @@ type Service {
   description: String!
   duration: Int!
   employees(skip: Int): [Employee!]!
-  id: Int!
+  id: String!
   name: String!
   price: Float!
 }
@@ -152,7 +152,7 @@ type User {
   email: String!
   familyName: String!
   givenName: String!
-  id: Int!
+  id: String!
   name: String
   posts: [Post!]!
   userType: UserType!
@@ -167,6 +167,6 @@ enum UserType {
 type VacationsItem {
   employee: Employee!
   from: String!
-  id: Int!
+  id: String!
   to: String!
 }

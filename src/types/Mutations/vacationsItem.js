@@ -3,7 +3,7 @@ const CreateVacationsItem = (parent, { from, to, employeeId }, ctx) => {
     data: {
       from,
       to,
-      employee: { connect: { id: Number(employeeId) } },
+      employee: { connect: { id: employeeId } },
     },
   })
   return vacationsItem
@@ -11,7 +11,7 @@ const CreateVacationsItem = (parent, { from, to, employeeId }, ctx) => {
 
 const UpdateVacationsItem = (parent, { id, from, to }, ctx) => {
   const vacationsItem = ctx.prisma.vacationsItem.update({
-    where: { id: Number(id) },
+    where: { id: id },
     data: {
       from,
       to,

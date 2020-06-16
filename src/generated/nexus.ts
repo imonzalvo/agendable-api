@@ -35,7 +35,7 @@ export interface NexusGenRootTypes {
   AvailabilityItem: { // root type
     day: NexusGenEnums['Day']; // Day!
     from: string; // String!
-    id: number; // Int!
+    id: string; // String!
     to: string; // String!
   }
   Booking: { // root type
@@ -44,7 +44,7 @@ export interface NexusGenRootTypes {
     clientName?: string | null; // String
     clientPhone?: string | null; // String
     end: string; // String!
-    id: number; // Int!
+    id: string; // String!
     start: string; // String!
     status: NexusGenEnums['BookingStatus']; // BookingStatus!
   }
@@ -52,7 +52,7 @@ export interface NexusGenRootTypes {
     address: string; // String!
     description: string; // String!
     email: string; // String!
-    id: number; // Int!
+    id: string; // String!
     image?: string | null; // String
     name: string; // String!
     phone: string; // String!
@@ -60,20 +60,20 @@ export interface NexusGenRootTypes {
   Business: { // root type
     email: string; // String!
     handle: string; // String!
-    id: number; // Int!
+    id: string; // String!
     name: string; // String!
     phone: string; // String!
   }
   Employee: { // root type
     familyName: string; // String!
     givenName: string; // String!
-    id: number; // Int!
+    id: string; // String!
     phone: string; // String!
   }
   Mutation: {};
   Post: { // root type
     content?: string | null; // String
-    id: number; // Int!
+    id: string; // String!
     published: boolean; // Boolean!
     title: string; // String!
   }
@@ -82,7 +82,7 @@ export interface NexusGenRootTypes {
     currency: string; // String!
     description: string; // String!
     duration: number; // Int!
-    id: number; // Int!
+    id: string; // String!
     name: string; // String!
     price: number; // Float!
   }
@@ -90,13 +90,13 @@ export interface NexusGenRootTypes {
     email: string; // String!
     familyName: string; // String!
     givenName: string; // String!
-    id: number; // Int!
+    id: string; // String!
     name?: string | null; // String
     userType: NexusGenEnums['UserType']; // UserType!
   }
   VacationsItem: { // root type
     from: string; // String!
-    id: number; // Int!
+    id: string; // String!
     to: string; // String!
   }
   String: string;
@@ -121,7 +121,7 @@ export interface NexusGenFieldTypes {
     day: NexusGenEnums['Day']; // Day!
     employee: NexusGenRootTypes['Employee']; // Employee!
     from: string; // String!
-    id: number; // Int!
+    id: string; // String!
     to: string; // String!
   }
   Booking: { // field return type
@@ -133,7 +133,7 @@ export interface NexusGenFieldTypes {
     clientPhone: string | null; // String
     employee: NexusGenRootTypes['Employee']; // Employee!
     end: string; // String!
-    id: number; // Int!
+    id: string; // String!
     services: NexusGenRootTypes['Service'][]; // [Service!]!
     start: string; // String!
     status: NexusGenEnums['BookingStatus']; // BookingStatus!
@@ -145,7 +145,7 @@ export interface NexusGenFieldTypes {
     description: string; // String!
     email: string; // String!
     employees: NexusGenRootTypes['Employee'][]; // [Employee!]!
-    id: number; // Int!
+    id: string; // String!
     image: string | null; // String
     name: string; // String!
     phone: string; // String!
@@ -155,7 +155,7 @@ export interface NexusGenFieldTypes {
     branches: NexusGenRootTypes['Branch'][]; // [Branch!]!
     email: string; // String!
     handle: string; // String!
-    id: number; // Int!
+    id: string; // String!
     name: string; // String!
     owner: NexusGenRootTypes['User']; // User!
     phone: string; // String!
@@ -165,7 +165,7 @@ export interface NexusGenFieldTypes {
     branches: NexusGenRootTypes['Branch'][]; // [Branch!]!
     familyName: string; // String!
     givenName: string; // String!
-    id: number; // Int!
+    id: string; // String!
     phone: string; // String!
     services: NexusGenRootTypes['Service'][]; // [Service!]!
     user: NexusGenRootTypes['User'] | null; // User
@@ -193,7 +193,7 @@ export interface NexusGenFieldTypes {
   Post: { // field return type
     author: NexusGenRootTypes['User'] | null; // User
     content: string | null; // String
-    id: number; // Int!
+    id: string; // String!
     published: boolean; // Boolean!
     title: string; // String!
   }
@@ -226,7 +226,7 @@ export interface NexusGenFieldTypes {
     description: string; // String!
     duration: number; // Int!
     employees: NexusGenRootTypes['Employee'][]; // [Employee!]!
-    id: number; // Int!
+    id: string; // String!
     name: string; // String!
     price: number; // Float!
   }
@@ -236,7 +236,7 @@ export interface NexusGenFieldTypes {
     email: string; // String!
     familyName: string; // String!
     givenName: string; // String!
-    id: number; // Int!
+    id: string; // String!
     name: string | null; // String
     posts: NexusGenRootTypes['Post'][]; // [Post!]!
     userType: NexusGenEnums['UserType']; // UserType!
@@ -244,7 +244,7 @@ export interface NexusGenFieldTypes {
   VacationsItem: { // field return type
     employee: NexusGenRootTypes['Employee']; // Employee!
     from: string; // String!
-    id: number; // Int!
+    id: string; // String!
     to: string; // String!
   }
 }
@@ -285,20 +285,20 @@ export interface NexusGenArgTypes {
   Mutation: {
     createAvailabilityItem: { // args
       day?: string | null; // String
-      employeeId?: number | null; // Int
+      employeeId?: string | null; // String
       from?: string | null; // String
       to?: string | null; // String
     }
     createBooking: { // args
-      branchId: number; // Int!
+      branchId: string; // String!
       clientEmail?: string | null; // String
       clientFamilyName?: string | null; // String
-      clientId?: number | null; // Int
+      clientId?: string | null; // String
       clientName?: string | null; // String
       clientPhone?: string | null; // String
-      employeeId: number; // Int!
+      employeeId: string; // String!
       end?: string | null; // String
-      servicesId: number[]; // [Int!]!
+      servicesId: string[]; // [String!]!
       start?: string | null; // String
       status?: string | null; // String
     }
@@ -321,15 +321,15 @@ export interface NexusGenArgTypes {
       title?: string | null; // String
     }
     createEmployee: { // args
-      branchesId?: number[] | null; // [Int!]
+      branchesId?: string[] | null; // [String!]
       familyName?: string | null; // String
       givenName?: string | null; // String
       phone?: string | null; // String
-      servicesId?: number[] | null; // [Int!]
-      userId?: number | null; // Int
+      servicesId?: string[] | null; // [String!]
+      userId?: string | null; // String
     }
     createService: { // args
-      branchesId: number[]; // [Int!]!
+      branchesId: string[]; // [String!]!
       currency?: string | null; // String
       description?: string | null; // String
       duration?: number | null; // Int
@@ -337,7 +337,7 @@ export interface NexusGenArgTypes {
       price?: number | null; // Float
     }
     createVacationsItem: { // args
-      employeeId?: number | null; // Int
+      employeeId?: string | null; // String
       from?: string | null; // String
       to?: string | null; // String
     }
@@ -367,16 +367,16 @@ export interface NexusGenArgTypes {
       to?: string | null; // String
     }
     updateBooking: { // args
-      branchId?: number | null; // Int
+      branchId?: string | null; // String
       clientEmail?: string | null; // String
       clientFamilyName?: string | null; // String
-      clientId?: number | null; // Int
+      clientId?: string | null; // String
       clientName?: string | null; // String
       clientPhone?: string | null; // String
-      employeeId?: number | null; // Int
+      employeeId?: string | null; // String
       end?: string | null; // String
       id?: string | null; // ID
-      servicesId?: number[] | null; // [Int!]
+      servicesId?: string[] | null; // [String!]
       start?: string | null; // String
       status?: string | null; // String
     }
@@ -388,7 +388,7 @@ export interface NexusGenArgTypes {
       image?: string | null; // String
       name?: string | null; // String
       phone?: string | null; // String
-      servicesId?: number[] | null; // [Int!]
+      servicesId?: string[] | null; // [String!]
     }
     updateBusiness: { // args
       email?: string | null; // String
@@ -398,16 +398,16 @@ export interface NexusGenArgTypes {
       phone?: string | null; // String
     }
     updateEmployee: { // args
-      branchesId?: number[] | null; // [Int!]
+      branchesId?: string[] | null; // [String!]
       familyName?: string | null; // String
       givenName?: string | null; // String
       id?: string | null; // ID
       phone?: string | null; // String
-      servicesId?: number[] | null; // [Int!]
-      userId?: number | null; // Int
+      servicesId?: string[] | null; // [String!]
+      userId?: string | null; // String
     }
     updateVacationsItem: { // args
-      employeeId?: number | null; // Int
+      employeeId?: string | null; // String
       from?: string | null; // String
       id?: string | null; // ID
       to?: string | null; // String
@@ -421,25 +421,25 @@ export interface NexusGenArgTypes {
       id?: string | null; // ID
     }
     getBooking: { // args
-      id?: number | null; // Int
+      id?: string | null; // String
     }
     getBookingsByBranch: { // args
-      branchId?: number | null; // Int
+      branchId?: string | null; // String
     }
     getBookingsByBusiness: { // args
-      businessId?: number | null; // Int
+      businessId?: string | null; // String
     }
     getBranch: { // args
-      id?: number | null; // Int
+      id?: string | null; // String
     }
     getBusiness: { // args
-      id?: number | null; // Int
+      id?: string | null; // String
     }
     getEmployee: { // args
-      id?: number | null; // Int
+      id?: string | null; // String
     }
     getService: { // args
-      id?: number | null; // Int
+      id?: string | null; // String
     }
     getVacationsItem: { // args
       id?: string | null; // ID

@@ -10,7 +10,7 @@ const rules = {
     const userId = getUserId(context)
     const user = await context.prisma.user.findOne({
       where: {
-        id: Number(userId),
+        id: userId,
       },
     })
     return user.userType === 'ADMIN'
@@ -20,7 +20,7 @@ const rules = {
     const author = await context.prisma.post
       .findOne({
         where: {
-          id: Number(id),
+          id: id,
         },
       })
       .author()
@@ -31,7 +31,7 @@ const rules = {
     const owner = await context.prisma.business
       .findOne({
         where: {
-          id: Number(id),
+          id: id,
         },
       })
       .owner()
@@ -43,7 +43,7 @@ const rules = {
     const owner = await context.prisma.branch
       .findOne({
         where: {
-          id: Number(branch),
+          id: branch,
         },
       })
       .business()
@@ -55,7 +55,7 @@ const rules = {
     const userBusiness = await context.prisma.user
       .findOne({
         where: {
-          id: Number(userId),
+          id: userId,
         },
       })
       .business()

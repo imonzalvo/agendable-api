@@ -29,7 +29,7 @@ const UpdateEmployee = (
 
   console.log('here', connectServices)
   const employee = ctx.prisma.employee.update({
-    where: { id: Number(id) },
+    where: { id: id },
     data: {
       givenName,
       familyName,
