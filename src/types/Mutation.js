@@ -13,7 +13,11 @@ const { CreateBusiness, UpdateBusiness } = require('./Mutations/business')
 const { CreateBranch, UpdateBranch } = require('./Mutations/branch')
 const { CreateService } = require('./Mutations/service')
 const { CreateEmployee, UpdateEmployee } = require('./Mutations/employee')
-const { CreateBooking, UpdateBooking } = require('./Mutations/booking')
+const {
+  CreateBooking,
+  UpdateBooking,
+  DeleteBooking,
+} = require('./Mutations/booking')
 const {
   CreateAvailabilityItem,
   UpdateAvailabilityItem,
@@ -157,6 +161,13 @@ const Mutation = mutationType({
         clientFamilyName: stringArg({ nullable: true }),
       },
       resolve: (parent, args, ctx) => UpdateBooking(parent, args, ctx),
+    })
+
+    t.field('deleteBooking', {
+      type: 'Booking',
+      nullable: true,
+      args: { id: idArg() },
+      resolve: (parent, args, ctx) => DeleteBooking(parent, args, ctx),
     })
 
     t.field('createAvailabilityItem', {

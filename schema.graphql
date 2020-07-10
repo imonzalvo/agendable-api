@@ -91,6 +91,7 @@ type Mutation {
   createEmployee(branchesId: [String!], familyName: String, givenName: String, phone: String, servicesId: [String!], userId: String): Employee!
   createService(branchesId: [String!]!, currency: String, description: String, duration: Int, name: String, price: Float): Service!
   createVacationsItem(employeeId: String, from: String, to: String): VacationsItem!
+  deleteBooking(id: ID): Booking
   deletePost(id: ID): Post
   login(email: String, password: String): AuthPayload!
   publish(id: ID): Post

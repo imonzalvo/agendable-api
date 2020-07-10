@@ -3,6 +3,17 @@ const { sign } = require('jsonwebtoken')
 const { hash, compare } = require('bcryptjs')
 const { APP_SECRET, getUserId } = require('../../utils')
 const { createConnectObject } = require('../../utils')
+var nodemailer = require('nodemailer')
+
+var transporter = nodemailer.createTransport({
+  host: 'smtp.zoho.com',
+  port: 465,
+  secure: true, // use SSL
+  auth: {
+    user: 'ignacio@agendable.io',
+    pass: 'UVfs6vMJLGGQ',
+  },
+})
 
 const CreateBooking = async (
   parent,
@@ -38,6 +49,29 @@ const CreateBooking = async (
 
   if (clientId) {
     bookingInfo[client] = { connect: { id: clientId } }
+  }
+
+  const branch = await ctx.prisma.branch.findOne({
+    where: {
+      id: branchId,
+    },
+  })
+
+  if (clientEmail) {
+    var mailOptions = {
+      from: 'ignacio@agendable.io',
+      to: `${clientEmail}`,
+      subject: `Reserva ${branch.name}`,
+      text: 'Falta HTML',
+    }
+
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error)
+      } else {
+        console.log('Email sent: ' + info.response)
+      }
+    })
   }
 
   const booking = ctx.prisma.booking.create({
@@ -101,4 +135,10 @@ const UpdateBooking = async (
   return booking
 }
 
-module.exports = { CreateBooking, UpdateBooking }
+const DeleteBooking = async (parent, { id }, ctx) => {
+  return ctx.prisma.booking.delete({
+    where: { id },
+  })
+}
+
+module.exports = { CreateBooking, UpdateBooking, DeleteBooking }

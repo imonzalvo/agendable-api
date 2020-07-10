@@ -179,6 +179,7 @@ export interface NexusGenFieldTypes {
     createEmployee: NexusGenRootTypes['Employee']; // Employee!
     createService: NexusGenRootTypes['Service']; // Service!
     createVacationsItem: NexusGenRootTypes['VacationsItem']; // VacationsItem!
+    deleteBooking: NexusGenRootTypes['Booking'] | null; // Booking
     deletePost: NexusGenRootTypes['Post'] | null; // Post
     login: NexusGenRootTypes['AuthPayload']; // AuthPayload!
     publish: NexusGenRootTypes['Post'] | null; // Post
@@ -340,6 +341,9 @@ export interface NexusGenArgTypes {
       employeeId?: string | null; // String
       from?: string | null; // String
       to?: string | null; // String
+    }
+    deleteBooking: { // args
+      id?: string | null; // ID
     }
     deletePost: { // args
       id?: string | null; // ID
