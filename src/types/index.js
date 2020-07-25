@@ -11,4 +11,5 @@ module.exports = {
   ...require('./Booking'),
   ...require('./AvailabilityItem'),
   ...require('./VacationsItem'),
+  ...require('./EmployeeAvailableTime'),
 }

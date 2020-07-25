@@ -6,6 +6,9 @@ const { getBranches, getBranch } = require('./Queries/branch')
 const { getServices, getService } = require('./Queries/service')
 const { getEmployees, getEmployee } = require('./Queries/employee')
 const {
+  getEmployeeAvailableTime,
+} = require('./Queries/singleQueries/getEmployeeAvailableTime')
+const {
   getBookings,
   getBooking,
   getBookingsByBranch,
@@ -145,6 +148,18 @@ const Query = queryType({
       type: 'VacationsItem',
       nullable: true,
       resolve: (parent, args, ctx) => getVacationsItems(parent, ctx),
+    })
+
+    t.list.field('getEmployeeAvailableTime', {
+      type: 'EmployeeAvailableTime',
+      nullable: true,
+      args: {
+        id: idArg(),
+        date: stringArg(),
+        duration: intArg(),
+      },
+      resolve: (parent, args, ctx) =>
+        getEmployeeAvailableTime(parent, args, ctx),
     })
 
     t.list.field('feed', {
