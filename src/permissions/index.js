@@ -15,6 +15,44 @@ const rules = {
     })
     return user.userType === 'ADMIN'
   }),
+  isBusinessAdminBooking: rule()(async (parent, { id }, context) => {
+    const userId = getUserId(context)
+    const user = await context.prisma.user.findOne({
+      where: {
+        id: userId,
+      },
+      select: {
+        userType: true,
+        business: {
+          select: {
+            id: true,
+          },
+        },
+      },
+    })
+    if (!user.business) {
+      return false
+    }
+    const booking = await context.prisma.booking.findOne({
+      where: { id },
+      select: {
+        branch: {
+          select: {
+            business: {
+              select: {
+                id: true,
+              },
+            },
+          },
+        },
+      },
+    })
+    if (!booking) {
+      return true
+    }
+    const isBusinessAdmin = user.business.id === booking.branch.business.id
+    return isBusinessAdmin && user.userType === 'ADMIN'
+  }),
   isPostOwner: rule()(async (parent, { id }, context) => {
     const userId = getUserId(context)
     const author = await context.prisma.post
@@ -111,6 +149,7 @@ const permissions = shield(
       updateBusiness: rules.isBusinessOwner,
       createBranch: rules.isAdminUser,
       updateBranch: rules.isBranchBusinessOwner,
+      deleteBooking: rules.isBusinessAdminBooking,
       createService: rules.branchesOwner,
       createEmployee: rules.branchesOwner,
       updateEmployee: rules.isAdminUser,
