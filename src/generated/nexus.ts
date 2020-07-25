@@ -70,6 +70,10 @@ export interface NexusGenRootTypes {
     id: string; // String!
     phone: string; // String!
   }
+  EmployeeAvailableTime: { // root type
+    from: string; // String!
+    to: string; // String!
+  }
   Mutation: {};
   Post: { // root type
     content?: string | null; // String
@@ -161,6 +165,7 @@ export interface NexusGenFieldTypes {
     phone: string; // String!
   }
   Employee: { // field return type
+    availability: NexusGenRootTypes['AvailabilityItem'][]; // [AvailabilityItem!]!
     bookings: NexusGenRootTypes['Booking'][]; // [Booking!]!
     branches: NexusGenRootTypes['Branch'][]; // [Branch!]!
     familyName: string; // String!
@@ -169,6 +174,11 @@ export interface NexusGenFieldTypes {
     phone: string; // String!
     services: NexusGenRootTypes['Service'][]; // [Service!]!
     user: NexusGenRootTypes['User'] | null; // User
+    vacations: NexusGenRootTypes['VacationsItem'][]; // [VacationsItem!]!
+  }
+  EmployeeAvailableTime: { // field return type
+    from: string; // String!
+    to: string; // String!
   }
   Mutation: { // field return type
     createAvailabilityItem: NexusGenRootTypes['AvailabilityItem']; // AvailabilityItem!
@@ -212,6 +222,7 @@ export interface NexusGenFieldTypes {
     getBusiness: NexusGenRootTypes['Business'] | null; // Business
     getBusinesses: NexusGenRootTypes['Business'][] | null; // [Business!]
     getEmployee: NexusGenRootTypes['Employee'] | null; // Employee
+    getEmployeeAvailableTime: NexusGenRootTypes['EmployeeAvailableTime'][] | null; // [EmployeeAvailableTime!]
     getEmployees: NexusGenRootTypes['Employee'][] | null; // [Employee!]
     getService: NexusGenRootTypes['Service'] | null; // Service
     getServices: NexusGenRootTypes['Service'][] | null; // [Service!]
@@ -273,6 +284,9 @@ export interface NexusGenArgTypes {
     }
   }
   Employee: {
+    availability: { // args
+      skip?: number | null; // Int
+    }
     bookings: { // args
       skip?: number | null; // Int
     }
@@ -280,6 +294,9 @@ export interface NexusGenArgTypes {
       skip?: number | null; // Int
     }
     services: { // args
+      skip?: number | null; // Int
+    }
+    vacations: { // args
       skip?: number | null; // Int
     }
   }
@@ -442,6 +459,11 @@ export interface NexusGenArgTypes {
     getEmployee: { // args
       id?: string | null; // String
     }
+    getEmployeeAvailableTime: { // args
+      date?: string | null; // String
+      duration?: number | null; // Int
+      id?: string | null; // ID
+    }
     getService: { // args
       id?: string | null; // String
     }
@@ -470,7 +492,7 @@ export interface NexusGenAbstractResolveReturnTypes {
 
 export interface NexusGenInheritedFields {}
 
-export type NexusGenObjectNames = "AuthPayload" | "AvailabilityItem" | "Booking" | "Branch" | "Business" | "Employee" | "Mutation" | "Post" | "Query" | "Service" | "User" | "VacationsItem";
+export type NexusGenObjectNames = "AuthPayload" | "AvailabilityItem" | "Booking" | "Branch" | "Business" | "Employee" | "EmployeeAvailableTime" | "Mutation" | "Post" | "Query" | "Service" | "User" | "VacationsItem";
 
 export type NexusGenInputNames = never;
 

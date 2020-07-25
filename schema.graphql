@@ -72,6 +72,7 @@ enum Day {
 }
 
 type Employee {
+  availability(skip: Int): [AvailabilityItem!]!
   bookings(skip: Int): [Booking!]!
   branches(skip: Int): [Branch!]!
   familyName: String!
@@ -80,6 +81,12 @@ type Employee {
   phone: String!
   services(skip: Int): [Service!]!
   user: User
+  vacations(skip: Int): [VacationsItem!]!
+}
+
+type EmployeeAvailableTime {
+  from: String!
+  to: String!
 }
 
 type Mutation {
@@ -126,6 +133,7 @@ type Query {
   getBusiness(id: String): Business
   getBusinesses: [Business!]
   getEmployee(id: String): Employee
+  getEmployeeAvailableTime(date: String, duration: Int, id: ID): [EmployeeAvailableTime!]
   getEmployees: [Employee!]
   getService(id: String): Service
   getServices: [Service!]

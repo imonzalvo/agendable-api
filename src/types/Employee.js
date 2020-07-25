@@ -11,6 +11,8 @@ const Employee = objectType({
     t.model.services()
     t.model.branches()
     t.model.bookings()
+    t.model.availability()
+    t.model.vacations()
   },
 })
 
