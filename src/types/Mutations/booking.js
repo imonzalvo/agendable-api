@@ -74,10 +74,14 @@ const CreateBooking = async (
     })
   }
 
-  const booking = ctx.prisma.booking.create({
+  const booking = await ctx.prisma.booking.create({
     data: bookingInfo,
+    include: {
+      branch: true,
+    },
   })
 
+  console.log('booking', booking, booking.branch)
   ctx.pubsub.publish('NEW_BOOKING', {
     newBooking: booking,
   })

@@ -9,9 +9,10 @@ const Subscription = objectType({
         branchId: stringArg({ required: false }),
       },
       subscribe: withFilter(
-        (parent, { branchId }, ctx) =>
-          ctx.pubsub.asyncIterator('PUBLISHED_POST'),
-        (payload, { branchId }) => payload.newBooking.branch.id === branchId,
+        (parent, { branchId }, ctx) => ctx.pubsub.asyncIterator('NEW_BOOKING'),
+        (payload, { branchId }) => {
+          return payload.newBooking.branch.id === branchId
+        },
       ),
     })
   },
