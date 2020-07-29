@@ -3,6 +3,7 @@ module.exports = {
   ...require('./Mutation'),
   ...require('./Post'),
   ...require('./Query'),
+  ...require('./Subscription'),
   ...require('./User'),
   ...require('./Business'),
   ...require('./Branch'),

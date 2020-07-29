@@ -90,6 +90,9 @@ export interface NexusGenRootTypes {
     name: string; // String!
     price: number; // Float!
   }
+  Subscription: { // root type
+    newBooking: NexusGenRootTypes['Booking']; // Booking!
+  }
   User: { // root type
     email: string; // String!
     familyName: string; // String!
@@ -241,6 +244,9 @@ export interface NexusGenFieldTypes {
     id: string; // String!
     name: string; // String!
     price: number; // Float!
+  }
+  Subscription: { // field return type
+    newBooking: NexusGenRootTypes['Booking']; // Booking!
   }
   User: { // field return type
     bookings: NexusGenRootTypes['Booking'][]; // [Booking!]!
@@ -485,6 +491,11 @@ export interface NexusGenArgTypes {
       skip?: number | null; // Int
     }
   }
+  Subscription: {
+    newBooking: { // args
+      branchId?: string | null; // String
+    }
+  }
 }
 
 export interface NexusGenAbstractResolveReturnTypes {
@@ -492,7 +503,7 @@ export interface NexusGenAbstractResolveReturnTypes {
 
 export interface NexusGenInheritedFields {}
 
-export type NexusGenObjectNames = "AuthPayload" | "AvailabilityItem" | "Booking" | "Branch" | "Business" | "Employee" | "EmployeeAvailableTime" | "Mutation" | "Post" | "Query" | "Service" | "User" | "VacationsItem";
+export type NexusGenObjectNames = "AuthPayload" | "AvailabilityItem" | "Booking" | "Branch" | "Business" | "Employee" | "EmployeeAvailableTime" | "Mutation" | "Post" | "Query" | "Service" | "Subscription" | "User" | "VacationsItem";
 
 export type NexusGenInputNames = never;
 

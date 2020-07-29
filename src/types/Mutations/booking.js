@@ -78,6 +78,10 @@ const CreateBooking = async (
     data: bookingInfo,
   })
 
+  ctx.pubsub.publish('NEW_BOOKING', {
+    newBooking: booking,
+  })
+
   return booking
 }
 

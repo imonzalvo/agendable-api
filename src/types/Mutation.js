@@ -1,5 +1,6 @@
 const { compare, hash } = require('bcryptjs')
 const { sign } = require('jsonwebtoken')
+const { PubSub } = require('graphql-yoga')
 const {
   idArg,
   mutationType,
