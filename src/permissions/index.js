@@ -77,6 +77,9 @@ const rules = {
   }),
   isBranchBusinessOwner: rule()(async (parent, { id, branchId }, context) => {
     const userId = getUserId(context)
+    if (!userId) {
+      return false
+    }
     branch = branchId ? branchId : id
     const owner = await context.prisma.branch
       .findOne({
@@ -140,6 +143,9 @@ const permissions = shield(
     },
     User: {
       '*': allow,
+    },
+    Branch: {
+      bookings: rules.isBranchBusinessOwner,
     },
     Mutation: {
       createDraft: rules.isAuthenticatedUser,
