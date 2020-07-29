@@ -114,7 +114,7 @@ const Query = queryType({
     t.list.field('getBookingsByBusiness', {
       type: 'Booking',
       args: {
-        businessId: stringArg(),
+        id: stringArg(),
       },
       nullable: true,
       resolve: (parent, args, ctx) => getBookingsByBusiness(parent, args, ctx),

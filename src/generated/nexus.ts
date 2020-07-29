@@ -448,7 +448,7 @@ export interface NexusGenArgTypes {
       branchId?: string | null; // String
     }
     getBookingsByBusiness: { // args
-      businessId?: string | null; // String
+      id?: string | null; // String
     }
     getBranch: { // args
       id?: string | null; // String

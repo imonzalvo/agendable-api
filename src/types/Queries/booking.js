@@ -18,10 +18,10 @@ const getBookingsByBranch = (parent, { branchId }, ctx) => {
   })
 }
 
-const getBookingsByBusiness = async (parent, { businessId }, ctx) => {
+const getBookingsByBusiness = async (parent, { id }, ctx) => {
   const businessBranches = await ctx.prisma.business.findOne({
     where: {
-      id: businessId,
+      id: id,
     },
     select: {
       branches: {

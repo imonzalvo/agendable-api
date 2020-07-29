@@ -1,4 +1,4 @@
-const { rule, shield, allow } = require('graphql-shield')
+const { rule, shield, allow, deny } = require('graphql-shield')
 const { getUserId } = require('../utils')
 
 const rules = {
@@ -15,8 +15,11 @@ const rules = {
     })
     return user.userType === 'ADMIN'
   }),
-  isBusinessAdminBooking: rule()(async (parent, { id }, context) => {
+  isBookingBusinessAdminUser: rule()(async (parent, { id }, context) => {
     const userId = getUserId(context)
+    if (!userId) {
+      return false
+    }
     const user = await context.prisma.user.findOne({
       where: {
         id: userId,
@@ -129,17 +132,17 @@ const permissions = shield(
       filterPosts: rules.isAuthenticatedUser,
       post: rules.isAuthenticatedUser,
       getBusiness: allow,
-      getBusinesses: rules.isAdminUser,
+      getBusinesses: deny,
       getBranch: allow,
       getBranches: allow,
       getService: allow,
       getServices: allow,
       getEmployee: allow,
       getEmployees: allow,
-      getBooking: rules.isAdminUser,
-      getBookings: rules.isAdminUser,
-      getBookingsByBranch: rules.isAdminUser,
-      getBookingsByBusiness: rules.isAdminUser,
+      getBooking: rules.isBookingBusinessAdminUser,
+      getBookings: deny,
+      getBookingsByBranch: rules.isBranchBusinessOwner,
+      getBookingsByBusiness: rules.isBusinessOwner,
     },
     User: {
       '*': allow,
@@ -155,7 +158,7 @@ const permissions = shield(
       updateBusiness: rules.isBusinessOwner,
       createBranch: rules.isAdminUser,
       updateBranch: rules.isBranchBusinessOwner,
-      deleteBooking: rules.isBusinessAdminBooking,
+      deleteBooking: rules.isBookingBusinessAdminUser,
       createService: rules.branchesOwner,
       createEmployee: rules.branchesOwner,
       updateEmployee: rules.isAdminUser,
