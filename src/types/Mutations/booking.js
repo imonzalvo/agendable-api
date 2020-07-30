@@ -81,7 +81,6 @@ const CreateBooking = async (
     },
   })
 
-  console.log('booking', booking, booking.branch)
   ctx.pubsub.publish('NEW_BOOKING', {
     newBooking: booking,
   })
