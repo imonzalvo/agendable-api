@@ -131,6 +131,7 @@ type Query {
   getBranch(id: String): Branch
   getBranches: [Branch!]
   getBusiness(id: String): Business
+  getBusinessByHandle(handle: String): Business
   getBusinesses: [Business!]
   getEmployee(id: String): Employee
   getEmployeeAvailableTime(date: String, duration: Int, id: ID): [EmployeeAvailableTime!]

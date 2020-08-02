@@ -1,7 +1,11 @@
 const { idArg, queryType, stringArg, intArg } = require('@nexus/schema')
 const { getUserId } = require('../utils')
 const { me } = require('./Queries/user')
-const { getBusinesses, getBusiness } = require('./Queries/business')
+const {
+  getBusinesses,
+  getBusiness,
+  getBusinessByHandle,
+} = require('./Queries/business')
 const { getBranches, getBranch } = require('./Queries/branch')
 const { getServices, getService } = require('./Queries/service')
 const { getEmployees, getEmployee } = require('./Queries/employee')
@@ -34,6 +38,15 @@ const Query = queryType({
         id: stringArg(),
       },
       resolve: (parent, args, ctx) => getBusiness(parent, args, ctx),
+    })
+
+    t.field('getBusinessByHandle', {
+      type: 'Business',
+      nullable: true,
+      args: {
+        handle: stringArg(),
+      },
+      resolve: (parent, args, ctx) => getBusinessByHandle(parent, args, ctx),
     })
 
     t.list.field('getBusinesses', {
