@@ -1,3 +1,4 @@
 # Prisma Migrate lockfile v1
 
 20200616201048-first
+20200802221350-added-verifytoken-field-to-user

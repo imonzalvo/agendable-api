@@ -90,6 +90,7 @@ type EmployeeAvailableTime {
 }
 
 type Mutation {
+  confirmUser(email: String, verifyToken: String): AuthPayload!
   createAvailabilityItem(day: String, employeeId: String, from: String, to: String): AvailabilityItem!
   createBooking(branchId: String!, clientEmail: String, clientFamilyName: String, clientId: String, clientName: String, clientPhone: String, employeeId: String!, end: String, servicesId: [String!]!, start: String, status: String): Booking!
   createBranch(address: String, description: String, email: String, image: String, name: String, phone: String): Branch!
@@ -171,6 +172,7 @@ type User {
   name: String
   posts: [Post!]!
   userType: UserType!
+  verifyToken: String!
 }
 
 enum UserType {

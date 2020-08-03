@@ -9,7 +9,7 @@ const {
   intArg,
 } = require('@nexus/schema')
 const { APP_SECRET, getUserId } = require('../utils')
-const { SignUp, Login } = require('./Mutations/auth')
+const { SignUp, Login, ConfirmUser } = require('./Mutations/auth')
 const { CreateBusiness, UpdateBusiness } = require('./Mutations/business')
 const { CreateBranch, UpdateBranch } = require('./Mutations/branch')
 const { CreateService } = require('./Mutations/service')
@@ -33,6 +33,8 @@ const Mutation = mutationType({
     t.field('signup', SignUp)
 
     t.field('login', Login)
+
+    t.field('confirmUser', ConfirmUser)
 
     t.field('createBusiness', {
       type: 'Business',

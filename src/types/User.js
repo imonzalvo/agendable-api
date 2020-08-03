@@ -9,6 +9,7 @@ const User = objectType({
     t.model.givenName()
     t.model.familyName()
     t.model.userType()
+    t.model.verifyToken()
     t.model.posts({ pagination: false })
     t.model.business({ pagination: false })
     t.model.bookings({ pagination: false })

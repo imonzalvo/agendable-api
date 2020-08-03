@@ -100,6 +100,7 @@ export interface NexusGenRootTypes {
     id: string; // String!
     name?: string | null; // String
     userType: NexusGenEnums['UserType']; // UserType!
+    verifyToken: string; // String!
   }
   VacationsItem: { // root type
     from: string; // String!
@@ -184,6 +185,7 @@ export interface NexusGenFieldTypes {
     to: string; // String!
   }
   Mutation: { // field return type
+    confirmUser: NexusGenRootTypes['AuthPayload']; // AuthPayload!
     createAvailabilityItem: NexusGenRootTypes['AvailabilityItem']; // AvailabilityItem!
     createBooking: NexusGenRootTypes['Booking']; // Booking!
     createBranch: NexusGenRootTypes['Branch']; // Branch!
@@ -260,6 +262,7 @@ export interface NexusGenFieldTypes {
     name: string | null; // String
     posts: NexusGenRootTypes['Post'][]; // [Post!]!
     userType: NexusGenEnums['UserType']; // UserType!
+    verifyToken: string; // String!
   }
   VacationsItem: { // field return type
     employee: NexusGenRootTypes['Employee']; // Employee!
@@ -309,6 +312,10 @@ export interface NexusGenArgTypes {
     }
   }
   Mutation: {
+    confirmUser: { // args
+      email?: string | null; // String
+      verifyToken?: string | null; // String
+    }
     createAvailabilityItem: { // args
       day?: string | null; // String
       employeeId?: string | null; // String
