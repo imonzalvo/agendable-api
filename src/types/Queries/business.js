@@ -9,10 +9,12 @@ const getBusiness = (parent, { id }, ctx) => {
 }
 
 const getBusinessByHandle = async (parent, { handle }, ctx) => {
-  console.log('handle', handle)
-  const businsses = await ctx.prisma.business.findMany()
-  console.log('hola', businsses)
-  return businsses.filter((business) => business.handle === handle)[0]
+  const businsses = await ctx.prisma.business.findOne({
+    where: {
+      handle: handle,
+    },
+  })
+  return businsses
 }
 
 const getBusinesses = (parent, ctx) => {

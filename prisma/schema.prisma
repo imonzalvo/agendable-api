@@ -11,7 +11,7 @@ datasource db {
 }
 
 model AvailabilityItem {
-  id         String      @default(cuid()) @id
+  id         String   @default(cuid()) @id
   day        Day
   from       String
   to         String
@@ -20,7 +20,7 @@ model AvailabilityItem {
 }
 
 model VacationsItem {
-  id         String      @default(cuid()) @id
+  id         String   @default(cuid()) @id
   from       String
   to         String
   employee   Employee @relation(fields: [employeeId], references: [id])
@@ -28,7 +28,7 @@ model VacationsItem {
 }
 
 model Booking {
-  id               String           @default(cuid()) @id
+  id               String        @default(cuid()) @id
   start            String
   end              String
   status           BookingStatus
@@ -53,7 +53,7 @@ enum BookingStatus {
 }
 
 model Employee {
-  id           String                @default(cuid()) @id
+  id           String             @default(cuid()) @id
   givenName    String
   familyName   String
   user         User?              @relation(fields: [userId], references: [id])
@@ -67,7 +67,7 @@ model Employee {
 }
 
 model Service {
-  id          String        @default(cuid()) @id
+  id          String     @default(cuid()) @id
   name        String
   price       Float
   currency    String
@@ -79,7 +79,7 @@ model Service {
 }
 
 model Branch {
-  id          String        @default(cuid()) @id
+  id          String     @default(cuid()) @id
   address     String
   phone       String
   email       String
@@ -94,19 +94,19 @@ model Branch {
 }
 
 model Business {
-  id       String      @default(cuid()) @id
+  id       String   @default(cuid()) @id
   name     String
   email    String   @unique
   phone    String   @unique
   owner    User     @relation(fields: [ownerId], references: [id])
   ownerId  String
-  handle   String
+  handle   String   @unique
   branches Branch[]
 }
 
 model User {
   email      String     @unique
-  id         String        @default(cuid()) @id
+  id         String     @default(cuid()) @id
   name       String?
   password   String     @default("")
   posts      Post[]
@@ -122,7 +122,7 @@ model User {
 model Post {
   authorId  String?
   content   String?
-  id        String     @default(cuid()) @id
+  id        String  @default(cuid()) @id
   published Boolean @default(false)
   title     String
   author    User?   @relation(fields: [authorId], references: [id])
