@@ -26,8 +26,12 @@ new GraphQLServer({
       pubsub,
     }
   },
-}).start(() =>
-  console.log(
-    `🚀 ${process.env.PORT}Server ready at: http://localhost:4000\n⭐️ See sample queries: http://pris.ly/e/js/graphql-auth#using-the-graphql-api`,
-  ),
+}).start(
+  {
+    subscriptions: 'ws://ec2-54-245-28-77.us-west-2.compute.amazonaws.com:8080',
+  },
+  () =>
+    console.log(
+      `🚀 ${process.env.PORT}Server ready at: http://localhost:4000\n⭐️ See sample queries: http://pris.ly/e/js/graphql-auth#using-the-graphql-api`,
+    ),
 )

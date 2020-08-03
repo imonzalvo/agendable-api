@@ -55,17 +55,43 @@ const CreateBooking = async (
     where: {
       id: branchId,
     },
+    include: {
+      business: {
+        include: {
+          owner: {
+            select: {
+              email: true,
+            },
+          },
+        },
+      },
+    },
   })
 
   if (clientEmail) {
-    var mailOptions = {
+    var clientMailOptions = {
       from: 'ignacio@agendable.io',
       to: `${clientEmail}`,
       subject: `Reserva ${branch.name}`,
       text: 'Falta HTML',
     }
 
-    transporter.sendMail(mailOptions, function (error, info) {
+    var adminMailOptions = {
+      from: 'ignacio@agendable.io',
+      to: `${branch.business.owner.email}`,
+      subject: `Reserva ${branch.name}`,
+      text: 'Falta HTML',
+    }
+
+    transporter.sendMail(clientMailOptions, function (error, info) {
+      if (error) {
+        console.log(error)
+      } else {
+        console.log('Email sent: ' + info.response)
+      }
+    })
+
+    transporter.sendMail(adminMailOptions, function (error, info) {
       if (error) {
         console.log(error)
       } else {
@@ -73,6 +99,8 @@ const CreateBooking = async (
       }
     })
   }
+
+  console.log('branch info', bookingInfo)
 
   const booking = await ctx.prisma.booking.create({
     data: bookingInfo,

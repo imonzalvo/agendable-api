@@ -162,7 +162,7 @@ const permissions = shield(
       createService: rules.branchesOwner,
       createEmployee: rules.branchesOwner,
       updateEmployee: rules.isAdminUser,
-      createBooking: rules.isBranchBusinessOwner,
+      createBooking: allow,
     },
   },
   { debug: true },
