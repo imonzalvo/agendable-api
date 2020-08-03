@@ -120,6 +120,7 @@ type Post {
 }
 
 type Query {
+  emailAvailability(email: String): Boolean
   feed: [Post!]!
   filterPosts(searchString: String): [Post!]!
   getAvailabilityItem(id: ID): AvailabilityItem

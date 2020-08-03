@@ -100,8 +100,6 @@ const CreateBooking = async (
     })
   }
 
-  console.log('branch info', bookingInfo)
-
   const booking = await ctx.prisma.booking.create({
     data: bookingInfo,
     include: {

@@ -212,6 +212,7 @@ export interface NexusGenFieldTypes {
     title: string; // String!
   }
   Query: { // field return type
+    emailAvailability: boolean | null; // Boolean
     feed: NexusGenRootTypes['Post'][]; // [Post!]!
     filterPosts: NexusGenRootTypes['Post'][]; // [Post!]!
     getAvailabilityItem: NexusGenRootTypes['AvailabilityItem'] | null; // AvailabilityItem
@@ -442,6 +443,9 @@ export interface NexusGenArgTypes {
     }
   }
   Query: {
+    emailAvailability: { // args
+      email?: string | null; // String
+    }
     filterPosts: { // args
       searchString?: string | null; // String
     }
