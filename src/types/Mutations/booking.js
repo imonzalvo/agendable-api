@@ -160,18 +160,33 @@ const UpdateBooking = async (
     bookingInfo[employee] = { connect: { id: employeeId } }
   }
 
-  const booking = ctx.prisma.booking.update({
+  const booking = await ctx.prisma.booking.update({
     where: { id: id },
     data: bookingInfo,
+    include: {
+      branch: true,
+    },
+  })
+
+  ctx.pubsub.publish('UPDATED_BOOKING', {
+    updatedBooking: booking,
   })
 
   return booking
 }
 
 const DeleteBooking = async (parent, { id }, ctx) => {
-  return ctx.prisma.booking.delete({
+  const booking = await ctx.prisma.booking.delete({
     where: { id },
+    include: {
+      branch: true,
+    },
   })
+  ctx.pubsub.publish('DELETED_BOOKING', {
+    deletedBooking: booking,
+  })
+
+  return booking
 }
 
 module.exports = { CreateBooking, UpdateBooking, DeleteBooking }

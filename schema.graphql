@@ -159,7 +159,9 @@ type Service {
 }
 
 type Subscription {
+  deletedBooking(branchId: String): Booking!
   newBooking(branchId: String): Booking!
+  updatedBooking(branchId: String): Booking!
 }
 
 type User {

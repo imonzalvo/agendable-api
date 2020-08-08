@@ -91,7 +91,9 @@ export interface NexusGenRootTypes {
     price: number; // Float!
   }
   Subscription: { // root type
+    deletedBooking: NexusGenRootTypes['Booking']; // Booking!
     newBooking: NexusGenRootTypes['Booking']; // Booking!
+    updatedBooking: NexusGenRootTypes['Booking']; // Booking!
   }
   User: { // root type
     email: string; // String!
@@ -250,7 +252,9 @@ export interface NexusGenFieldTypes {
     price: number; // Float!
   }
   Subscription: { // field return type
+    deletedBooking: NexusGenRootTypes['Booking']; // Booking!
     newBooking: NexusGenRootTypes['Booking']; // Booking!
+    updatedBooking: NexusGenRootTypes['Booking']; // Booking!
   }
   User: { // field return type
     bookings: NexusGenRootTypes['Booking'][]; // [Booking!]!
@@ -507,7 +511,13 @@ export interface NexusGenArgTypes {
     }
   }
   Subscription: {
+    deletedBooking: { // args
+      branchId?: string | null; // String
+    }
     newBooking: { // args
+      branchId?: string | null; // String
+    }
+    updatedBooking: { // args
       branchId?: string | null; // String
     }
   }
