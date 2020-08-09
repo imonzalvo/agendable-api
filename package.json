@@ -15,7 +15,8 @@
     "nodemailer": "^6.4.8"
   },
   "scripts": {
-    "dev": "nodemon src"
+    "dev": "nodemon src",
+    "start": "nodemon src"
   },
   "devDependencies": {
     "@prisma/cli": "^2.0.0",
