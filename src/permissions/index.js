@@ -123,6 +123,24 @@ const rules = {
     const areBranchesFromUserBusiness = branchesBusiness.reduce(reducer, true)
     return areBranchesFromUserBusiness
   }),
+
+  //Fields
+  //Branch -> Bookings
+  branchBookings: rule()(async ({ id }, args, context) => {
+    const userId = getUserId(context)
+    if (!userId) {
+      return false
+    }
+    const owner = await context.prisma.branch
+      .findOne({
+        where: {
+          id,
+        },
+      })
+      .business()
+      .owner()
+    return userId === owner.id
+  }),
 }
 
 const permissions = shield(
@@ -148,7 +166,7 @@ const permissions = shield(
       '*': allow,
     },
     Branch: {
-      bookings: rules.isBranchBusinessOwner,
+      bookings: rules.branchBookings,
     },
     Mutation: {
       createDraft: rules.isAuthenticatedUser,
