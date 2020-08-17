@@ -197,11 +197,27 @@ const DeleteBooking = async (parent, { id }, ctx) => {
   const booking = await ctx.prisma.booking.delete({
     where: { id },
     include: {
-      branch: true,
+      branch: { include: { business: true } },
     },
   })
   ctx.pubsub.publish('DELETED_BOOKING', {
     deletedBooking: booking,
+  })
+
+  const formattedStart = moment(booking.start).format('MMM DD h:mm A')
+  var clientMailOptions = {
+    from: 'ignacio@agendable.io',
+    to: `${booking.clientEmail}`,
+    subject: `Reserva ${booking.branch.name}`,
+    text: `Ha sido cancelada su reserva en el negocio ${booking.branch.business.name} para la fecha ${formattedStart}.`,
+  }
+
+  transporter.sendMail(clientMailOptions, function (error, info) {
+    if (error) {
+      console.log(error)
+    } else {
+      console.log('Email sent: ' + info.response)
+    }
   })
 
   return booking
