@@ -4,6 +4,7 @@ const { hash, compare } = require('bcryptjs')
 const { APP_SECRET, getUserId } = require('../../utils')
 const { createConnectObject } = require('../../utils')
 var nodemailer = require('nodemailer')
+const moment = require('moment')
 
 var transporter = nodemailer.createTransport({
   host: 'smtp.zoho.com',
@@ -153,11 +154,11 @@ const UpdateBooking = async (
   }
 
   if (servicesId && servicesId.length) {
-    bookingInfo[services] = { connect: connectServices }
+    bookingInfo['services'] = { connect: connectServices }
   }
 
   if (employeeId) {
-    bookingInfo[employee] = { connect: { id: employeeId } }
+    bookingInfo['employee'] = { connect: { id: employeeId } }
   }
 
   const booking = await ctx.prisma.booking.update({
@@ -166,6 +167,23 @@ const UpdateBooking = async (
     include: {
       branch: true,
     },
+  })
+
+  const formattedStart = moment(booking.start).format('MMM DD h:mm A')
+  const formattedEnd = moment(booking.end).format('MMM DD h:mm A')
+  var clientMailOptions = {
+    from: 'ignacio@agendable.io',
+    to: `${booking.clientEmail}`,
+    subject: `Reserva ${booking.branch.name}`,
+    text: `La resereva ha sido actualizada \n Comienzo: ${formattedStart}. \n Finaliza: ${formattedEnd}`,
+  }
+
+  transporter.sendMail(clientMailOptions, function (error, info) {
+    if (error) {
+      console.log(error)
+    } else {
+      console.log('Email sent: ' + info.response)
+    }
   })
 
   ctx.pubsub.publish('UPDATED_BOOKING', {
