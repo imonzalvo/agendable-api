@@ -476,6 +476,7 @@ export interface NexusGenArgTypes {
     }
     getBookingsByDate: { // args
       branchId?: string | null; // String
+      employeeId?: string | null; // String
       endDate: string; // String!
       startDate: string; // String!
     }

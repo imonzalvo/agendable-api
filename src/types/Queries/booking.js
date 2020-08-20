@@ -46,7 +46,7 @@ const getBookingsByBusiness = async (parent, { id }, ctx) => {
 
 const getBookingsByDate = async (
   parent,
-  { branchId, startDate, endDate },
+  { branchId, startDate, endDate, employeeId },
   ctx,
 ) => {
   const datesRange = getDatesRange(startDate, endDate)
@@ -62,6 +62,18 @@ const getBookingsByDate = async (
     }
 
     queryObject['branchId'] = branchId
+  }
+
+  if (employeeId) {
+    const employee = await ctx.prisma.employee.findOne({
+      where: { id: employeeId },
+    })
+
+    if (!employee) {
+      throw new Error(`Employee does not exist`)
+    }
+
+    queryObject['employeeId'] = employeeId
   }
 
   const bookings = await ctx.prisma.booking.findMany({

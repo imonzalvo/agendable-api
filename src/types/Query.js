@@ -144,6 +144,7 @@ const Query = queryType({
       type: 'Booking',
       args: {
         branchId: stringArg(),
+        employeeId: stringArg(),
         startDate: stringArg({ required: true }),
         endDate: stringArg({ required: true }),
       },

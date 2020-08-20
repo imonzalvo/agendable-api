@@ -130,7 +130,7 @@ type Query {
   getBookings: [Booking!]
   getBookingsByBranch(branchId: String): [Booking!]
   getBookingsByBusiness(id: String): [Booking!]
-  getBookingsByDate(branchId: String, endDate: String!, startDate: String!): [Booking!]
+  getBookingsByDate(branchId: String, employeeId: String, endDate: String!, startDate: String!): [Booking!]
   getBranch(id: String): Branch
   getBranches: [Branch!]
   getBusiness(id: String): Business
