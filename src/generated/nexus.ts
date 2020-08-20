@@ -231,6 +231,7 @@ export interface NexusGenFieldTypes {
     getBusinessByHandle: NexusGenRootTypes['Business'] | null; // Business
     getBusinesses: NexusGenRootTypes['Business'][] | null; // [Business!]
     getEmployee: NexusGenRootTypes['Employee'] | null; // Employee
+    getEmployeeAvailableDays: string[] | null; // [String!]
     getEmployeeAvailableTime: NexusGenRootTypes['EmployeeAvailableTime'][] | null; // [EmployeeAvailableTime!]
     getEmployees: NexusGenRootTypes['Employee'][] | null; // [Employee!]
     getService: NexusGenRootTypes['Service'] | null; // Service
@@ -483,6 +484,11 @@ export interface NexusGenArgTypes {
     }
     getEmployee: { // args
       id?: string | null; // String
+    }
+    getEmployeeAvailableDays: { // args
+      employeeId?: string | null; // ID
+      endDate?: string | null; // String
+      startDate?: string | null; // String
     }
     getEmployeeAvailableTime: { // args
       date?: string | null; // String

@@ -16,6 +16,9 @@ const {
   emailAvailability,
 } = require('./Queries/singleQueries/emailAvailability')
 const {
+  getEmployeeAvailableDays,
+} = require('./Queries/singleQueries/getEmployeeAvailableDays')
+const {
   getBookings,
   getBooking,
   getBookingsByBranch,
@@ -176,6 +179,18 @@ const Query = queryType({
       },
       resolve: (parent, args, ctx) =>
         getEmployeeAvailableTime(parent, args, ctx),
+    })
+
+    t.list.string('getEmployeeAvailableDays', {
+      // type: 'EmployeeAvailableDays',
+      nullable: true,
+      args: {
+        employeeId: idArg(),
+        startDate: stringArg(),
+        endDate: stringArg(),
+      },
+      resolve: (parent, args, ctx) =>
+        getEmployeeAvailableDays(parent, args, ctx),
     })
 
     t.field('emailAvailability', {

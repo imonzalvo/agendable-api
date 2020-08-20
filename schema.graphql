@@ -136,6 +136,7 @@ type Query {
   getBusinessByHandle(handle: String): Business
   getBusinesses: [Business!]
   getEmployee(id: String): Employee
+  getEmployeeAvailableDays(employeeId: ID, endDate: String, startDate: String): [String!]
   getEmployeeAvailableTime(date: String, duration: Int, id: ID): [EmployeeAvailableTime!]
   getEmployees: [Employee!]
   getService(id: String): Service
