@@ -78,6 +78,29 @@ const rules = {
       .owner()
     return userId === owner.id
   }),
+  isEmployeeEmployer: rule()(async (parent, { employeeId }, context) => {
+    const userId = getUserId(context)
+    const user = await context.prisma.user.findOne({
+      where: {
+        id: userId,
+      },
+      include: {
+        business: {
+          include: {
+            branches: {
+              include: {
+                employees: true,
+              },
+            },
+          },
+        },
+      },
+    })
+    const isEmployer = user.business.branches.some((branch) => {
+      return branch.employees.some((employee) => employee.id === employeeId)
+    })
+    return isEmployer
+  }),
   isBranchBusinessOwner: rule()(async (parent, { id, branchId }, context) => {
     const userId = getUserId(context)
     if (!userId) {
@@ -177,10 +200,13 @@ const permissions = shield(
       createBranch: rules.isAdminUser,
       updateBranch: rules.isBranchBusinessOwner,
       deleteBooking: rules.isBookingBusinessAdminUser,
+      updateBooking: rules.isBookingBusinessAdminUser,
       createService: rules.branchesOwner,
       createEmployee: rules.branchesOwner,
       updateEmployee: rules.isAdminUser,
       createBooking: allow,
+      createAvailabilityItem: rules.isEmployeeEmployer,
+      createVacationsItem: rules.isEmployeeEmployer,
     },
   },
   { debug: true },

@@ -91,25 +91,25 @@ type EmployeeAvailableTime {
 
 type Mutation {
   confirmUser(email: String, verifyToken: String): AuthPayload!
-  createAvailabilityItem(day: String, employeeId: String, from: String, to: String): AvailabilityItem!
-  createBooking(branchId: String!, clientEmail: String, clientFamilyName: String, clientId: String, clientName: String, clientPhone: String, employeeId: String!, end: String, servicesId: [String!]!, start: String, status: String): Booking!
-  createBranch(address: String, description: String, email: String, image: String, name: String, phone: String): Branch!
-  createBusiness(email: String, handle: String, name: String, phone: String): Business!
+  createAvailabilityItem(day: String!, employeeId: String!, from: String!, to: String!): AvailabilityItem!
+  createBooking(branchId: String!, clientEmail: String, clientFamilyName: String, clientId: String, clientName: String, clientPhone: String, employeeId: String!, end: String!, servicesId: [String!]!, start: String!, status: String): Booking!
+  createBranch(address: String!, description: String!, email: String!, image: String!, name: String!, phone: String!): Branch!
+  createBusiness(email: String!, handle: String!, name: String!, phone: String!): Business!
   createDraft(content: String, title: String): Post!
-  createEmployee(branchesId: [String!], familyName: String, givenName: String, phone: String, servicesId: [String!], userId: String): Employee!
-  createService(branchesId: [String!]!, currency: String, description: String, duration: Int, name: String, price: Float): Service!
-  createVacationsItem(employeeId: String, from: String, to: String): VacationsItem!
-  deleteBooking(id: ID): Booking
+  createEmployee(branchesId: [String!], familyName: String!, givenName: String!, phone: String!, servicesId: [String!], userId: String): Employee!
+  createService(branchesId: [String!]!, currency: String!, description: String!, duration: Int!, name: String!, price: Float!): Service!
+  createVacationsItem(employeeId: String!, from: String!, to: String!): VacationsItem!
+  deleteBooking(id: ID!): Booking
   deletePost(id: ID): Post
   login(email: String, password: String): AuthPayload!
   publish(id: ID): Post
   signup(email: String, familyName: String, givenName: String, name: String, password: String, userName: String, userType: String): AuthPayload!
-  updateAvailabilityItem(day: String, from: String, id: ID, to: String): AvailabilityItem!
-  updateBooking(branchId: String, clientEmail: String, clientFamilyName: String, clientId: String, clientName: String, clientPhone: String, employeeId: String, end: String, id: ID, servicesId: [String!], start: String, status: String): Booking!
-  updateBranch(address: String, description: String, email: String, id: ID, image: String, name: String, phone: String, servicesId: [String!]): Branch!
-  updateBusiness(email: String, handle: String, id: ID, name: String, phone: String): Business!
-  updateEmployee(branchesId: [String!], familyName: String, givenName: String, id: ID, phone: String, servicesId: [String!], userId: String): Employee!
-  updateVacationsItem(employeeId: String, from: String, id: ID, to: String): VacationsItem!
+  updateAvailabilityItem(day: String, from: String, id: ID!, to: String): AvailabilityItem!
+  updateBooking(branchId: String, clientEmail: String, clientFamilyName: String, clientId: String, clientName: String, clientPhone: String, employeeId: String, end: String, id: ID!, servicesId: [String!], start: String, status: String): Booking!
+  updateBranch(address: String, description: String, email: String, id: ID!, image: String, name: String, phone: String, servicesId: [String!]): Branch!
+  updateBusiness(email: String, handle: String, id: ID!, name: String, phone: String): Business!
+  updateEmployee(branchesId: [String!], familyName: String, givenName: String, id: ID!, phone: String, servicesId: [String!], userId: String): Employee!
+  updateVacationsItem(employeeId: String, from: String, id: ID!, to: String): VacationsItem!
 }
 
 type Post {

@@ -39,10 +39,10 @@ const Mutation = mutationType({
     t.field('createBusiness', {
       type: 'Business',
       args: {
-        name: stringArg(),
-        email: stringArg(),
-        phone: stringArg(),
-        handle: stringArg(),
+        name: stringArg({ required: true }),
+        email: stringArg({ required: true }),
+        phone: stringArg({ required: true }),
+        handle: stringArg({ required: true }),
       },
       resolve: (parent, { name, email, phone, handle }, ctx) =>
         CreateBusiness(parent, { name, email, phone, handle }, ctx),
@@ -51,7 +51,7 @@ const Mutation = mutationType({
     t.field('updateBusiness', {
       type: 'Business',
       args: {
-        id: idArg(),
+        id: idArg({ required: true }),
         name: stringArg(),
         email: stringArg(),
         phone: stringArg(),
@@ -64,12 +64,12 @@ const Mutation = mutationType({
     t.field('createBranch', {
       type: 'Branch',
       args: {
-        name: stringArg(),
-        email: stringArg(),
-        phone: stringArg(),
-        address: stringArg(),
-        description: stringArg(),
-        image: stringArg(),
+        name: stringArg({ required: true }),
+        email: stringArg({ required: true }),
+        phone: stringArg({ required: true }),
+        address: stringArg({ required: true }),
+        description: stringArg({ required: true }),
+        image: stringArg({ required: true }),
       },
       resolve: (parent, args, ctx) => CreateBranch(parent, args, ctx),
     })
@@ -77,7 +77,7 @@ const Mutation = mutationType({
     t.field('updateBranch', {
       type: 'Branch',
       args: {
-        id: idArg(),
+        id: idArg({ required: true }),
         name: stringArg(),
         email: stringArg(),
         phone: stringArg(),
@@ -92,11 +92,11 @@ const Mutation = mutationType({
     t.field('createService', {
       type: 'Service',
       args: {
-        name: stringArg(),
-        price: floatArg(),
-        currency: stringArg(),
-        duration: intArg(),
-        description: stringArg(),
+        name: stringArg({ required: true }),
+        price: floatArg({ required: true }),
+        currency: stringArg({ required: true }),
+        duration: intArg({ required: true }),
+        description: stringArg({ required: true }),
         branchesId: stringArg({ list: true, nullable: false }),
       },
       resolve: (parent, args, ctx) => CreateService(parent, args, ctx),
@@ -105,10 +105,10 @@ const Mutation = mutationType({
     t.field('createEmployee', {
       type: 'Employee',
       args: {
-        givenName: stringArg(),
-        familyName: stringArg(),
+        givenName: stringArg({ required: true }),
+        familyName: stringArg({ required: true }),
         userId: stringArg({ nullable: true }),
-        phone: stringArg(),
+        phone: stringArg({ required: true }),
         branchesId: stringArg({ list: true, nullable: true }),
         servicesId: stringArg({ list: true, nullable: true }),
       },
@@ -118,7 +118,7 @@ const Mutation = mutationType({
     t.field('updateEmployee', {
       type: 'Employee',
       args: {
-        id: idArg(),
+        id: idArg({ required: true }),
         givenName: stringArg(),
         familyName: stringArg(),
         userId: stringArg({ nullable: true }),
@@ -132,8 +132,8 @@ const Mutation = mutationType({
     t.field('createBooking', {
       type: 'Booking',
       args: {
-        start: stringArg(),
-        end: stringArg(),
+        start: stringArg({ required: true }),
+        end: stringArg({ required: true }),
         status: stringArg(),
         clientId: stringArg({ nullable: true }),
         branchId: stringArg({ nullable: false }),
@@ -150,7 +150,7 @@ const Mutation = mutationType({
     t.field('updateBooking', {
       type: 'Booking',
       args: {
-        id: idArg(),
+        id: idArg({ required: true }),
         start: stringArg(),
         end: stringArg(),
         status: stringArg(),
@@ -169,17 +169,17 @@ const Mutation = mutationType({
     t.field('deleteBooking', {
       type: 'Booking',
       nullable: true,
-      args: { id: idArg() },
+      args: { id: idArg({ required: true }) },
       resolve: (parent, args, ctx) => DeleteBooking(parent, args, ctx),
     })
 
     t.field('createAvailabilityItem', {
       type: 'AvailabilityItem',
       args: {
-        day: stringArg(),
-        from: stringArg(),
-        to: stringArg(),
-        employeeId: stringArg(),
+        day: stringArg({ required: true }),
+        from: stringArg({ required: true }),
+        to: stringArg({ required: true }),
+        employeeId: stringArg({ required: true }),
       },
       resolve: (parent, args, ctx) => CreateAvailabilityItem(parent, args, ctx),
     })
@@ -187,7 +187,7 @@ const Mutation = mutationType({
     t.field('updateAvailabilityItem', {
       type: 'AvailabilityItem',
       args: {
-        id: idArg(),
+        id: idArg({ required: true }),
         day: stringArg(),
         from: stringArg(),
         to: stringArg(),
@@ -198,9 +198,9 @@ const Mutation = mutationType({
     t.field('createVacationsItem', {
       type: 'VacationsItem',
       args: {
-        from: stringArg(),
-        to: stringArg(),
-        employeeId: stringArg(),
+        from: stringArg({ required: true }),
+        to: stringArg({ required: true }),
+        employeeId: stringArg({ required: true }),
       },
       resolve: (parent, args, ctx) => CreateVacationsItem(parent, args, ctx),
     })
@@ -208,7 +208,7 @@ const Mutation = mutationType({
     t.field('updateVacationsItem', {
       type: 'VacationsItem',
       args: {
-        id: idArg(),
+        id: idArg({ required: true }),
         from: stringArg(),
         to: stringArg(),
         employeeId: stringArg(),
