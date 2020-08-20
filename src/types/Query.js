@@ -21,6 +21,7 @@ const {
 const {
   getBookings,
   getBooking,
+  getBookingsByDate,
   getBookingsByBranch,
   getBookingsByBusiness,
 } = require('./Queries/booking')
@@ -137,6 +138,17 @@ const Query = queryType({
       },
       nullable: true,
       resolve: (parent, args, ctx) => getBookingsByBusiness(parent, args, ctx),
+    })
+
+    t.list.field('getBookingsByDate', {
+      type: 'Booking',
+      args: {
+        branchId: stringArg(),
+        startDate: stringArg({ required: true }),
+        endDate: stringArg({ required: true }),
+      },
+      nullable: true,
+      resolve: (parent, args, ctx) => getBookingsByDate(parent, args, ctx),
     })
 
     t.field('getAvailabilityItem', {

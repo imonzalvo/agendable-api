@@ -1,3 +1,8 @@
+const {
+  generateQueryObjectFromDateRange,
+  getDatesRange,
+} = require('../../utils')
+
 const getBooking = (parent, { id }, ctx) => {
   return ctx.prisma.booking.findOne({
     where: {
@@ -39,9 +44,37 @@ const getBookingsByBusiness = async (parent, { id }, ctx) => {
   })
 }
 
+const getBookingsByDate = async (
+  parent,
+  { branchId, startDate, endDate },
+  ctx,
+) => {
+  const datesRange = getDatesRange(startDate, endDate)
+  const queryDatesObject = generateQueryObjectFromDateRange(datesRange)
+  const queryObject = { OR: queryDatesObject }
+  if (branchId) {
+    const branch = await ctx.prisma.branch.findOne({
+      where: { id: branchId },
+    })
+
+    if (!branch) {
+      throw new Error(`Branch does not exist`)
+    }
+
+    queryObject['branchId'] = branchId
+  }
+
+  const bookings = await ctx.prisma.booking.findMany({
+    where: queryObject,
+  })
+
+  return bookings
+}
+
 module.exports = {
   getBooking,
   getBookings,
+  getBookingsByDate,
   getBookingsByBranch,
   getBookingsByBusiness,
 }

@@ -225,6 +225,7 @@ export interface NexusGenFieldTypes {
     getBookings: NexusGenRootTypes['Booking'][] | null; // [Booking!]
     getBookingsByBranch: NexusGenRootTypes['Booking'][] | null; // [Booking!]
     getBookingsByBusiness: NexusGenRootTypes['Booking'][] | null; // [Booking!]
+    getBookingsByDate: NexusGenRootTypes['Booking'][] | null; // [Booking!]
     getBranch: NexusGenRootTypes['Branch'] | null; // Branch
     getBranches: NexusGenRootTypes['Branch'][] | null; // [Branch!]
     getBusiness: NexusGenRootTypes['Business'] | null; // Business
@@ -472,6 +473,11 @@ export interface NexusGenArgTypes {
     }
     getBookingsByBusiness: { // args
       id?: string | null; // String
+    }
+    getBookingsByDate: { // args
+      branchId?: string | null; // String
+      endDate: string; // String!
+      startDate: string; // String!
     }
     getBranch: { // args
       id?: string | null; // String
