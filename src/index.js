@@ -30,8 +30,13 @@ new ApolloServer({
       pubsub,
     }
   },
-}).listen({ port: 4000 }, () =>
-  console.log(
-    `🚀 ${process.env.PORT}Server ready at: http://localhost:4000\n⭐️ See sample queries: http://pris.ly/e/js/graphql-auth#using-the-graphql-api`,
-  ),
-)
+})
+  .listen({ port: 4000 }, () =>
+    console.log(
+      `🚀 ${process.env.PORT}Server ready at: http://localhost:4000\n⭐️ See sample queries: http://pris.ly/e/js/graphql-auth#using-the-graphql-api`,
+    ),
+  )
+  .then(({ url, subscriptionsUrl }) => {
+    console.log(`🚀 Server ready at ${url}`)
+    console.log(`🚀 Subscriptions ready at ${subscriptionsUrl}`)
+  })
