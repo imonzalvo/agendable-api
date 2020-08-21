@@ -69,7 +69,7 @@ const Mutation = mutationType({
         phone: stringArg({ required: true }),
         address: stringArg({ required: true }),
         description: stringArg({ required: true }),
-        image: stringArg({ required: true }),
+        image: stringArg({ required: false }),
       },
       resolve: (parent, args, ctx) => CreateBranch(parent, args, ctx),
     })
