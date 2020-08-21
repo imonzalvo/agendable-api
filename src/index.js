@@ -1,5 +1,7 @@
 require('dotenv').config()
-const { GraphQLServer, PubSub } = require('graphql-yoga')
+const { PubSub } = require('graphql-subscriptions')
+const { applyMiddleware } = require('graphql-middleware')
+const { ApolloServer } = require('apollo-server')
 const { nexusPrismaPlugin } = require('nexus-prisma')
 const { makeSchema } = require('@nexus/schema')
 const { PrismaClient } = require('@prisma/client')
@@ -9,16 +11,18 @@ const prisma = new PrismaClient()
 
 const pubsub = new PubSub()
 
-new GraphQLServer({
-  schema: makeSchema({
-    types,
-    plugins: [nexusPrismaPlugin()],
-    outputs: {
-      schema: __dirname + '/../schema.graphql',
-      typegen: __dirname + '/generated/nexus.ts',
-    },
-  }),
-  middlewares: [permissions],
+new ApolloServer({
+  schema: applyMiddleware(
+    makeSchema({
+      types,
+      plugins: [nexusPrismaPlugin()],
+      outputs: {
+        schema: __dirname + '/../schema.graphql',
+        typegen: __dirname + '/generated/nexus.ts',
+      },
+    }),
+    permissions,
+  ),
   context: (request) => {
     return {
       ...request,
@@ -26,7 +30,7 @@ new GraphQLServer({
       pubsub,
     }
   },
-}).start(() =>
+}).listen({ port: 4000 }, () =>
   console.log(
     `🚀 ${process.env.PORT}Server ready at: http://localhost:4000\n⭐️ See sample queries: http://pris.ly/e/js/graphql-auth#using-the-graphql-api`,
   ),

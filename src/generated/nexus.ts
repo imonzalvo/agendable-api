@@ -345,7 +345,7 @@ export interface NexusGenArgTypes {
       address: string; // String!
       description: string; // String!
       email: string; // String!
-      image: string; // String!
+      image?: string | null; // String
       name: string; // String!
       phone: string; // String!
     }

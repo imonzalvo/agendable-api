@@ -93,7 +93,7 @@ type Mutation {
   confirmUser(email: String, verifyToken: String): AuthPayload!
   createAvailabilityItem(day: String!, employeeId: String!, from: String!, to: String!): AvailabilityItem!
   createBooking(branchId: String!, clientEmail: String, clientFamilyName: String, clientId: String, clientName: String, clientPhone: String, employeeId: String!, end: String!, servicesId: [String!]!, start: String!, status: String): Booking!
-  createBranch(address: String!, description: String!, email: String!, image: String!, name: String!, phone: String!): Branch!
+  createBranch(address: String!, description: String!, email: String!, image: String, name: String!, phone: String!): Branch!
   createBusiness(email: String!, handle: String!, name: String!, phone: String!): Business!
   createDraft(content: String, title: String): Post!
   createEmployee(branchesId: [String!], familyName: String!, givenName: String!, phone: String!, servicesId: [String!], userId: String): Employee!

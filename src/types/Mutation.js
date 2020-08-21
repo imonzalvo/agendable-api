@@ -1,6 +1,3 @@
-const { compare, hash } = require('bcryptjs')
-const { sign } = require('jsonwebtoken')
-const { PubSub } = require('graphql-yoga')
 const {
   idArg,
   mutationType,
@@ -69,7 +66,7 @@ const Mutation = mutationType({
         phone: stringArg({ required: true }),
         address: stringArg({ required: true }),
         description: stringArg({ required: true }),
-        image: stringArg({ required: true }),
+        image: stringArg({ required: false }),
       },
       resolve: (parent, args, ctx) => CreateBranch(parent, args, ctx),
     })

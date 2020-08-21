@@ -1,4 +1,4 @@
-const { withFilter } = require('graphql-yoga')
+const { withFilter } = require('graphql-subscriptions')
 const { stringArg, objectType } = require('@nexus/schema')
 const Subscription = objectType({
   name: 'Subscription',
