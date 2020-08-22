@@ -2,3 +2,5 @@
 
 20200616201048-first
 20200802221350-added-verifytoken-field-to-user
+20200822145917-add-notifications-to-user
+20200822150429-add-default-created-at-to-notifications
