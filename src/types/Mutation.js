@@ -8,6 +8,7 @@ const {
   floatArg,
   intArg,
   booleanArg,
+  arg,
 } = require('@nexus/schema')
 const { APP_SECRET, getUserId } = require('../utils')
 const { SignUp, Login, ConfirmUser } = require('./Mutations/auth')
@@ -29,6 +30,12 @@ const {
   UpdateVacationsItem,
 } = require('./Mutations/vacationsItem')
 const { UpdateNotification } = require('./Mutations/notification')
+const {
+  CreateLandingInfo,
+  DeleteLandingInfo,
+  UpdateLandingInfo,
+  AddImagesLandingInfo,
+} = require('./Mutations/landingInfo')
 
 const Mutation = mutationType({
   definition(t) {
@@ -225,6 +232,52 @@ const Mutation = mutationType({
         seen: booleanArg({ required: true }),
       },
       resolve: (parent, args, ctx) => UpdateNotification(parent, args, ctx),
+    })
+
+    t.field('updateLandingInfo', {
+      type: 'LandingInfo',
+      args: {
+        id: idArg({ required: true }),
+        cts: stringArg({ required: false }),
+        website: stringArg({ required: false }),
+        displayName: stringArg({ required: false }),
+        description: stringArg({ required: false }),
+        facebookUrl: stringArg({ required: false }),
+        instagramUrl: stringArg({ required: false }),
+      },
+      resolve: (parent, args, ctx) => UpdateLandingInfo(parent, args, ctx),
+    })
+
+    t.field('createLandingInfo', {
+      type: 'LandingInfo',
+      args: {
+        cts: stringArg({ required: false }),
+        website: stringArg({ required: false }),
+        businessId: idArg({ required: true }),
+        imagesUrl: stringArg({ required: true, list: true }),
+        displayName: stringArg({ required: true }),
+        description: stringArg({ required: true }),
+        facebookUrl: stringArg({ required: false }),
+        instagramUrl: stringArg({ required: false }),
+      },
+      resolve: (parent, args, ctx) => CreateLandingInfo(parent, args, ctx),
+    })
+
+    t.field('addImagesLandingInfo', {
+      type: 'LandingInfo',
+      args: {
+        landingInfoId: idArg(),
+        imagesUrl: stringArg({ list: true }),
+      },
+      resolve: (parent, args, ctx) => AddImagesLandingInfo(parent, args, ctx),
+    })
+
+    t.field('deleteLandingInfo', {
+      type: 'LandingInfo',
+      args: {
+        id: idArg(),
+      },
+      resolve: (parent, args, ctx) => DeleteLandingInfo(parent, args, ctx),
     })
 
     t.field('createDraft', {

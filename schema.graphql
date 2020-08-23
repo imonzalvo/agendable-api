@@ -135,9 +135,32 @@ type Business {
   email: String!
   handle: String!
   id: String!
+  landing: LandingInfo
   name: String!
   owner: User!
   phone: String!
+}
+
+type BusinessImage {
+  id: String!
+  LandingInfo: LandingInfo
+  url: String!
+}
+
+input BusinessImageListRelationFilter {
+  every: BusinessImageWhereInput
+  none: BusinessImageWhereInput
+  some: BusinessImageWhereInput
+}
+
+input BusinessImageWhereInput {
+  AND: [BusinessImageWhereInput!]
+  id: StringFilter
+  LandingInfo: LandingInfoWhereInput
+  landingInfoId: StringNullableFilter
+  NOT: [BusinessImageWhereInput!]
+  OR: [BusinessImageWhereInput!]
+  url: StringFilter
 }
 
 input BusinessWhereInput {
@@ -146,6 +169,7 @@ input BusinessWhereInput {
   email: StringFilter
   handle: StringFilter
   id: StringFilter
+  landing: LandingInfoWhereInput
   name: StringFilter
   NOT: [BusinessWhereInput!]
   OR: [BusinessWhereInput!]
@@ -240,7 +264,47 @@ input IntFilter {
   notIn: [Int!]
 }
 
+type LandingInfo {
+  business: Business
+  cta: String
+  description: String!
+  displayName: String!
+  facebookUrl: String
+  id: String!
+  images(skip: Int): [BusinessImage!]!
+  instagramUrl: String
+  website: String
+}
+
+input LandingInfoInputType {
+  businessId: String!
+  cta: String
+  description: String!
+  displayName: String!
+  facebookUrl: String
+  imagesUrl: [String!]!
+  instagramUrl: String
+  website: String
+}
+
+input LandingInfoWhereInput {
+  AND: [LandingInfoWhereInput!]
+  business: BusinessWhereInput
+  businessId: StringNullableFilter
+  cta: StringNullableFilter
+  description: StringFilter
+  displayName: StringFilter
+  facebookUrl: StringNullableFilter
+  id: StringFilter
+  images: BusinessImageListRelationFilter
+  instagramUrl: StringNullableFilter
+  NOT: [LandingInfoWhereInput!]
+  OR: [LandingInfoWhereInput!]
+  website: StringNullableFilter
+}
+
 type Mutation {
+  addImagesLandingInfo(imagesUrl: [String!], landingInfoId: ID): LandingInfo!
   confirmUser(email: String, verifyToken: String): AuthPayload!
   createAvailabilityItem(day: String!, employeeId: String!, from: String!, to: String!): AvailabilityItem!
   createBooking(branchId: String!, clientEmail: String, clientFamilyName: String, clientId: String, clientName: String, clientPhone: String, employeeId: String!, end: String!, servicesId: [String!]!, start: String!, status: String): Booking!
@@ -248,9 +312,11 @@ type Mutation {
   createBusiness(email: String!, handle: String!, name: String!, phone: String!): Business!
   createDraft(content: String, title: String): Post!
   createEmployee(branchesId: [String!], familyName: String!, givenName: String!, phone: String!, servicesId: [String!], userId: String): Employee!
+  createLandingInfo(businessId: ID!, cts: String, description: String!, displayName: String!, facebookUrl: String, imagesUrl: [String!]!, instagramUrl: String, website: String): LandingInfo!
   createService(branchesId: [String!]!, currency: String!, description: String!, duration: Int!, name: String!, price: Float!): Service!
   createVacationsItem(employeeId: String!, from: String!, to: String!): VacationsItem!
   deleteBooking(id: ID!): Booking
+  deleteLandingInfo(id: ID): LandingInfo!
   deletePost(id: ID): Post
   login(email: String, password: String): AuthPayload!
   publish(id: ID): Post
@@ -260,6 +326,7 @@ type Mutation {
   updateBranch(address: String, description: String, email: String, id: ID!, image: String, name: String, phone: String, servicesId: [String!]): Branch!
   updateBusiness(email: String, handle: String, id: ID!, name: String, phone: String): Business!
   updateEmployee(branchesId: [String!], familyName: String, givenName: String, id: ID!, phone: String, servicesId: [String!], userId: String): Employee!
+  updateLandingInfo(cts: String, description: String, displayName: String, facebookUrl: String, id: ID!, instagramUrl: String, website: String): LandingInfo!
   updateNotification(id: ID!, seen: Boolean!): Notification!
   updateVacationsItem(employeeId: String, from: String, id: ID!, to: String): VacationsItem!
 }

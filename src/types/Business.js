@@ -10,6 +10,7 @@ const Business = objectType({
     t.model.handle()
     t.model.owner()
     t.model.branches()
+    t.model.landing()
   },
 })
 

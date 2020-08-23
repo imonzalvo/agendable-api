@@ -7,7 +7,7 @@ generator client {
 
 datasource db {
   provider = "postgres"
-  url      = env("DATABASE_URL")
+  url = "***"
 }
 
 model AvailabilityItem {
@@ -108,7 +108,7 @@ model Business {
 model BusinessImage {
   id            String       @default(cuid()) @id
   url           String
-  landingInfo   LandingInfo? @relation(fields: [landingInfoId], references: [id])
+  LandingInfo   LandingInfo? @relation(fields: [landingInfoId], references: [id])
   landingInfoId String?
 }
 
