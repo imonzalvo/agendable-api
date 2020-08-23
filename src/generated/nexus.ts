@@ -820,7 +820,7 @@ export interface NexusGenArgTypes {
     }
     createLandingInfo: { // args
       businessId: string; // ID!
-      cts?: string | null; // String
+      cta?: string | null; // String
       description: string; // String!
       displayName: string; // String!
       facebookUrl?: string | null; // String
@@ -913,7 +913,7 @@ export interface NexusGenArgTypes {
       userId?: string | null; // String
     }
     updateLandingInfo: { // args
-      cts?: string | null; // String
+      cta?: string | null; // String
       description?: string | null; // String
       displayName?: string | null; // String
       facebookUrl?: string | null; // String

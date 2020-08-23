@@ -312,7 +312,7 @@ type Mutation {
   createBusiness(email: String!, handle: String!, name: String!, phone: String!): Business!
   createDraft(content: String, title: String): Post!
   createEmployee(branchesId: [String!], familyName: String!, givenName: String!, phone: String!, servicesId: [String!], userId: String): Employee!
-  createLandingInfo(businessId: ID!, cts: String, description: String!, displayName: String!, facebookUrl: String, imagesUrl: [String!]!, instagramUrl: String, website: String): LandingInfo!
+  createLandingInfo(businessId: ID!, cta: String, description: String!, displayName: String!, facebookUrl: String, imagesUrl: [String!]!, instagramUrl: String, website: String): LandingInfo!
   createService(branchesId: [String!]!, currency: String!, description: String!, duration: Int!, name: String!, price: Float!): Service!
   createVacationsItem(employeeId: String!, from: String!, to: String!): VacationsItem!
   deleteBooking(id: ID!): Booking
@@ -326,7 +326,7 @@ type Mutation {
   updateBranch(address: String, description: String, email: String, id: ID!, image: String, name: String, phone: String, servicesId: [String!]): Branch!
   updateBusiness(email: String, handle: String, id: ID!, name: String, phone: String): Business!
   updateEmployee(branchesId: [String!], familyName: String, givenName: String, id: ID!, phone: String, servicesId: [String!], userId: String): Employee!
-  updateLandingInfo(cts: String, description: String, displayName: String, facebookUrl: String, id: ID!, instagramUrl: String, website: String): LandingInfo!
+  updateLandingInfo(cta: String, description: String, displayName: String, facebookUrl: String, id: ID!, instagramUrl: String, website: String): LandingInfo!
   updateNotification(id: ID!, seen: Boolean!): Notification!
   updateVacationsItem(employeeId: String, from: String, id: ID!, to: String): VacationsItem!
 }

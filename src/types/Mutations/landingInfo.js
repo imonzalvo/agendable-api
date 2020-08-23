@@ -1,6 +1,5 @@
 async function asyncForEach(array, callback) {
   for (let index = 0; index < array.length; index++) {
-    console.log('inside')
     await callback(array[index], index, array)
   }
 }
@@ -40,7 +39,6 @@ const CreateLandingInfo = async (
     data: landingInfoData,
   })
 
-  console.log('before')
   await asyncForEach(imagesUrl, async (id) =>
     ctx.prisma.businessImage.create({
       data: {
@@ -49,7 +47,6 @@ const CreateLandingInfo = async (
       },
     }),
   )
-  console.log('after')
 
   return landingInfo
 }

@@ -238,7 +238,7 @@ const Mutation = mutationType({
       type: 'LandingInfo',
       args: {
         id: idArg({ required: true }),
-        cts: stringArg({ required: false }),
+        cta: stringArg({ required: false }),
         website: stringArg({ required: false }),
         displayName: stringArg({ required: false }),
         description: stringArg({ required: false }),
@@ -251,7 +251,7 @@ const Mutation = mutationType({
     t.field('createLandingInfo', {
       type: 'LandingInfo',
       args: {
-        cts: stringArg({ required: false }),
+        cta: stringArg({ required: false }),
         website: stringArg({ required: false }),
         businessId: idArg({ required: true }),
         imagesUrl: stringArg({ required: true, list: true }),
