@@ -239,11 +239,8 @@ const Mutation = mutationType({
       args: {
         id: idArg({ required: true }),
         cta: stringArg({ required: false }),
-        website: stringArg({ required: false }),
         displayName: stringArg({ required: false }),
         description: stringArg({ required: false }),
-        facebookUrl: stringArg({ required: false }),
-        instagramUrl: stringArg({ required: false }),
       },
       resolve: (parent, args, ctx) => UpdateLandingInfo(parent, args, ctx),
     })
@@ -252,13 +249,10 @@ const Mutation = mutationType({
       type: 'LandingInfo',
       args: {
         cta: stringArg({ required: false }),
-        website: stringArg({ required: false }),
         businessId: idArg({ required: true }),
         imagesUrl: stringArg({ required: true, list: true }),
         displayName: stringArg({ required: true }),
         description: stringArg({ required: true }),
-        facebookUrl: stringArg({ required: false }),
-        instagramUrl: stringArg({ required: false }),
       },
       resolve: (parent, args, ctx) => CreateLandingInfo(parent, args, ctx),
     })

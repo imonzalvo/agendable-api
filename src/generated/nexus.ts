@@ -105,7 +105,7 @@ export interface NexusGenInputs {
   BusinessImageWhereInput: { // input type
     AND?: NexusGenInputs['BusinessImageWhereInput'][] | null; // [BusinessImageWhereInput!]
     id?: NexusGenInputs['StringFilter'] | null; // StringFilter
-    LandingInfo?: NexusGenInputs['LandingInfoWhereInput'] | null; // LandingInfoWhereInput
+    landingInfo?: NexusGenInputs['LandingInfoWhereInput'] | null; // LandingInfoWhereInput
     landingInfoId?: NexusGenInputs['StringNullableFilter'] | null; // StringNullableFilter
     NOT?: NexusGenInputs['BusinessImageWhereInput'][] | null; // [BusinessImageWhereInput!]
     OR?: NexusGenInputs['BusinessImageWhereInput'][] | null; // [BusinessImageWhereInput!]
@@ -193,13 +193,10 @@ export interface NexusGenInputs {
     cta?: NexusGenInputs['StringNullableFilter'] | null; // StringNullableFilter
     description?: NexusGenInputs['StringFilter'] | null; // StringFilter
     displayName?: NexusGenInputs['StringFilter'] | null; // StringFilter
-    facebookUrl?: NexusGenInputs['StringNullableFilter'] | null; // StringNullableFilter
     id?: NexusGenInputs['StringFilter'] | null; // StringFilter
     images?: NexusGenInputs['BusinessImageListRelationFilter'] | null; // BusinessImageListRelationFilter
-    instagramUrl?: NexusGenInputs['StringNullableFilter'] | null; // StringNullableFilter
     NOT?: NexusGenInputs['LandingInfoWhereInput'][] | null; // [LandingInfoWhereInput!]
     OR?: NexusGenInputs['LandingInfoWhereInput'][] | null; // [LandingInfoWhereInput!]
-    website?: NexusGenInputs['StringNullableFilter'] | null; // StringNullableFilter
   }
   NestedBoolFilter: { // input type
     equals?: boolean | null; // Boolean
@@ -437,10 +434,7 @@ export interface NexusGenRootTypes {
     cta?: string | null; // String
     description: string; // String!
     displayName: string; // String!
-    facebookUrl?: string | null; // String
     id: string; // String!
-    instagramUrl?: string | null; // String
-    website?: string | null; // String
   }
   Mutation: {};
   Notification: { // root type
@@ -584,7 +578,7 @@ export interface NexusGenFieldTypes {
   }
   BusinessImage: { // field return type
     id: string; // String!
-    LandingInfo: NexusGenRootTypes['LandingInfo'] | null; // LandingInfo
+    landingInfo: NexusGenRootTypes['LandingInfo'] | null; // LandingInfo
     url: string; // String!
   }
   Employee: { // field return type
@@ -608,11 +602,8 @@ export interface NexusGenFieldTypes {
     cta: string | null; // String
     description: string; // String!
     displayName: string; // String!
-    facebookUrl: string | null; // String
     id: string; // String!
     images: NexusGenRootTypes['BusinessImage'][]; // [BusinessImage!]!
-    instagramUrl: string | null; // String
-    website: string | null; // String
   }
   Mutation: { // field return type
     addImagesLandingInfo: NexusGenRootTypes['LandingInfo']; // LandingInfo!
@@ -823,10 +814,7 @@ export interface NexusGenArgTypes {
       cta?: string | null; // String
       description: string; // String!
       displayName: string; // String!
-      facebookUrl?: string | null; // String
       imagesUrl: string[]; // [String!]!
-      instagramUrl?: string | null; // String
-      website?: string | null; // String
     }
     createService: { // args
       branchesId: string[]; // [String!]!
@@ -916,10 +904,7 @@ export interface NexusGenArgTypes {
       cta?: string | null; // String
       description?: string | null; // String
       displayName?: string | null; // String
-      facebookUrl?: string | null; // String
       id: string; // ID!
-      instagramUrl?: string | null; // String
-      website?: string | null; // String
     }
     updateNotification: { // args
       id: string; // ID!

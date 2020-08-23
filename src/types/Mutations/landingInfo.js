@@ -6,34 +6,25 @@ async function asyncForEach(array, callback) {
 
 const CreateLandingInfo = async (
   parent,
-  {
-    cta,
-    website,
-    businessId,
-    description,
-    facebookUrl,
-    displayName,
-    instagramUrl,
-    imagesUrl,
-  },
+  { cta, businessId, description, displayName, imagesUrl },
   ctx,
 ) => {
   let landingInfoData = {
     displayName,
     description,
   }
-  if (website) {
-    landingInfoData['website'] = website
-  }
   if (cta) {
     landingInfoData['cta'] = cta
   }
-  if (instagramUrl) {
-    landingInfoData['instagramUrl'] = instagramUrl
-  }
-  if (facebookUrl) {
-    landingInfoData['facebookUrl'] = facebookUrl
-  }
+  // if (website) {
+  //   landingInfoData['website'] = website
+  // }
+  // if (instagramUrl) {
+  //   landingInfoData['instagramUrl'] = instagramUrl
+  // }
+  // if (facebookUrl) {
+  //   landingInfoData['facebookUrl'] = facebookUrl
+  // }
   landingInfoData['business'] = { connect: { id: businessId } }
   const landingInfo = await ctx.prisma.landingInfo.create({
     data: landingInfoData,
@@ -43,7 +34,7 @@ const CreateLandingInfo = async (
     ctx.prisma.businessImage.create({
       data: {
         url: id,
-        LandingInfo: { connect: { id: landingInfo.id } },
+        landingInfo: { connect: { id: landingInfo.id } },
       },
     }),
   )
@@ -53,18 +44,15 @@ const CreateLandingInfo = async (
 
 const UpdateLandingInfo = (
   parent,
-  { id, cta, website, description, facebookUrl, displayName, instagramUrl },
+  { id, cta, description, displayName },
   ctx,
 ) => {
   const landingInfo = ctx.prisma.landingInfo.update({
     where: { id: id },
     data: {
       cta,
-      website,
       description,
-      facebookUrl,
       displayName,
-      instagramUrl,
     },
   })
   return landingInfo
@@ -79,7 +67,7 @@ const AddImagesLandingInfo = async (
     ctx.prisma.businessImage.create({
       data: {
         url: id,
-        LandingInfo: { connect: { id: landingInfoId } },
+        landingInfo: { connect: { id: landingInfoId } },
       },
     }),
   )

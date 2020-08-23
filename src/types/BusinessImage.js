@@ -5,7 +5,7 @@ const BusinessImage = objectType({
   definition(t) {
     t.model.id()
     t.model.url()
-    t.model.LandingInfo()
+    t.model.landingInfo()
   },
 })
 
