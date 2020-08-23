@@ -52,9 +52,20 @@ const Mutation = mutationType({
         email: stringArg({ required: true }),
         phone: stringArg({ required: true }),
         handle: stringArg({ required: true }),
+        website: stringArg({ required: false }),
+        instagramUrl: stringArg({ required: false }),
+        facebookUrl: stringArg({ required: false }),
       },
-      resolve: (parent, { name, email, phone, handle }, ctx) =>
-        CreateBusiness(parent, { name, email, phone, handle }, ctx),
+      resolve: (
+        parent,
+        { name, email, phone, handle, website, instagramUrl, facebookUrl },
+        ctx,
+      ) =>
+        CreateBusiness(
+          parent,
+          { name, email, phone, handle, website, instagramUrl, facebookUrl },
+          ctx,
+        ),
     })
 
     t.field('updateBusiness', {
@@ -65,9 +76,29 @@ const Mutation = mutationType({
         email: stringArg(),
         phone: stringArg(),
         handle: stringArg(),
+        website: stringArg(),
+        instagramUrl: stringArg(),
+        facebookUrl: stringArg(),
       },
-      resolve: (parent, { id, name, email, phone, handle }, ctx) =>
-        UpdateBusiness(parent, { id, name, email, phone, handle }, ctx),
+      resolve: (
+        parent,
+        { id, name, email, phone, handle, website, instagramUrl, facebookUrl },
+        ctx,
+      ) =>
+        UpdateBusiness(
+          parent,
+          {
+            id,
+            name,
+            email,
+            phone,
+            handle,
+            website,
+            instagramUrl,
+            facebookUrl,
+          },
+          ctx,
+        ),
     })
 
     t.field('createBranch', {

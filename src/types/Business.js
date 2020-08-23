@@ -8,9 +8,12 @@ const Business = objectType({
     t.model.email()
     t.model.phone()
     t.model.handle()
+    t.model.website()
+    t.model.facebookUrl()
+    t.model.instagramUrl()
     t.model.owner()
-    t.model.branches()
     t.model.landing()
+    t.model.branches()
   },
 })
 

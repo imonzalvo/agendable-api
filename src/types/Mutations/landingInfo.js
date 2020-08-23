@@ -16,15 +16,7 @@ const CreateLandingInfo = async (
   if (cta) {
     landingInfoData['cta'] = cta
   }
-  // if (website) {
-  //   landingInfoData['website'] = website
-  // }
-  // if (instagramUrl) {
-  //   landingInfoData['instagramUrl'] = instagramUrl
-  // }
-  // if (facebookUrl) {
-  //   landingInfoData['facebookUrl'] = facebookUrl
-  // }
+
   landingInfoData['business'] = { connect: { id: businessId } }
   const landingInfo = await ctx.prisma.landingInfo.create({
     data: landingInfoData,

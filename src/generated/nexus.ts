@@ -115,8 +115,10 @@ export interface NexusGenInputs {
     AND?: NexusGenInputs['BusinessWhereInput'][] | null; // [BusinessWhereInput!]
     branches?: NexusGenInputs['BranchListRelationFilter'] | null; // BranchListRelationFilter
     email?: NexusGenInputs['StringFilter'] | null; // StringFilter
+    facebookUrl?: NexusGenInputs['StringNullableFilter'] | null; // StringNullableFilter
     handle?: NexusGenInputs['StringFilter'] | null; // StringFilter
     id?: NexusGenInputs['StringFilter'] | null; // StringFilter
+    instagramUrl?: NexusGenInputs['StringNullableFilter'] | null; // StringNullableFilter
     landing?: NexusGenInputs['LandingInfoWhereInput'] | null; // LandingInfoWhereInput
     name?: NexusGenInputs['StringFilter'] | null; // StringFilter
     NOT?: NexusGenInputs['BusinessWhereInput'][] | null; // [BusinessWhereInput!]
@@ -124,6 +126,7 @@ export interface NexusGenInputs {
     owner?: NexusGenInputs['UserWhereInput'] | null; // UserWhereInput
     ownerId?: NexusGenInputs['StringFilter'] | null; // StringFilter
     phone?: NexusGenInputs['StringFilter'] | null; // StringFilter
+    website?: NexusGenInputs['StringNullableFilter'] | null; // StringNullableFilter
   }
   DateTimeFilter: { // input type
     equals?: any | null; // DateTime
@@ -411,10 +414,13 @@ export interface NexusGenRootTypes {
   }
   Business: { // root type
     email: string; // String!
+    facebookUrl?: string | null; // String
     handle: string; // String!
     id: string; // String!
+    instagramUrl?: string | null; // String
     name: string; // String!
     phone: string; // String!
+    website?: string | null; // String
   }
   BusinessImage: { // root type
     id: string; // String!
@@ -569,12 +575,15 @@ export interface NexusGenFieldTypes {
   Business: { // field return type
     branches: NexusGenRootTypes['Branch'][]; // [Branch!]!
     email: string; // String!
+    facebookUrl: string | null; // String
     handle: string; // String!
     id: string; // String!
+    instagramUrl: string | null; // String
     landing: NexusGenRootTypes['LandingInfo'] | null; // LandingInfo
     name: string; // String!
     owner: NexusGenRootTypes['User']; // User!
     phone: string; // String!
+    website: string | null; // String
   }
   BusinessImage: { // field return type
     id: string; // String!
@@ -793,9 +802,12 @@ export interface NexusGenArgTypes {
     }
     createBusiness: { // args
       email: string; // String!
+      facebookUrl?: string | null; // String
       handle: string; // String!
+      instagramUrl?: string | null; // String
       name: string; // String!
       phone: string; // String!
+      website?: string | null; // String
     }
     createDraft: { // args
       content?: string | null; // String
@@ -886,10 +898,13 @@ export interface NexusGenArgTypes {
     }
     updateBusiness: { // args
       email?: string | null; // String
+      facebookUrl?: string | null; // String
       handle?: string | null; // String
       id: string; // ID!
+      instagramUrl?: string | null; // String
       name?: string | null; // String
       phone?: string | null; // String
+      website?: string | null; // String
     }
     updateEmployee: { // args
       branchesId?: string[] | null; // [String!]

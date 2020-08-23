@@ -133,12 +133,15 @@ input BranchWhereInput {
 type Business {
   branches(skip: Int): [Branch!]!
   email: String!
+  facebookUrl: String
   handle: String!
   id: String!
+  instagramUrl: String
   landing: LandingInfo
   name: String!
   owner: User!
   phone: String!
+  website: String
 }
 
 type BusinessImage {
@@ -167,8 +170,10 @@ input BusinessWhereInput {
   AND: [BusinessWhereInput!]
   branches: BranchListRelationFilter
   email: StringFilter
+  facebookUrl: StringNullableFilter
   handle: StringFilter
   id: StringFilter
+  instagramUrl: StringNullableFilter
   landing: LandingInfoWhereInput
   name: StringFilter
   NOT: [BusinessWhereInput!]
@@ -176,6 +181,7 @@ input BusinessWhereInput {
   owner: UserWhereInput
   ownerId: StringFilter
   phone: StringFilter
+  website: StringNullableFilter
 }
 
 scalar DateTime
@@ -303,7 +309,7 @@ type Mutation {
   createAvailabilityItem(day: String!, employeeId: String!, from: String!, to: String!): AvailabilityItem!
   createBooking(branchId: String!, clientEmail: String, clientFamilyName: String, clientId: String, clientName: String, clientPhone: String, employeeId: String!, end: String!, servicesId: [String!]!, start: String!, status: String): Booking!
   createBranch(address: String!, description: String!, email: String!, image: String, name: String!, phone: String!): Branch!
-  createBusiness(email: String!, handle: String!, name: String!, phone: String!): Business!
+  createBusiness(email: String!, facebookUrl: String, handle: String!, instagramUrl: String, name: String!, phone: String!, website: String): Business!
   createDraft(content: String, title: String): Post!
   createEmployee(branchesId: [String!], familyName: String!, givenName: String!, phone: String!, servicesId: [String!], userId: String): Employee!
   createLandingInfo(businessId: ID!, cta: String, description: String!, displayName: String!, imagesUrl: [String!]!): LandingInfo!
@@ -318,7 +324,7 @@ type Mutation {
   updateAvailabilityItem(day: String, from: String, id: ID!, to: String): AvailabilityItem!
   updateBooking(branchId: String, clientEmail: String, clientFamilyName: String, clientId: String, clientName: String, clientPhone: String, employeeId: String, end: String, id: ID!, servicesId: [String!], start: String, status: String): Booking!
   updateBranch(address: String, description: String, email: String, id: ID!, image: String, name: String, phone: String, servicesId: [String!]): Branch!
-  updateBusiness(email: String, handle: String, id: ID!, name: String, phone: String): Business!
+  updateBusiness(email: String, facebookUrl: String, handle: String, id: ID!, instagramUrl: String, name: String, phone: String, website: String): Business!
   updateEmployee(branchesId: [String!], familyName: String, givenName: String, id: ID!, phone: String, servicesId: [String!], userId: String): Employee!
   updateLandingInfo(cta: String, description: String, displayName: String, id: ID!): LandingInfo!
   updateNotification(id: ID!, seen: Boolean!): Notification!
