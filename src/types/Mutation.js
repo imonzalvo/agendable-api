@@ -7,6 +7,7 @@ const {
   stringArg,
   floatArg,
   intArg,
+  booleanArg,
 } = require('@nexus/schema')
 const { APP_SECRET, getUserId } = require('../utils')
 const { SignUp, Login, ConfirmUser } = require('./Mutations/auth')
@@ -27,6 +28,7 @@ const {
   CreateVacationsItem,
   UpdateVacationsItem,
 } = require('./Mutations/vacationsItem')
+const { UpdateNotification } = require('./Mutations/notification')
 
 const Mutation = mutationType({
   definition(t) {
@@ -214,6 +216,15 @@ const Mutation = mutationType({
         employeeId: stringArg(),
       },
       resolve: (parent, args, ctx) => UpdateVacationsItem(parent, args, ctx),
+    })
+
+    t.field('updateNotification', {
+      type: 'Notification',
+      args: {
+        id: idArg({ required: true }),
+        seen: booleanArg({ required: true }),
+      },
+      resolve: (parent, args, ctx) => UpdateNotification(parent, args, ctx),
     })
 
     t.field('createDraft', {

@@ -34,6 +34,7 @@ const {
   getVacationsItems,
 } = require('./Queries/vacationsItem')
 
+const { BookingsWhereType } = require('./Inputs/BookingsWhereInputType')
 const Query = queryType({
   definition(t) {
     t.field('me', me)
@@ -118,6 +119,9 @@ const Query = queryType({
 
     t.list.field('getBookings', {
       type: 'Booking',
+      args: {
+        where: BookingsWhereType,
+      },
       nullable: true,
       resolve: (parent, args, ctx) => getBookings(parent, ctx),
     })

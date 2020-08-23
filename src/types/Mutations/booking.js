@@ -6,6 +6,8 @@ const { createConnectObject } = require('../../utils')
 var nodemailer = require('nodemailer')
 const moment = require('moment')
 
+const { NOTIFICATION_TYPES } = require('../../consts')
+
 var transporter = nodemailer.createTransport({
   host: 'smtp.zoho.com',
   port: 465,
@@ -62,6 +64,7 @@ const CreateBooking = async (
           owner: {
             select: {
               email: true,
+              id: true,
             },
           },
         },
@@ -108,6 +111,16 @@ const CreateBooking = async (
     },
   })
 
+  const formattedBookingStart = moment(booking.start).format('MMM DD h:mm A')
+  await ctx.prisma.notification.create({
+    data: {
+      type: NOTIFICATION_TYPES.BOOKING_CREATED,
+      title: `New booking created at ${formattedBookingStart}`,
+      user: { connect: { id: branch.business.owner.id } },
+      seen: false,
+      resourceId: booking.id,
+    },
+  })
   ctx.pubsub.publish('NEW_BOOKING', {
     newBooking: booking,
   })

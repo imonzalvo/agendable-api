@@ -15,6 +15,24 @@ type AvailabilityItem {
   to: String!
 }
 
+input AvailabilityItemListRelationFilter {
+  every: AvailabilityItemWhereInput
+  none: AvailabilityItemWhereInput
+  some: AvailabilityItemWhereInput
+}
+
+input AvailabilityItemWhereInput {
+  AND: [AvailabilityItemWhereInput!]
+  day: Day
+  employee: EmployeeWhereInput
+  employeeId: StringFilter
+  from: StringFilter
+  id: StringFilter
+  NOT: [AvailabilityItemWhereInput!]
+  OR: [AvailabilityItemWhereInput!]
+  to: StringFilter
+}
+
 type Booking {
   branch: Branch!
   client: User
@@ -30,11 +48,48 @@ type Booking {
   status: BookingStatus!
 }
 
+input BookingListRelationFilter {
+  every: BookingWhereInput
+  none: BookingWhereInput
+  some: BookingWhereInput
+}
+
 enum BookingStatus {
   CANCELLED
   COMPLETED
   CONFIRMED
   PENDING
+}
+
+input BookingsWhereInputType {
+  from: String!
+  to: String!
+}
+
+input BookingWhereInput {
+  AND: [BookingWhereInput!]
+  branch: BranchWhereInput
+  branchId: StringFilter
+  client: UserWhereInput
+  clientEmail: StringNullableFilter
+  clientFamilyName: StringNullableFilter
+  clientId: StringNullableFilter
+  clientName: StringNullableFilter
+  clientPhone: StringNullableFilter
+  employee: EmployeeWhereInput
+  employeeId: StringFilter
+  end: StringFilter
+  id: StringFilter
+  NOT: [BookingWhereInput!]
+  OR: [BookingWhereInput!]
+  services: ServiceListRelationFilter
+  start: StringFilter
+  status: BookingStatus
+}
+
+input BoolFilter {
+  equals: Boolean
+  not: NestedBoolFilter
 }
 
 type Branch {
@@ -51,6 +106,30 @@ type Branch {
   services(skip: Int): [Service!]!
 }
 
+input BranchListRelationFilter {
+  every: BranchWhereInput
+  none: BranchWhereInput
+  some: BranchWhereInput
+}
+
+input BranchWhereInput {
+  address: StringFilter
+  AND: [BranchWhereInput!]
+  bookings: BookingListRelationFilter
+  business: BusinessWhereInput
+  businessId: StringFilter
+  description: StringFilter
+  email: StringFilter
+  employees: EmployeeListRelationFilter
+  id: StringFilter
+  image: StringNullableFilter
+  name: StringFilter
+  NOT: [BranchWhereInput!]
+  OR: [BranchWhereInput!]
+  phone: StringFilter
+  services: ServiceListRelationFilter
+}
+
 type Business {
   branches(skip: Int): [Branch!]!
   email: String!
@@ -59,6 +138,33 @@ type Business {
   name: String!
   owner: User!
   phone: String!
+}
+
+input BusinessWhereInput {
+  AND: [BusinessWhereInput!]
+  branches: BranchListRelationFilter
+  email: StringFilter
+  handle: StringFilter
+  id: StringFilter
+  name: StringFilter
+  NOT: [BusinessWhereInput!]
+  OR: [BusinessWhereInput!]
+  owner: UserWhereInput
+  ownerId: StringFilter
+  phone: StringFilter
+}
+
+scalar DateTime
+
+input DateTimeFilter {
+  equals: DateTime
+  gt: DateTime
+  gte: DateTime
+  in: [DateTime!]
+  lt: DateTime
+  lte: DateTime
+  not: NestedDateTimeFilter
+  notIn: [DateTime!]
 }
 
 enum Day {
@@ -89,11 +195,56 @@ type EmployeeAvailableTime {
   to: String!
 }
 
+input EmployeeListRelationFilter {
+  every: EmployeeWhereInput
+  none: EmployeeWhereInput
+  some: EmployeeWhereInput
+}
+
+input EmployeeWhereInput {
+  AND: [EmployeeWhereInput!]
+  availability: AvailabilityItemListRelationFilter
+  bookings: BookingListRelationFilter
+  branches: BranchListRelationFilter
+  familyName: StringFilter
+  givenName: StringFilter
+  id: StringFilter
+  NOT: [EmployeeWhereInput!]
+  OR: [EmployeeWhereInput!]
+  phone: StringFilter
+  services: ServiceListRelationFilter
+  user: UserWhereInput
+  userId: StringNullableFilter
+  vacations: VacationsItemListRelationFilter
+}
+
+input FloatFilter {
+  equals: Float
+  gt: Float
+  gte: Float
+  in: [Float!]
+  lt: Float
+  lte: Float
+  not: NestedFloatFilter
+  notIn: [Float!]
+}
+
+input IntFilter {
+  equals: Int
+  gt: Int
+  gte: Int
+  in: [Int!]
+  lt: Int
+  lte: Int
+  not: NestedIntFilter
+  notIn: [Int!]
+}
+
 type Mutation {
   confirmUser(email: String, verifyToken: String): AuthPayload!
   createAvailabilityItem(day: String!, employeeId: String!, from: String!, to: String!): AvailabilityItem!
   createBooking(branchId: String!, clientEmail: String, clientFamilyName: String, clientId: String, clientName: String, clientPhone: String, employeeId: String!, end: String!, servicesId: [String!]!, start: String!, status: String): Booking!
-  createBranch(address: String!, description: String!, email: String!, image: String!, name: String!, phone: String!): Branch!
+  createBranch(address: String!, description: String!, email: String!, image: String, name: String!, phone: String!): Branch!
   createBusiness(email: String!, handle: String!, name: String!, phone: String!): Business!
   createDraft(content: String, title: String): Post!
   createEmployee(branchesId: [String!], familyName: String!, givenName: String!, phone: String!, servicesId: [String!], userId: String): Employee!
@@ -109,7 +260,103 @@ type Mutation {
   updateBranch(address: String, description: String, email: String, id: ID!, image: String, name: String, phone: String, servicesId: [String!]): Branch!
   updateBusiness(email: String, handle: String, id: ID!, name: String, phone: String): Business!
   updateEmployee(branchesId: [String!], familyName: String, givenName: String, id: ID!, phone: String, servicesId: [String!], userId: String): Employee!
+  updateNotification(id: ID!, seen: Boolean!): Notification!
   updateVacationsItem(employeeId: String, from: String, id: ID!, to: String): VacationsItem!
+}
+
+input NestedBoolFilter {
+  equals: Boolean
+  not: NestedBoolFilter
+}
+
+input NestedDateTimeFilter {
+  equals: DateTime
+  gt: DateTime
+  gte: DateTime
+  in: [DateTime!]
+  lt: DateTime
+  lte: DateTime
+  not: NestedDateTimeFilter
+  notIn: [DateTime!]
+}
+
+input NestedFloatFilter {
+  equals: Float
+  gt: Float
+  gte: Float
+  in: [Float!]
+  lt: Float
+  lte: Float
+  not: NestedFloatFilter
+  notIn: [Float!]
+}
+
+input NestedIntFilter {
+  equals: Int
+  gt: Int
+  gte: Int
+  in: [Int!]
+  lt: Int
+  lte: Int
+  not: NestedIntFilter
+  notIn: [Int!]
+}
+
+input NestedStringFilter {
+  contains: String
+  endsWith: String
+  equals: String
+  gt: String
+  gte: String
+  in: [String!]
+  lt: String
+  lte: String
+  not: NestedStringFilter
+  notIn: [String!]
+  startsWith: String
+}
+
+input NestedStringNullableFilter {
+  contains: String
+  endsWith: String
+  equals: String
+  gt: String
+  gte: String
+  in: [String!]
+  lt: String
+  lte: String
+  not: NestedStringNullableFilter
+  notIn: [String!]
+  startsWith: String
+}
+
+type Notification {
+  createdAt: DateTime!
+  id: String!
+  seen: Boolean!
+  title: String!
+  type: String!
+  user: User!
+}
+
+input NotificationListRelationFilter {
+  every: NotificationWhereInput
+  none: NotificationWhereInput
+  some: NotificationWhereInput
+}
+
+input NotificationWhereInput {
+  AND: [NotificationWhereInput!]
+  createdAt: DateTimeFilter
+  id: StringFilter
+  NOT: [NotificationWhereInput!]
+  OR: [NotificationWhereInput!]
+  resourceId: StringFilter
+  seen: BoolFilter
+  title: StringFilter
+  type: StringFilter
+  user: UserWhereInput
+  userId: StringFilter
 }
 
 type Post {
@@ -120,6 +367,24 @@ type Post {
   title: String!
 }
 
+input PostListRelationFilter {
+  every: PostWhereInput
+  none: PostWhereInput
+  some: PostWhereInput
+}
+
+input PostWhereInput {
+  AND: [PostWhereInput!]
+  author: UserWhereInput
+  authorId: StringNullableFilter
+  content: StringNullableFilter
+  id: StringFilter
+  NOT: [PostWhereInput!]
+  OR: [PostWhereInput!]
+  published: BoolFilter
+  title: StringFilter
+}
+
 type Query {
   emailAvailability(email: String): Boolean
   feed: [Post!]!
@@ -127,7 +392,7 @@ type Query {
   getAvailabilityItem(id: ID): AvailabilityItem
   getAvailabilityItems: [AvailabilityItem!]
   getBooking(id: String): Booking
-  getBookings: [Booking!]
+  getBookings(where: BookingsWhereInputType): [Booking!]
   getBookingsByBranch(branchId: String): [Booking!]
   getBookingsByBusiness(id: String): [Booking!]
   getBookingsByDate(branchId: String, employeeId: String, endDate: String!, startDate: String!): [Booking!]
@@ -160,6 +425,55 @@ type Service {
   price: Float!
 }
 
+input ServiceListRelationFilter {
+  every: ServiceWhereInput
+  none: ServiceWhereInput
+  some: ServiceWhereInput
+}
+
+input ServiceWhereInput {
+  AND: [ServiceWhereInput!]
+  bookings: BookingListRelationFilter
+  branches: BranchListRelationFilter
+  currency: StringFilter
+  description: StringFilter
+  duration: IntFilter
+  employees: EmployeeListRelationFilter
+  id: StringFilter
+  name: StringFilter
+  NOT: [ServiceWhereInput!]
+  OR: [ServiceWhereInput!]
+  price: FloatFilter
+}
+
+input StringFilter {
+  contains: String
+  endsWith: String
+  equals: String
+  gt: String
+  gte: String
+  in: [String!]
+  lt: String
+  lte: String
+  not: NestedStringFilter
+  notIn: [String!]
+  startsWith: String
+}
+
+input StringNullableFilter {
+  contains: String
+  endsWith: String
+  equals: String
+  gt: String
+  gte: String
+  in: [String!]
+  lt: String
+  lte: String
+  not: NestedStringNullableFilter
+  notIn: [String!]
+  startsWith: String
+}
+
 type Subscription {
   deletedBooking(branchId: String): Booking!
   newBooking(branchId: String): Booking!
@@ -174,7 +488,8 @@ type User {
   givenName: String!
   id: String!
   name: String
-  posts: [Post!]!
+  notifications(after: String, take: Int): [Notification!]
+  posts(skip: Int, where: PostWhereInput): [Post!]!
   userType: UserType!
   verifyToken: String!
 }
@@ -185,9 +500,46 @@ enum UserType {
   USER
 }
 
+input UserWhereInput {
+  AND: [UserWhereInput!]
+  bookings: BookingListRelationFilter
+  business: BusinessWhereInput
+  email: StringFilter
+  Employee: EmployeeListRelationFilter
+  familyName: StringFilter
+  givenName: StringFilter
+  id: StringFilter
+  name: StringNullableFilter
+  NOT: [UserWhereInput!]
+  notifications: NotificationListRelationFilter
+  OR: [UserWhereInput!]
+  password: StringFilter
+  posts: PostListRelationFilter
+  userName: StringFilter
+  userType: UserType
+  verifyToken: StringFilter
+}
+
 type VacationsItem {
   employee: Employee!
   from: String!
   id: String!
   to: String!
+}
+
+input VacationsItemListRelationFilter {
+  every: VacationsItemWhereInput
+  none: VacationsItemWhereInput
+  some: VacationsItemWhereInput
+}
+
+input VacationsItemWhereInput {
+  AND: [VacationsItemWhereInput!]
+  employee: EmployeeWhereInput
+  employeeId: StringFilter
+  from: StringFilter
+  id: StringFilter
+  NOT: [VacationsItemWhereInput!]
+  OR: [VacationsItemWhereInput!]
+  to: StringFilter
 }

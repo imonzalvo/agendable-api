@@ -5,7 +5,6 @@ const CreateService = async (
   { name, price, currency, duration, description, branchesId },
   ctx,
 ) => {
-  console.log('here 1', ctx['here'])
   const connectBranches = branchesId.map((branchId) => {
     return {
       id: branchId,

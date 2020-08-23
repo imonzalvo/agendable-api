@@ -1,7 +1,7 @@
 require('dotenv').config()
 const { GraphQLServer, PubSub } = require('graphql-yoga')
 const { nexusPrismaPlugin } = require('nexus-prisma')
-const { makeSchema } = require('@nexus/schema')
+const { makeSchema, connectionPlugin } = require('@nexus/schema')
 const { PrismaClient } = require('@prisma/client')
 const { permissions } = require('./permissions')
 const types = require('./types')
@@ -12,7 +12,7 @@ const pubsub = new PubSub()
 new GraphQLServer({
   schema: makeSchema({
     types,
-    plugins: [nexusPrismaPlugin()],
+    plugins: [nexusPrismaPlugin(), connectionPlugin()],
     outputs: {
       schema: __dirname + '/../schema.graphql',
       typegen: __dirname + '/generated/nexus.ts',
