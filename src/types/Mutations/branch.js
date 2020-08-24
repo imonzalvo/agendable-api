@@ -35,23 +35,27 @@ const UpdateBranch = (
   { id, address, phone, email, name, description, image, servicesId },
   ctx,
 ) => {
-  const connectServices = servicesId.map((serviceId) => {
-    return {
-      id: serviceId,
-    }
-  })
+  const branchData = {
+    address,
+    name,
+    email,
+    phone,
+    description,
+    image,
+  }
+
+  if (servicesId) {
+    const connectServices = servicesId.map((serviceId) => {
+      return {
+        id: serviceId,
+      }
+    })
+    branchData['services'] = { connect: connectServices }
+  }
 
   const branch = ctx.prisma.branch.update({
     where: { id: id },
-    data: {
-      address,
-      name,
-      email,
-      phone,
-      description,
-      image,
-      services: { connect: connectServices },
-    },
+    data: branchData,
   })
   return branch
 }
