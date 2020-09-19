@@ -7,7 +7,7 @@ generator client {
 
 datasource db {
   provider = "postgres"
-  url      = env("DATABASE_URL")
+  url = "***"
 }
 
 model AvailabilityItem {
@@ -76,7 +76,7 @@ model Service {
   description String
   employees   Employee[]
   bookings    Booking[]
-  category    Category?  @relation(fields: [categoryId], references: [id])
+  Category    Category?  @relation(fields: [categoryId], references: [id])
   categoryId  String?
 }
 
@@ -93,7 +93,7 @@ model Branch {
   employees   Employee[]
   services    Service[]
   bookings    Booking[]
-  categories  Category[]
+  Category    Category[]
 }
 
 model Category {
@@ -118,7 +118,7 @@ model Business {
   website      String?
   instagramUrl String?
   facebookUrl  String?
-  categories   Category[]
+  Category     Category[]
 }
 
 model BusinessImage {

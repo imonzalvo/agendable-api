@@ -1,11 +1,20 @@
 const { stringArg } = require('@nexus/schema')
 const { sign } = require('jsonwebtoken')
 const { hash, compare } = require('bcryptjs')
-const { APP_SECRET, getUserId } = require('../../utils')
+const { APP_SECRET, getUserId, asyncForEach } = require('../../utils')
 
-const CreateBusiness = (
+const CreateBusiness = async (
   parent,
-  { name, email, phone, handle, website, instagramUrl, facebookUrl },
+  {
+    name,
+    email,
+    phone,
+    handle,
+    categories,
+    website,
+    instagramUrl,
+    facebookUrl,
+  },
   ctx,
 ) => {
   const ownerId = getUserId(ctx)
@@ -28,9 +37,19 @@ const CreateBusiness = (
     businessData['facebookUrl'] = facebookUrl
   }
 
-  const business = ctx.prisma.business.create({
+  const business = await ctx.prisma.business.create({
     data: businessData,
   })
+
+  await asyncForEach(categories, async (id) =>
+    ctx.prisma.category.create({
+      data: {
+        name: id,
+        Business: { connect: { id: business.id } },
+      },
+    }),
+  )
+
   return business
 }
 
@@ -54,4 +73,21 @@ const UpdateBusiness = (
   return business
 }
 
-module.exports = { CreateBusiness, UpdateBusiness }
+const AddCategoriesToBusiness = async (
+  parent,
+  { businessId, categories },
+  ctx,
+) => {
+  await asyncForEach(categories, (id) =>
+    ctx.prisma.category.create({
+      data: {
+        name: id,
+        Business: { connect: { id: businessId } },
+      },
+    }),
+  )
+
+  return ctx.prisma.business.findOne({ where: { id: businessId } })
+}
+
+module.exports = { CreateBusiness, UpdateBusiness, AddCategoriesToBusiness }

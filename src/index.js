@@ -5,7 +5,9 @@ const { makeSchema, connectionPlugin } = require('@nexus/schema')
 const { PrismaClient } = require('@prisma/client')
 const { permissions } = require('./permissions')
 const types = require('./types')
-const prisma = new PrismaClient()
+const prisma = new PrismaClient({
+  log: [{ emit: 'event', level: 'info' }],
+})
 
 const pubsub = new PubSub()
 

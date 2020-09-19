@@ -12,6 +12,7 @@ const Service = objectType({
     t.model.description()
     t.model.employees()
     t.model.bookings()
+    t.model.category()
   },
 })
 

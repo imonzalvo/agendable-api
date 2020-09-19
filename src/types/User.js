@@ -22,7 +22,7 @@ const User = objectType({
       },
       resolve: (parent, args, ctx) => {
         const paginationQuery = {
-          where: { userId: root.id },
+          where: { userId: parent.id },
           take: args.take,
           orderBy: {
             createdAt: 'desc',

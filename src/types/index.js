@@ -16,6 +16,7 @@ module.exports = {
   ...require('./Notification'),
   ...require('./LandingInfo'),
   ...require('./BusinessImage'),
+  ...require('./Category'),
   ...require('./Inputs/BookingsWhereInputType'),
   ...require('./Inputs/LandingInfoInputType'),
 }

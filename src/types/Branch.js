@@ -14,6 +14,7 @@ const Branch = objectType({
     t.model.services()
     t.model.employees()
     t.model.bookings()
+    t.model.categories()
   },
 })
 

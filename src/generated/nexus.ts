@@ -86,6 +86,7 @@ export interface NexusGenInputs {
     bookings?: NexusGenInputs['BookingListRelationFilter'] | null; // BookingListRelationFilter
     business?: NexusGenInputs['BusinessWhereInput'] | null; // BusinessWhereInput
     businessId?: NexusGenInputs['StringFilter'] | null; // StringFilter
+    categories?: NexusGenInputs['CategoryListRelationFilter'] | null; // CategoryListRelationFilter
     description?: NexusGenInputs['StringFilter'] | null; // StringFilter
     email?: NexusGenInputs['StringFilter'] | null; // StringFilter
     employees?: NexusGenInputs['EmployeeListRelationFilter'] | null; // EmployeeListRelationFilter
@@ -114,6 +115,7 @@ export interface NexusGenInputs {
   BusinessWhereInput: { // input type
     AND?: NexusGenInputs['BusinessWhereInput'][] | null; // [BusinessWhereInput!]
     branches?: NexusGenInputs['BranchListRelationFilter'] | null; // BranchListRelationFilter
+    categories?: NexusGenInputs['CategoryListRelationFilter'] | null; // CategoryListRelationFilter
     email?: NexusGenInputs['StringFilter'] | null; // StringFilter
     facebookUrl?: NexusGenInputs['StringNullableFilter'] | null; // StringNullableFilter
     handle?: NexusGenInputs['StringFilter'] | null; // StringFilter
@@ -127,6 +129,22 @@ export interface NexusGenInputs {
     ownerId?: NexusGenInputs['StringFilter'] | null; // StringFilter
     phone?: NexusGenInputs['StringFilter'] | null; // StringFilter
     website?: NexusGenInputs['StringNullableFilter'] | null; // StringNullableFilter
+  }
+  CategoryListRelationFilter: { // input type
+    every?: NexusGenInputs['CategoryWhereInput'] | null; // CategoryWhereInput
+    none?: NexusGenInputs['CategoryWhereInput'] | null; // CategoryWhereInput
+    some?: NexusGenInputs['CategoryWhereInput'] | null; // CategoryWhereInput
+  }
+  CategoryWhereInput: { // input type
+    AND?: NexusGenInputs['CategoryWhereInput'][] | null; // [CategoryWhereInput!]
+    branches?: NexusGenInputs['BranchListRelationFilter'] | null; // BranchListRelationFilter
+    Business?: NexusGenInputs['BusinessWhereInput'] | null; // BusinessWhereInput
+    businessId?: NexusGenInputs['StringNullableFilter'] | null; // StringNullableFilter
+    id?: NexusGenInputs['StringFilter'] | null; // StringFilter
+    name?: NexusGenInputs['StringFilter'] | null; // StringFilter
+    NOT?: NexusGenInputs['CategoryWhereInput'][] | null; // [CategoryWhereInput!]
+    OR?: NexusGenInputs['CategoryWhereInput'][] | null; // [CategoryWhereInput!]
+    services?: NexusGenInputs['ServiceListRelationFilter'] | null; // ServiceListRelationFilter
   }
   DateTimeFilter: { // input type
     equals?: any | null; // DateTime
@@ -304,6 +322,8 @@ export interface NexusGenInputs {
     AND?: NexusGenInputs['ServiceWhereInput'][] | null; // [ServiceWhereInput!]
     bookings?: NexusGenInputs['BookingListRelationFilter'] | null; // BookingListRelationFilter
     branches?: NexusGenInputs['BranchListRelationFilter'] | null; // BranchListRelationFilter
+    category?: NexusGenInputs['CategoryWhereInput'] | null; // CategoryWhereInput
+    categoryId?: NexusGenInputs['StringNullableFilter'] | null; // StringNullableFilter
     currency?: NexusGenInputs['StringFilter'] | null; // StringFilter
     description?: NexusGenInputs['StringFilter'] | null; // StringFilter
     duration?: NexusGenInputs['IntFilter'] | null; // IntFilter
@@ -426,6 +446,10 @@ export interface NexusGenRootTypes {
     id: string; // String!
     url: string; // String!
   }
+  Category: { // root type
+    id: string; // String!
+    name: string; // String!
+  }
   Employee: { // root type
     familyName: string; // String!
     givenName: string; // String!
@@ -504,6 +528,8 @@ export interface NexusGenAllTypes extends NexusGenRootTypes {
   BusinessImageListRelationFilter: NexusGenInputs['BusinessImageListRelationFilter'];
   BusinessImageWhereInput: NexusGenInputs['BusinessImageWhereInput'];
   BusinessWhereInput: NexusGenInputs['BusinessWhereInput'];
+  CategoryListRelationFilter: NexusGenInputs['CategoryListRelationFilter'];
+  CategoryWhereInput: NexusGenInputs['CategoryWhereInput'];
   DateTimeFilter: NexusGenInputs['DateTimeFilter'];
   EmployeeListRelationFilter: NexusGenInputs['EmployeeListRelationFilter'];
   EmployeeWhereInput: NexusGenInputs['EmployeeWhereInput'];
@@ -563,6 +589,7 @@ export interface NexusGenFieldTypes {
     address: string; // String!
     bookings: NexusGenRootTypes['Booking'][]; // [Booking!]!
     business: NexusGenRootTypes['Business']; // Business!
+    categories: NexusGenRootTypes['Category'][]; // [Category!]!
     description: string; // String!
     email: string; // String!
     employees: NexusGenRootTypes['Employee'][]; // [Employee!]!
@@ -574,6 +601,7 @@ export interface NexusGenFieldTypes {
   }
   Business: { // field return type
     branches: NexusGenRootTypes['Branch'][]; // [Branch!]!
+    categories: NexusGenRootTypes['Category'][]; // [Category!]!
     email: string; // String!
     facebookUrl: string | null; // String
     handle: string; // String!
@@ -589,6 +617,13 @@ export interface NexusGenFieldTypes {
     id: string; // String!
     landingInfo: NexusGenRootTypes['LandingInfo'] | null; // LandingInfo
     url: string; // String!
+  }
+  Category: { // field return type
+    branches: NexusGenRootTypes['Branch'][]; // [Branch!]!
+    Business: NexusGenRootTypes['Business'] | null; // Business
+    id: string; // String!
+    name: string; // String!
+    services: NexusGenRootTypes['Service'][]; // [Service!]!
   }
   Employee: { // field return type
     availability: NexusGenRootTypes['AvailabilityItem'][]; // [AvailabilityItem!]!
@@ -615,6 +650,7 @@ export interface NexusGenFieldTypes {
     images: NexusGenRootTypes['BusinessImage'][]; // [BusinessImage!]!
   }
   Mutation: { // field return type
+    addCategoryToBusiness: NexusGenRootTypes['Business']; // Business!
     addImagesLandingInfo: NexusGenRootTypes['LandingInfo']; // LandingInfo!
     confirmUser: NexusGenRootTypes['AuthPayload']; // AuthPayload!
     createAvailabilityItem: NexusGenRootTypes['AvailabilityItem']; // AvailabilityItem!
@@ -627,6 +663,7 @@ export interface NexusGenFieldTypes {
     createService: NexusGenRootTypes['Service']; // Service!
     createVacationsItem: NexusGenRootTypes['VacationsItem']; // VacationsItem!
     deleteBooking: NexusGenRootTypes['Booking'] | null; // Booking
+    deleteBranch: NexusGenRootTypes['Branch']; // Branch!
     deleteLandingInfo: NexusGenRootTypes['LandingInfo']; // LandingInfo!
     deletePost: NexusGenRootTypes['Post'] | null; // Post
     login: NexusGenRootTypes['AuthPayload']; // AuthPayload!
@@ -639,6 +676,7 @@ export interface NexusGenFieldTypes {
     updateEmployee: NexusGenRootTypes['Employee']; // Employee!
     updateLandingInfo: NexusGenRootTypes['LandingInfo']; // LandingInfo!
     updateNotification: NexusGenRootTypes['Notification']; // Notification!
+    updateService: NexusGenRootTypes['Service']; // Service!
     updateVacationsItem: NexusGenRootTypes['VacationsItem']; // VacationsItem!
   }
   Notification: { // field return type
@@ -686,6 +724,7 @@ export interface NexusGenFieldTypes {
   Service: { // field return type
     bookings: NexusGenRootTypes['Booking'][]; // [Booking!]!
     branches: NexusGenRootTypes['Branch'][]; // [Branch!]!
+    category: NexusGenRootTypes['Category'] | null; // Category
     currency: string; // String!
     description: string; // String!
     duration: number; // Int!
@@ -730,6 +769,9 @@ export interface NexusGenArgTypes {
     bookings: { // args
       skip?: number | null; // Int
     }
+    categories: { // args
+      skip?: number | null; // Int
+    }
     employees: { // args
       skip?: number | null; // Int
     }
@@ -739,6 +781,17 @@ export interface NexusGenArgTypes {
   }
   Business: {
     branches: { // args
+      skip?: number | null; // Int
+    }
+    categories: { // args
+      skip?: number | null; // Int
+    }
+  }
+  Category: {
+    branches: { // args
+      skip?: number | null; // Int
+    }
+    services: { // args
       skip?: number | null; // Int
     }
   }
@@ -765,6 +818,10 @@ export interface NexusGenArgTypes {
     }
   }
   Mutation: {
+    addCategoryToBusiness: { // args
+      businessId?: string | null; // ID
+      categories?: string[] | null; // [String!]
+    }
     addImagesLandingInfo: { // args
       imagesUrl?: string[] | null; // [String!]
       landingInfoId?: string | null; // ID
@@ -801,6 +858,7 @@ export interface NexusGenArgTypes {
       phone: string; // String!
     }
     createBusiness: { // args
+      categories?: string[] | null; // [String!]
       email: string; // String!
       facebookUrl?: string | null; // String
       handle: string; // String!
@@ -830,6 +888,7 @@ export interface NexusGenArgTypes {
     }
     createService: { // args
       branchesId: string[]; // [String!]!
+      categoryId: string; // ID!
       currency: string; // String!
       description: string; // String!
       duration: number; // Int!
@@ -842,6 +901,9 @@ export interface NexusGenArgTypes {
       to: string; // String!
     }
     deleteBooking: { // args
+      id: string; // ID!
+    }
+    deleteBranch: { // args
       id: string; // ID!
     }
     deleteLandingInfo: { // args
@@ -888,6 +950,7 @@ export interface NexusGenArgTypes {
     }
     updateBranch: { // args
       address?: string | null; // String
+      categoriesId?: string[] | null; // [String!]
       description?: string | null; // String
       email?: string | null; // String
       id: string; // ID!
@@ -924,6 +987,15 @@ export interface NexusGenArgTypes {
     updateNotification: { // args
       id: string; // ID!
       seen: boolean; // Boolean!
+    }
+    updateService: { // args
+      categoryId?: string | null; // ID
+      currency?: string | null; // String
+      description?: string | null; // String
+      duration?: number | null; // Int
+      id: string; // String!
+      name?: string | null; // String
+      price?: number | null; // Float
     }
     updateVacationsItem: { // args
       employeeId?: string | null; // String
@@ -1031,9 +1103,9 @@ export interface NexusGenAbstractResolveReturnTypes {
 
 export interface NexusGenInheritedFields {}
 
-export type NexusGenObjectNames = "AuthPayload" | "AvailabilityItem" | "Booking" | "Branch" | "Business" | "BusinessImage" | "Employee" | "EmployeeAvailableTime" | "LandingInfo" | "Mutation" | "Notification" | "Post" | "Query" | "Service" | "Subscription" | "User" | "VacationsItem";
+export type NexusGenObjectNames = "AuthPayload" | "AvailabilityItem" | "Booking" | "Branch" | "Business" | "BusinessImage" | "Category" | "Employee" | "EmployeeAvailableTime" | "LandingInfo" | "Mutation" | "Notification" | "Post" | "Query" | "Service" | "Subscription" | "User" | "VacationsItem";
 
-export type NexusGenInputNames = "AvailabilityItemListRelationFilter" | "AvailabilityItemWhereInput" | "BookingListRelationFilter" | "BookingWhereInput" | "BookingsWhereInputType" | "BoolFilter" | "BranchListRelationFilter" | "BranchWhereInput" | "BusinessImageListRelationFilter" | "BusinessImageWhereInput" | "BusinessWhereInput" | "DateTimeFilter" | "EmployeeListRelationFilter" | "EmployeeWhereInput" | "FloatFilter" | "IntFilter" | "LandingInfoInputType" | "LandingInfoWhereInput" | "NestedBoolFilter" | "NestedDateTimeFilter" | "NestedFloatFilter" | "NestedIntFilter" | "NestedStringFilter" | "NestedStringNullableFilter" | "NotificationListRelationFilter" | "NotificationWhereInput" | "PostListRelationFilter" | "PostWhereInput" | "ServiceListRelationFilter" | "ServiceWhereInput" | "StringFilter" | "StringNullableFilter" | "UserWhereInput" | "VacationsItemListRelationFilter" | "VacationsItemWhereInput";
+export type NexusGenInputNames = "AvailabilityItemListRelationFilter" | "AvailabilityItemWhereInput" | "BookingListRelationFilter" | "BookingWhereInput" | "BookingsWhereInputType" | "BoolFilter" | "BranchListRelationFilter" | "BranchWhereInput" | "BusinessImageListRelationFilter" | "BusinessImageWhereInput" | "BusinessWhereInput" | "CategoryListRelationFilter" | "CategoryWhereInput" | "DateTimeFilter" | "EmployeeListRelationFilter" | "EmployeeWhereInput" | "FloatFilter" | "IntFilter" | "LandingInfoInputType" | "LandingInfoWhereInput" | "NestedBoolFilter" | "NestedDateTimeFilter" | "NestedFloatFilter" | "NestedIntFilter" | "NestedStringFilter" | "NestedStringNullableFilter" | "NotificationListRelationFilter" | "NotificationWhereInput" | "PostListRelationFilter" | "PostWhereInput" | "ServiceListRelationFilter" | "ServiceWhereInput" | "StringFilter" | "StringNullableFilter" | "UserWhereInput" | "VacationsItemListRelationFilter" | "VacationsItemWhereInput";
 
 export type NexusGenEnumNames = "BookingStatus" | "Day" | "UserType";
 

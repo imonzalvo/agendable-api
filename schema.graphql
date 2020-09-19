@@ -96,6 +96,7 @@ type Branch {
   address: String!
   bookings(skip: Int): [Booking!]!
   business: Business!
+  categories(skip: Int): [Category!]!
   description: String!
   email: String!
   employees(skip: Int): [Employee!]!
@@ -118,6 +119,7 @@ input BranchWhereInput {
   bookings: BookingListRelationFilter
   business: BusinessWhereInput
   businessId: StringFilter
+  categories: CategoryListRelationFilter
   description: StringFilter
   email: StringFilter
   employees: EmployeeListRelationFilter
@@ -132,6 +134,7 @@ input BranchWhereInput {
 
 type Business {
   branches(skip: Int): [Branch!]!
+  categories(skip: Int): [Category!]!
   email: String!
   facebookUrl: String
   handle: String!
@@ -169,6 +172,7 @@ input BusinessImageWhereInput {
 input BusinessWhereInput {
   AND: [BusinessWhereInput!]
   branches: BranchListRelationFilter
+  categories: CategoryListRelationFilter
   email: StringFilter
   facebookUrl: StringNullableFilter
   handle: StringFilter
@@ -182,6 +186,32 @@ input BusinessWhereInput {
   ownerId: StringFilter
   phone: StringFilter
   website: StringNullableFilter
+}
+
+type Category {
+  branches(skip: Int): [Branch!]!
+  Business: Business
+  id: String!
+  name: String!
+  services(skip: Int): [Service!]!
+}
+
+input CategoryListRelationFilter {
+  every: CategoryWhereInput
+  none: CategoryWhereInput
+  some: CategoryWhereInput
+}
+
+input CategoryWhereInput {
+  AND: [CategoryWhereInput!]
+  branches: BranchListRelationFilter
+  Business: BusinessWhereInput
+  businessId: StringNullableFilter
+  id: StringFilter
+  name: StringFilter
+  NOT: [CategoryWhereInput!]
+  OR: [CategoryWhereInput!]
+  services: ServiceListRelationFilter
 }
 
 scalar DateTime
@@ -304,18 +334,20 @@ input LandingInfoWhereInput {
 }
 
 type Mutation {
+  addCategoryToBusiness(businessId: ID, categories: [String!]): Business!
   addImagesLandingInfo(imagesUrl: [String!], landingInfoId: ID): LandingInfo!
   confirmUser(email: String, verifyToken: String): AuthPayload!
   createAvailabilityItem(day: String!, employeeId: String!, from: String!, to: String!): AvailabilityItem!
   createBooking(branchId: String!, clientEmail: String, clientFamilyName: String, clientId: String, clientName: String, clientPhone: String, employeeId: String!, end: String!, servicesId: [String!]!, start: String!, status: String): Booking!
   createBranch(address: String!, description: String!, email: String!, image: String, name: String!, phone: String!): Branch!
-  createBusiness(email: String!, facebookUrl: String, handle: String!, instagramUrl: String, name: String!, phone: String!, website: String): Business!
+  createBusiness(categories: [String!], email: String!, facebookUrl: String, handle: String!, instagramUrl: String, name: String!, phone: String!, website: String): Business!
   createDraft(content: String, title: String): Post!
   createEmployee(branchesId: [String!], familyName: String!, givenName: String!, phone: String!, servicesId: [String!], userId: String): Employee!
   createLandingInfo(businessId: ID!, cta: String, description: String!, displayName: String!, imagesUrl: [String!]!): LandingInfo!
-  createService(branchesId: [String!]!, currency: String!, description: String!, duration: Int!, name: String!, price: Float!): Service!
+  createService(branchesId: [String!]!, categoryId: ID!, currency: String!, description: String!, duration: Int!, name: String!, price: Float!): Service!
   createVacationsItem(employeeId: String!, from: String!, to: String!): VacationsItem!
   deleteBooking(id: ID!): Booking
+  deleteBranch(id: ID!): Branch!
   deleteLandingInfo(id: ID): LandingInfo!
   deletePost(id: ID): Post
   login(email: String, password: String): AuthPayload!
@@ -323,11 +355,12 @@ type Mutation {
   signup(email: String, familyName: String, givenName: String, name: String, password: String, userName: String, userType: String): AuthPayload!
   updateAvailabilityItem(day: String, from: String, id: ID!, to: String): AvailabilityItem!
   updateBooking(branchId: String, clientEmail: String, clientFamilyName: String, clientId: String, clientName: String, clientPhone: String, employeeId: String, end: String, id: ID!, servicesId: [String!], start: String, status: String): Booking!
-  updateBranch(address: String, description: String, email: String, id: ID!, image: String, name: String, phone: String, servicesId: [String!]): Branch!
+  updateBranch(address: String, categoriesId: [String!], description: String, email: String, id: ID!, image: String, name: String, phone: String, servicesId: [String!]): Branch!
   updateBusiness(email: String, facebookUrl: String, handle: String, id: ID!, instagramUrl: String, name: String, phone: String, website: String): Business!
   updateEmployee(branchesId: [String!], familyName: String, givenName: String, id: ID!, phone: String, servicesId: [String!], userId: String): Employee!
   updateLandingInfo(cta: String, description: String, displayName: String, id: ID!): LandingInfo!
   updateNotification(id: ID!, seen: Boolean!): Notification!
+  updateService(categoryId: ID, currency: String, description: String, duration: Int, id: String!, name: String, price: Float): Service!
   updateVacationsItem(employeeId: String, from: String, id: ID!, to: String): VacationsItem!
 }
 
@@ -483,6 +516,7 @@ type Query {
 type Service {
   bookings(skip: Int): [Booking!]!
   branches(skip: Int): [Branch!]!
+  category: Category
   currency: String!
   description: String!
   duration: Int!
@@ -502,6 +536,8 @@ input ServiceWhereInput {
   AND: [ServiceWhereInput!]
   bookings: BookingListRelationFilter
   branches: BranchListRelationFilter
+  category: CategoryWhereInput
+  categoryId: StringNullableFilter
   currency: StringFilter
   description: StringFilter
   duration: IntFilter

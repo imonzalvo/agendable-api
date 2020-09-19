@@ -30,9 +30,19 @@ const CreateBranch = async (
   return branch
 }
 
-const UpdateBranch = (
+const UpdateBranch = async (
   parent,
-  { id, address, phone, email, name, description, image, servicesId },
+  {
+    id,
+    address,
+    phone,
+    email,
+    name,
+    description,
+    image,
+    servicesId,
+    categoriesId,
+  },
   ctx,
 ) => {
   const branchData = {
@@ -44,6 +54,21 @@ const UpdateBranch = (
     image,
   }
 
+  let branch = await ctx.prisma.branch.findOne({
+    where: { id: id },
+    select: {
+      business: {
+        select: {
+          categories: {
+            select: {
+              id: true,
+            },
+          },
+        },
+      },
+    },
+  })
+
   if (servicesId) {
     const connectServices = servicesId.map((serviceId) => {
       return {
@@ -53,11 +78,57 @@ const UpdateBranch = (
     branchData['services'] = { connect: connectServices }
   }
 
-  const branch = ctx.prisma.branch.update({
+  if (categoriesId) {
+    const connectServices = categoriesId.map((categoryId) => {
+      const validCategory =
+        branch.business.categories.filter((c) => c.id === categoryId).length > 0
+      if (!validCategory) {
+        throw new Error(`Category ${categoryId} not valid`)
+      }
+      return {
+        id: categoryId,
+      }
+    })
+    branchData['categories'] = { connect: connectServices }
+  }
+
+  branch = await ctx.prisma.branch.update({
     where: { id: id },
     data: branchData,
   })
   return branch
 }
 
-module.exports = { CreateBranch, UpdateBranch }
+const DeleteBranch = async (parent, { id }, ctx) => {
+  const branch = await ctx.prisma.branch.delete({
+    where: { id },
+    include: {
+      branch: { include: { business: true } },
+    },
+  })
+  return branch
+}
+
+const AddCategoriesToBranch = async (
+  parent,
+  { businessId, categories },
+  ctx,
+) => {
+  await asyncForEach(categories, (id) =>
+    ctx.prisma.category.create({
+      data: {
+        name: id,
+        Business: { connect: { id: businessId } },
+      },
+    }),
+  )
+
+  return ctx.prisma.business.findOne({ where: { id: businessId } })
+}
+
+module.exports = {
+  CreateBranch,
+  UpdateBranch,
+  DeleteBranch,
+  AddCategoriesToBranch,
+}

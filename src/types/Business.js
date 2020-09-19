@@ -9,6 +9,7 @@ const Business = objectType({
     t.model.phone()
     t.model.handle()
     t.model.website()
+    t.model.categories()
     t.model.facebookUrl()
     t.model.instagramUrl()
     t.model.owner()

@@ -12,9 +12,17 @@ const {
 } = require('@nexus/schema')
 const { APP_SECRET, getUserId } = require('../utils')
 const { SignUp, Login, ConfirmUser } = require('./Mutations/auth')
-const { CreateBusiness, UpdateBusiness } = require('./Mutations/business')
-const { CreateBranch, UpdateBranch } = require('./Mutations/branch')
-const { CreateService } = require('./Mutations/service')
+const {
+  CreateBusiness,
+  UpdateBusiness,
+  AddCategoriesToBusiness,
+} = require('./Mutations/business')
+const {
+  CreateBranch,
+  UpdateBranch,
+  DeleteBranch,
+} = require('./Mutations/branch')
+const { CreateService, UpdateService } = require('./Mutations/service')
 const { CreateEmployee, UpdateEmployee } = require('./Mutations/employee')
 const {
   CreateBooking,
@@ -55,15 +63,34 @@ const Mutation = mutationType({
         website: stringArg({ required: false }),
         instagramUrl: stringArg({ required: false }),
         facebookUrl: stringArg({ required: false }),
+        categories: stringArg({ required: false, list: true }),
       },
       resolve: (
         parent,
-        { name, email, phone, handle, website, instagramUrl, facebookUrl },
+        {
+          name,
+          email,
+          phone,
+          handle,
+          website,
+          categories,
+          instagramUrl,
+          facebookUrl,
+        },
         ctx,
       ) =>
         CreateBusiness(
           parent,
-          { name, email, phone, handle, website, instagramUrl, facebookUrl },
+          {
+            name,
+            email,
+            phone,
+            handle,
+            website,
+            categories,
+            instagramUrl,
+            facebookUrl,
+          },
           ctx,
         ),
     })
@@ -101,6 +128,16 @@ const Mutation = mutationType({
         ),
     })
 
+    t.field('addCategoryToBusiness', {
+      type: 'Business',
+      args: {
+        businessId: idArg(),
+        categories: stringArg({ list: true }),
+      },
+      resolve: (parent, args, ctx) =>
+        AddCategoriesToBusiness(parent, args, ctx),
+    })
+
     t.field('createBranch', {
       type: 'Branch',
       args: {
@@ -124,9 +161,18 @@ const Mutation = mutationType({
         address: stringArg(),
         description: stringArg(),
         image: stringArg(),
+        categoriesId: stringArg({ nullable: true, list: true }),
         servicesId: stringArg({ nullable: true, list: true }),
       },
       resolve: (parent, args, ctx) => UpdateBranch(parent, args, ctx),
+    })
+
+    t.field('deleteBranch', {
+      type: 'Branch',
+      args: {
+        id: idArg({ required: true }),
+      },
+      resolve: (parent, args, ctx) => DeleteBranch(parent, args, ctx),
     })
 
     t.field('createService', {
@@ -138,8 +184,23 @@ const Mutation = mutationType({
         duration: intArg({ required: true }),
         description: stringArg({ required: true }),
         branchesId: stringArg({ list: true, nullable: false }),
+        categoryId: idArg({ required: true }),
       },
       resolve: (parent, args, ctx) => CreateService(parent, args, ctx),
+    })
+
+    t.field('updateService', {
+      type: 'Service',
+      args: {
+        id: stringArg({ required: true }),
+        name: stringArg({ required: false }),
+        price: floatArg({ required: false }),
+        currency: stringArg({ required: false }),
+        duration: intArg({ required: false }),
+        description: stringArg({ required: false }),
+        categoryId: idArg({ required: false }),
+      },
+      resolve: (parent, args, ctx) => UpdateService(parent, args, ctx),
     })
 
     t.field('createEmployee', {
