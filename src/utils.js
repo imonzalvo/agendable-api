@@ -55,6 +55,14 @@ async function asyncForEach(array, callback) {
   }
 }
 
+const disconnectObject = (oldRelations, newRelations) => {
+  const removedRelations = oldRelations.filter((rel) => {
+    const isRemoved = !newRelations.includes(rel)
+    return isRemoved
+  })
+  return removedRelations.map((rel) => ({ id: rel }))
+}
+
 module.exports = {
   getUserId,
   APP_SECRET,
@@ -63,4 +71,5 @@ module.exports = {
   generateQueryObjectFromDateRange,
   getDateFromMomentDate,
   asyncForEach,
+  disconnectObject,
 }

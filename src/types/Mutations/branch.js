@@ -1,7 +1,7 @@
 const { stringArg } = require('@nexus/schema')
 const { sign } = require('jsonwebtoken')
 const { hash, compare } = require('bcryptjs')
-const { APP_SECRET, getUserId } = require('../../utils')
+const { APP_SECRET, getUserId, disconnectObject } = require('../../utils')
 
 const CreateBranch = async (
   parent,
@@ -66,6 +66,11 @@ const UpdateBranch = async (
           },
         },
       },
+      services: {
+        select: {
+          id: true,
+        },
+      },
     },
   })
 
@@ -75,10 +80,19 @@ const UpdateBranch = async (
         id: serviceId,
       }
     })
-    branchData['services'] = { connect: connectServices }
+
+    const oldServices = branch.services.map((s) => s.id)
+    const disconnectServices = disconnectObject(oldServices, servicesId)
+    branchData['services'] = {
+      connect: connectServices,
+      disconnect: disconnectServices,
+    }
   }
 
   if (categoriesId) {
+    const oldCategories = branch.business.categories.map((cat) => cat.id)
+    const disconnectCategories = disconnectObject(oldCategories, categoriesId)
+
     const connectServices = categoriesId.map((categoryId) => {
       const validCategory =
         branch.business.categories.filter((c) => c.id === categoryId).length > 0
@@ -89,7 +103,10 @@ const UpdateBranch = async (
         id: categoryId,
       }
     })
-    branchData['categories'] = { connect: connectServices }
+    branchData['categories'] = {
+      connect: connectServices,
+      disconnect: disconnectCategories,
+    }
   }
 
   branch = await ctx.prisma.branch.update({
