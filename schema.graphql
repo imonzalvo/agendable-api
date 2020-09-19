@@ -144,6 +144,7 @@ type Business {
   name: String!
   owner: User!
   phone: String!
+  services(skip: Int): [Service!]!
   website: String
 }
 
@@ -185,6 +186,7 @@ input BusinessWhereInput {
   owner: UserWhereInput
   ownerId: StringFilter
   phone: StringFilter
+  services: ServiceListRelationFilter
   website: StringNullableFilter
 }
 
@@ -536,6 +538,8 @@ input ServiceWhereInput {
   AND: [ServiceWhereInput!]
   bookings: BookingListRelationFilter
   branches: BranchListRelationFilter
+  Business: BusinessWhereInput
+  businessId: StringNullableFilter
   category: CategoryWhereInput
   categoryId: StringNullableFilter
   currency: StringFilter

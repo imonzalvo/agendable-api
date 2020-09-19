@@ -128,6 +128,7 @@ export interface NexusGenInputs {
     owner?: NexusGenInputs['UserWhereInput'] | null; // UserWhereInput
     ownerId?: NexusGenInputs['StringFilter'] | null; // StringFilter
     phone?: NexusGenInputs['StringFilter'] | null; // StringFilter
+    services?: NexusGenInputs['ServiceListRelationFilter'] | null; // ServiceListRelationFilter
     website?: NexusGenInputs['StringNullableFilter'] | null; // StringNullableFilter
   }
   CategoryListRelationFilter: { // input type
@@ -322,6 +323,8 @@ export interface NexusGenInputs {
     AND?: NexusGenInputs['ServiceWhereInput'][] | null; // [ServiceWhereInput!]
     bookings?: NexusGenInputs['BookingListRelationFilter'] | null; // BookingListRelationFilter
     branches?: NexusGenInputs['BranchListRelationFilter'] | null; // BranchListRelationFilter
+    Business?: NexusGenInputs['BusinessWhereInput'] | null; // BusinessWhereInput
+    businessId?: NexusGenInputs['StringNullableFilter'] | null; // StringNullableFilter
     category?: NexusGenInputs['CategoryWhereInput'] | null; // CategoryWhereInput
     categoryId?: NexusGenInputs['StringNullableFilter'] | null; // StringNullableFilter
     currency?: NexusGenInputs['StringFilter'] | null; // StringFilter
@@ -611,6 +614,7 @@ export interface NexusGenFieldTypes {
     name: string; // String!
     owner: NexusGenRootTypes['User']; // User!
     phone: string; // String!
+    services: NexusGenRootTypes['Service'][]; // [Service!]!
     website: string | null; // String
   }
   BusinessImage: { // field return type
@@ -784,6 +788,9 @@ export interface NexusGenArgTypes {
       skip?: number | null; // Int
     }
     categories: { // args
+      skip?: number | null; // Int
+    }
+    services: { // args
       skip?: number | null; // Int
     }
   }

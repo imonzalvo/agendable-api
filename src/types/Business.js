@@ -15,6 +15,7 @@ const Business = objectType({
     t.model.owner()
     t.model.landing()
     t.model.branches()
+    t.model.services()
   },
 })
 

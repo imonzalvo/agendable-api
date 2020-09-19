@@ -5,6 +5,14 @@ const CreateService = async (
   { name, price, currency, duration, description, branchesId, categoryId },
   ctx,
 ) => {
+  const ownerId = getUserId(ctx)
+  const userBusiness = await ctx.prisma.business.findMany({
+    where: {
+      owner: {
+        id: ownerId,
+      },
+    },
+  })
   await asyncForEach(branchesId, async (id) => {
     const branch = await ctx.prisma.branch.findOne({
       where: { id: id },
@@ -34,6 +42,7 @@ const CreateService = async (
       description,
       branches: { connect: connectBranches },
       category: { connect: { id: categoryId } },
+      Business: { connect: { id: userBusiness[0].id } },
     },
   })
   return service
