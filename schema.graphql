@@ -352,7 +352,7 @@ type Mutation {
   deleteBranch(id: ID!): Branch!
   deleteLandingInfo(id: ID): LandingInfo!
   deletePost(id: ID): Post
-  login(email: String, password: String): AuthPayload!
+  login(email: String, password: String, phone: String): AuthPayload!
   publish(id: ID): Post
   signup(email: String, familyName: String, givenName: String, name: String, password: String, userName: String, userType: String): AuthPayload!
   updateAvailabilityItem(day: String, from: String, id: ID!, to: String): AvailabilityItem!
@@ -596,6 +596,7 @@ type User {
   id: String!
   name: String
   notifications(after: String, take: Int): [Notification!]
+  phone: String
   posts(skip: Int, where: PostWhereInput): [Post!]!
   userType: UserType!
   verifyToken: String!
@@ -621,6 +622,7 @@ input UserWhereInput {
   notifications: NotificationListRelationFilter
   OR: [UserWhereInput!]
   password: StringFilter
+  phone: StringNullableFilter
   posts: PostListRelationFilter
   userName: StringFilter
   userType: UserType

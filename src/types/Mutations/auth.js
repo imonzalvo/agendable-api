@@ -74,15 +74,17 @@ const Login = {
   args: {
     email: stringArg(),
     password: stringArg(),
+    phone: stringArg(),
   },
-  resolve: async (parent, { email, password }, context) => {
+  resolve: async (parent, { email, password, phone }, context) => {
+    const userQuery = phone ? { phone } : { email }
     const user = await context.prisma.user.findOne({
-      where: {
-        email,
-      },
+      where: userQuery,
     })
-    if (!user) {
-      throw new Error(`No user found for email: ${email}`)
+    console.log('userr', user)
+
+    if (user.length == 0) {
+      throw new Error(`No user found`)
     }
     if (user.verifyToken !== '') {
       throw new Error(`User not verified`)

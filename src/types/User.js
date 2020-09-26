@@ -5,6 +5,7 @@ const User = objectType({
   definition(t) {
     t.model.id()
     t.model.name()
+    t.model.phone()
     t.model.email()
     t.model.givenName()
     t.model.familyName()

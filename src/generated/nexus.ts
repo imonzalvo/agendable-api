@@ -377,6 +377,7 @@ export interface NexusGenInputs {
     notifications?: NexusGenInputs['NotificationListRelationFilter'] | null; // NotificationListRelationFilter
     OR?: NexusGenInputs['UserWhereInput'][] | null; // [UserWhereInput!]
     password?: NexusGenInputs['StringFilter'] | null; // StringFilter
+    phone?: NexusGenInputs['StringNullableFilter'] | null; // StringNullableFilter
     posts?: NexusGenInputs['PostListRelationFilter'] | null; // PostListRelationFilter
     userName?: NexusGenInputs['StringFilter'] | null; // StringFilter
     userType?: NexusGenEnums['UserType'] | null; // UserType
@@ -503,6 +504,7 @@ export interface NexusGenRootTypes {
     givenName: string; // String!
     id: string; // String!
     name?: string | null; // String
+    phone?: string | null; // String
     userType: NexusGenEnums['UserType']; // UserType!
     verifyToken: string; // String!
   }
@@ -751,6 +753,7 @@ export interface NexusGenFieldTypes {
     id: string; // String!
     name: string | null; // String
     notifications: NexusGenRootTypes['Notification'][] | null; // [Notification!]
+    phone: string | null; // String
     posts: NexusGenRootTypes['Post'][]; // [Post!]!
     userType: NexusGenEnums['UserType']; // UserType!
     verifyToken: string; // String!
@@ -922,6 +925,7 @@ export interface NexusGenArgTypes {
     login: { // args
       email?: string | null; // String
       password?: string | null; // String
+      phone?: string | null; // String
     }
     publish: { // args
       id?: string | null; // ID
