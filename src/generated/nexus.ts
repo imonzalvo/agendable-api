@@ -936,6 +936,7 @@ export interface NexusGenArgTypes {
       givenName?: string | null; // String
       name?: string | null; // String
       password?: string | null; // String
+      phone?: string | null; // String
       userName?: string | null; // String
       userType?: string | null; // String
     }

@@ -354,7 +354,7 @@ type Mutation {
   deletePost(id: ID): Post
   login(email: String, password: String, phone: String): AuthPayload!
   publish(id: ID): Post
-  signup(email: String, familyName: String, givenName: String, name: String, password: String, userName: String, userType: String): AuthPayload!
+  signup(email: String, familyName: String, givenName: String, name: String, password: String, phone: String, userName: String, userType: String): AuthPayload!
   updateAvailabilityItem(day: String, from: String, id: ID!, to: String): AvailabilityItem!
   updateBooking(branchId: String, clientEmail: String, clientFamilyName: String, clientId: String, clientName: String, clientPhone: String, employeeId: String, end: String, id: ID!, servicesId: [String!], start: String, status: String): Booking!
   updateBranch(address: String, categoriesId: [String!], description: String, email: String, id: ID!, image: String, name: String, phone: String, servicesId: [String!]): Branch!

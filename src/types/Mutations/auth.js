@@ -25,10 +25,11 @@ const SignUp = {
     familyName: stringArg(),
     userName: stringArg(),
     userType: stringArg(),
+    phone: stringArg(),
   },
   resolve: async (
     parent,
-    { name, email, password, givenName, familyName, userType, userName },
+    { name, email, phone, password, givenName, familyName, userType, userName },
     ctx,
   ) => {
     const hashedPassword = await hash(password, 10)
@@ -43,6 +44,7 @@ const SignUp = {
         familyName,
         userName,
         userType,
+        phone,
         verifyToken,
       },
     })
