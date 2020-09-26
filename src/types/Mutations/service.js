@@ -83,12 +83,12 @@ const UpdateService = async (
 
   if (categoryId) {
     const validCategory =
-      branches[0].business.categories.filter((c) => c.id === categoryId)
+      service.branches[0].business.categories.filter((c) => c.id === categoryId)
         .length > 0
     if (!validCategory) {
       throw new Error(`Category ${categoryId} not valid`)
     }
-    serviceData['category'] = { connect: categoryId }
+    serviceData['category'] = { connect: { id: categoryId } }
   }
 
   service = await ctx.prisma.service.update({
