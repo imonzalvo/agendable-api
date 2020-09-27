@@ -502,6 +502,7 @@ type Query {
   getBranches: [Branch!]
   getBusiness(id: String): Business
   getBusinessByHandle(handle: String): Business
+  getBusinessEmployees(id: ID): [Employee!]
   getBusinesses: [Business!]
   getEmployee(id: String): Employee
   getEmployeeAvailableDays(employeeId: ID, endDate: String, startDate: String): [String!]

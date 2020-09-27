@@ -71,9 +71,15 @@ const UpdateBranch = async (
           id: true,
         },
       },
+      categories: {
+        select: {
+          id: true,
+        },
+      },
     },
   })
 
+  console.log('holaaaa', branch)
   if (servicesId) {
     const connectServices = servicesId.map((serviceId) => {
       return {
@@ -90,7 +96,7 @@ const UpdateBranch = async (
   }
 
   if (categoriesId) {
-    const oldCategories = branch.business.categories.map((cat) => cat.id)
+    const oldCategories = branch.categories.map((cat) => cat.id)
     const disconnectCategories = disconnectObject(oldCategories, categoriesId)
 
     const connectServices = categoriesId.map((categoryId) => {
@@ -105,7 +111,9 @@ const UpdateBranch = async (
     })
     branchData['categories'] = {
       connect: connectServices,
-      disconnect: disconnectCategories,
+    }
+    if (disconnectCategories.length > 0) {
+      branchData['categories']['disconnect'] = disconnectCategories
     }
   }
 

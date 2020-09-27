@@ -19,6 +19,9 @@ const {
   getEmployeeAvailableDays,
 } = require('./Queries/singleQueries/getEmployeeAvailableDays')
 const {
+  getBusinessEmployees,
+} = require('./Queries/singleQueries/getBusinessEmployees')
+const {
   getBookings,
   getBooking,
   getBookingsByDate,
@@ -217,6 +220,15 @@ const Query = queryType({
         email: stringArg(),
       },
       resolve: (parent, args, ctx) => emailAvailability(parent, args, ctx),
+    })
+
+    t.list.field('getBusinessEmployees', {
+      type: 'Employee',
+      nullable: true,
+      args: {
+        id: idArg(),
+      },
+      resolve: (parent, args, ctx) => getBusinessEmployees(parent, args, ctx),
     })
 
     t.list.field('feed', {
