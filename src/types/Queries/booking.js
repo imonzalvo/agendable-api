@@ -4,11 +4,11 @@ const {
 } = require('../../utils')
 
 const getBooking = (parent, { id }, ctx) => {
-  return ctx.prisma.booking.findOne({
+  return ctx.prisma.booking.findUnique({
     where: {
       id: id,
     },
-  })
+  });
 }
 
 const getBookings = (parent, ctx) => {
@@ -24,7 +24,7 @@ const getBookingsByBranch = (parent, { branchId }, ctx) => {
 }
 
 const getBookingsByBusiness = async (parent, { id }, ctx) => {
-  const businessBranches = await ctx.prisma.business.findOne({
+  const businessBranches = await ctx.prisma.business.findUnique({
     where: {
       id: id,
     },
@@ -53,7 +53,7 @@ const getBookingsByDate = async (
   const queryDatesObject = generateQueryObjectFromDateRange(datesRange)
   const queryObject = { OR: queryDatesObject }
   if (branchId) {
-    const branch = await ctx.prisma.branch.findOne({
+    const branch = await ctx.prisma.branch.findUnique({
       where: { id: branchId },
     })
 
@@ -65,7 +65,7 @@ const getBookingsByDate = async (
   }
 
   if (employeeId) {
-    const employee = await ctx.prisma.employee.findOne({
+    const employee = await ctx.prisma.employee.findUnique({
       where: { id: employeeId },
     })
 

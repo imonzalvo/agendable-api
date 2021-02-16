@@ -15,7 +15,11 @@ const CreateBranch = async (
         id: ownerId,
       },
     },
+    include: {
+      categories: { select: { id: true } },
+    },
   })
+
   const branch = ctx.prisma.branch.create({
     data: {
       address,
@@ -24,6 +28,7 @@ const CreateBranch = async (
       phone,
       description,
       image,
+      categories: { connect: userBusiness[0].categories },
       business: { connect: { id: userBusiness[0].id } },
     },
   })
@@ -54,7 +59,7 @@ const UpdateBranch = async (
     image,
   }
 
-  let branch = await ctx.prisma.branch.findOne({
+  let branch = await ctx.prisma.branch.findUnique({
     where: { id: id },
     select: {
       business: {
@@ -148,7 +153,7 @@ const AddCategoriesToBranch = async (
     }),
   )
 
-  return ctx.prisma.business.findOne({ where: { id: businessId } })
+  return ctx.prisma.business.findUnique({ where: { id: businessId } });
 }
 
 module.exports = {

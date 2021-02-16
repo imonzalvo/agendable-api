@@ -1,15 +1,15 @@
 const { getUserId } = require('../../utils')
 
 const getBusiness = (parent, { id }, ctx) => {
-  return ctx.prisma.business.findOne({
+  return ctx.prisma.business.findUnique({
     where: {
       id: id,
     },
-  })
+  });
 }
 
 const getBusinessByHandle = async (parent, { handle }, ctx) => {
-  const businsses = await ctx.prisma.business.findOne({
+  const businsses = await ctx.prisma.business.findUnique({
     where: {
       handle: handle,
     },

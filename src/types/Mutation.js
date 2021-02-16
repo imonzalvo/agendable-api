@@ -1,6 +1,5 @@
 const { compare, hash } = require('bcryptjs')
 const { sign } = require('jsonwebtoken')
-const { PubSub } = require('graphql-yoga')
 const {
   idArg,
   mutationType,
@@ -9,7 +8,7 @@ const {
   intArg,
   booleanArg,
   arg,
-} = require('@nexus/schema')
+} = require('nexus')
 const { APP_SECRET, getUserId } = require('../utils')
 const { SignUp, Login, ConfirmUser } = require('./Mutations/auth')
 const {

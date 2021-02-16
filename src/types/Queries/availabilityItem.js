@@ -1,9 +1,9 @@
 const getAvailabilityItem = (parent, { id }, ctx) => {
-  return ctx.prisma.availabilityItem.findOne({
+  return ctx.prisma.availabilityItem.findUnique({
     where: {
       id: id,
     },
-  })
+  });
 }
 
 const getAvailabilityItems = (parent, ctx) => {

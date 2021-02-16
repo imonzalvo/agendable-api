@@ -54,7 +54,7 @@ const CreateBooking = async (
     bookingInfo[client] = { connect: { id: clientId } }
   }
 
-  const branch = await ctx.prisma.branch.findOne({
+  const branch = await ctx.prisma.branch.findUnique({
     where: {
       id: branchId,
     },

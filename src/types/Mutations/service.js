@@ -14,7 +14,7 @@ const CreateService = async (
     },
   })
   await asyncForEach(branchesId, async (id) => {
-    const branch = await ctx.prisma.branch.findOne({
+    const branch = await ctx.prisma.branch.findUnique({
       where: { id: id },
       select: {
         categories: {
@@ -22,10 +22,13 @@ const CreateService = async (
         },
       },
     })
+    if(!branch) {
+      throw new Error(`Branch not found`)
+    }
     const validBranch =
       branch.categories.filter((c) => c.id === categoryId).length > 0
     if (!validBranch) {
-      throw new Error(`Branch does not gave category ${categoryId}`)
+      throw new Error(`Branch does not have category ${categoryId}`)
     }
   })
   const connectBranches = branchesId.map((branchId) => {
@@ -62,7 +65,7 @@ const UpdateService = async (
     description,
   }
 
-  let service = await ctx.prisma.service.findOne({
+  let service = await ctx.prisma.service.findUnique({
     where: { id: id },
     select: {
       branches: {

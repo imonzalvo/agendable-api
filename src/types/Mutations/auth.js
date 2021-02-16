@@ -80,10 +80,14 @@ const Login = {
   },
   resolve: async (parent, { email, password, phone }, context) => {
     const userQuery = phone ? { phone } : { email }
-    const user = await context.prisma.user.findOne({
+    console.log('userr', userQuery)
+    const user = await context.prisma.user.findUnique({
       where: userQuery,
     })
-    console.log('userr', user)
+
+    if (!user) {
+      throw new Error(`No user found`)
+    }
 
     if (user.length == 0) {
       throw new Error(`No user found`)
@@ -109,7 +113,7 @@ const ConfirmUser = {
     verifyToken: stringArg(),
   },
   resolve: async (parent, { email, verifyToken }, context) => {
-    const user = await context.prisma.user.findOne({
+    const user = await context.prisma.user.findUnique({
       where: {
         email,
       },
@@ -132,7 +136,7 @@ const ConfirmUser = {
     })
     return {
       token: sign({ userId: updatedUser.id }, APP_SECRET),
-      updatedUser,
+      user,
     }
   },
 }

@@ -1,11 +1,11 @@
 const { getUserId } = require('../../utils')
 
 const getService = (parent, { id }, ctx) => {
-  return ctx.prisma.service.findOne({
+  return ctx.prisma.service.findUnique({
     where: {
       id: id,
     },
-  })
+  });
 }
 
 const getServices = (parent, ctx) => {

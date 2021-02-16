@@ -64,7 +64,7 @@ const AddImagesLandingInfo = async (
     }),
   )
 
-  return ctx.prisma.landingInfo.findOne({ where: { id: landingInfoId } })
+  return ctx.prisma.landingInfo.findUnique({ where: { id: landingInfoId } });
 }
 
 const DeleteLandingInfo = (parent, { id }, ctx) => {

@@ -200,7 +200,7 @@ const getEmployeeAvailableTime = async (
     availability,
     vacations,
     bookings,
-  } = await ctx.prisma.employee.findOne(queryObject(id, day, dayOfTheWeek))
+  } = await ctx.prisma.employee.findUnique(queryObject(id, day, dayOfTheWeek))
 
   if (isTodayVacation(vacations, date)) {
     return []

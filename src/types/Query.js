@@ -1,4 +1,4 @@
-const { idArg, queryType, stringArg, intArg } = require('@nexus/schema')
+const { idArg, queryType, stringArg, intArg } = require('nexus')
 const { getUserId } = require('../utils')
 const { me } = require('./Queries/user')
 const {
@@ -270,11 +270,11 @@ const Query = queryType({
       nullable: true,
       args: { id: idArg() },
       resolve: (parent, { id }, ctx) => {
-        return ctx.prisma.post.findOne({
+        return ctx.prisma.post.findUnique({
           where: {
             id: Number(id),
           },
-        })
+        });
       },
     })
   },

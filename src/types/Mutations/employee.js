@@ -6,7 +6,7 @@ const CreateEmployee = async (
 ) => {
   const connectBranches = createConnectObject(branchesId)
   const connectServices = createConnectObject(servicesId)
-  const employee = ctx.prisma.employee.create({
+  const employee = await ctx.prisma.employee.create({
     data: {
       givenName,
       familyName,
@@ -27,7 +27,6 @@ const UpdateEmployee = (
   const connectBranches = createConnectObject(branchesId)
   const connectServices = createConnectObject(servicesId)
 
-  console.log('here', connectServices)
   const employee = ctx.prisma.employee.update({
     where: { id: id },
     data: {

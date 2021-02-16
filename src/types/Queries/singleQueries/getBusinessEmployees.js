@@ -11,7 +11,7 @@ Object.defineProperty(Array.prototype, 'flat', {
 })
 
 const getBusinessEmployees = async (parent, { id }, ctx) => {
-  const { branches } = await ctx.prisma.business.findOne({
+  const { branches } = await ctx.prisma.business.findUnique({
     where: {
       id,
     },

@@ -17,7 +17,7 @@ const CreateBusiness = async (
   },
   ctx,
 ) => {
-  const ownerId = getUserId(ctx)
+  const ownerId = getUserId(ctx);
 
   let businessData = {
     name,
@@ -37,9 +37,9 @@ const CreateBusiness = async (
     businessData['facebookUrl'] = facebookUrl
   }
 
-  const business = await ctx.prisma.business.create({
-    data: businessData,
-  })
+     const business = await ctx.prisma.business.create({
+      data: businessData,
+    })
 
   await asyncForEach(categories, async (id) =>
     ctx.prisma.category.create({
@@ -87,7 +87,7 @@ const AddCategoriesToBusiness = async (
     }),
   )
 
-  return ctx.prisma.business.findOne({ where: { id: businessId } })
+  return ctx.prisma.business.findUnique({ where: { id: businessId } });
 }
 
 module.exports = { CreateBusiness, UpdateBusiness, AddCategoriesToBusiness }

@@ -8,7 +8,7 @@ const rules = {
   }),
   isAdminUser: rule()(async (parent, args, context) => {
     const userId = getUserId(context)
-    const user = await context.prisma.user.findOne({
+    const user = await context.prisma.user.findUnique({
       where: {
         id: userId,
       },
@@ -20,7 +20,7 @@ const rules = {
     if (!userId) {
       return false
     }
-    const user = await context.prisma.user.findOne({
+    const user = await context.prisma.user.findUnique({
       where: {
         id: userId,
       },
@@ -36,7 +36,7 @@ const rules = {
     if (!user.business) {
       return false
     }
-    const booking = await context.prisma.booking.findOne({
+    const booking = await context.prisma.booking.findUnique({
       where: { id },
       select: {
         branch: {
@@ -59,7 +59,7 @@ const rules = {
   isPostOwner: rule()(async (parent, { id }, context) => {
     const userId = getUserId(context)
     const author = await context.prisma.post
-      .findOne({
+      .findUnique({
         where: {
           id: id,
         },
@@ -70,7 +70,7 @@ const rules = {
   isBusinessOwner: rule()(async (parent, { id }, context) => {
     const userId = getUserId(context)
     const owner = await context.prisma.business
-      .findOne({
+      .findUnique({
         where: {
           id: id,
         },
@@ -80,7 +80,7 @@ const rules = {
   }),
   isEmployeeEmployer: rule()(async (parent, { employeeId }, context) => {
     const userId = getUserId(context)
-    const user = await context.prisma.user.findOne({
+    const user = await context.prisma.user.findUnique({
       where: {
         id: userId,
       },
@@ -108,7 +108,7 @@ const rules = {
     }
     branch = branchId ? branchId : id
     const owner = await context.prisma.branch
-      .findOne({
+      .findUnique({
         where: {
           id: branch,
         },
@@ -120,7 +120,7 @@ const rules = {
   branchesOwner: rule()(async (parent, { branchesId }, context) => {
     const userId = getUserId(context)
     const userBusiness = await context.prisma.user
-      .findOne({
+      .findUnique({
         where: {
           id: userId,
         },
@@ -155,7 +155,7 @@ const rules = {
       return false
     }
     const owner = await context.prisma.branch
-      .findOne({
+      .findUnique({
         where: {
           id,
         },
