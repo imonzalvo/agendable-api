@@ -67,7 +67,7 @@ const server = new ApolloServer({
 })
 
 server
-  .listen()
+  .listen(8080)
   .then(({ url }) =>
     console.log(
       `🚀 Server ready at: ${url}\n⭐️ See sample queries: http://pris.ly/e/js/graphql-auth#using-the-graphql-api`,
