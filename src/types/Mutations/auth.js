@@ -2,18 +2,8 @@ const { stringArg } = require('@nexus/schema')
 const { sign } = require('jsonwebtoken')
 const { hash, compare } = require('bcryptjs')
 const { APP_SECRET, getUserId } = require('../../utils')
-var nodemailer = require('nodemailer')
 const crypto = require('crypto')
-
-var transporter = nodemailer.createTransport({
-  host: 'smtp.zoho.com',
-  port: 465,
-  secure: true, // use SSL
-  auth: {
-    user: 'ignacio@agendable.io',
-    pass: 'UVfs6vMJLGGQ',
-  },
-})
+const { verificationCodeEmail } = require("../../mailer");
 
 const SignUp = {
   type: 'AuthPayload',
@@ -49,20 +39,7 @@ const SignUp = {
       },
     })
 
-    var mailOptions = {
-      from: 'ignacio@agendable.io',
-      to: `${email}`,
-      subject: `Verificacion email Agendable`,
-      text: `Su codigo de verificacion es: ${verifyToken}`,
-    }
-
-    transporter.sendMail(mailOptions, function (error, info) {
-      if (error) {
-        console.log(error)
-      } else {
-        console.log('Email sent: ' + info.response)
-      }
-    })
+    verificationCodeEmail(email, verifyToken);
 
     return {
       token: sign({ userId: 'user.id' }, APP_SECRET),

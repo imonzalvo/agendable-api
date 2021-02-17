@@ -1,22 +1,7 @@
-const { stringArg } = require('@nexus/schema')
-const { sign } = require('jsonwebtoken')
-const { hash, compare } = require('bcryptjs')
-const { APP_SECRET, getUserId } = require('../../utils')
 const { createConnectObject } = require('../../utils')
-var nodemailer = require('nodemailer')
 const moment = require('moment')
-
+const { confirmationEmail, updateBookingEmail, deleteBookingEmail } = require("../../mailer");
 const { NOTIFICATION_TYPES } = require('../../consts')
-
-var transporter = nodemailer.createTransport({
-  host: 'smtp.zoho.com',
-  port: 465,
-  secure: true, // use SSL
-  auth: {
-    user: 'ignacio@agendable.io',
-    pass: 'UVfs6vMJLGGQ',
-  },
-})
 
 const CreateBooking = async (
   parent,
@@ -72,38 +57,6 @@ const CreateBooking = async (
     },
   })
 
-  if (clientEmail) {
-    var clientMailOptions = {
-      from: 'ignacio@agendable.io',
-      to: `${clientEmail}`,
-      subject: `Reserva ${branch.name}`,
-      text: 'Falta HTML',
-    }
-
-    var adminMailOptions = {
-      from: 'ignacio@agendable.io',
-      to: `${branch.business.owner.email}`,
-      subject: `Reserva ${branch.name}`,
-      text: 'Falta HTML',
-    }
-
-    transporter.sendMail(clientMailOptions, function (error, info) {
-      if (error) {
-        console.log(error)
-      } else {
-        console.log('Email sent: ' + info.response)
-      }
-    })
-
-    transporter.sendMail(adminMailOptions, function (error, info) {
-      if (error) {
-        console.log(error)
-      } else {
-        console.log('Email sent: ' + info.response)
-      }
-    })
-  }
-
   const booking = await ctx.prisma.booking.create({
     data: bookingInfo,
     include: {
@@ -121,6 +74,12 @@ const CreateBooking = async (
       resourceId: booking.id,
     },
   })
+
+  if (clientEmail) {
+    confirmationEmail(clientEmail, branch.name, formattedBookingStart);
+  }
+  confirmationEmail(branch.business.owner.email, branch.name, formattedBookingStart);
+  
   ctx.pubsub.publish('NEW_BOOKING', {
     newBooking: booking,
   })
@@ -184,20 +143,8 @@ const UpdateBooking = async (
 
   const formattedStart = moment(booking.start).format('MMM DD h:mm A')
   const formattedEnd = moment(booking.end).format('MMM DD h:mm A')
-  var clientMailOptions = {
-    from: 'ignacio@agendable.io',
-    to: `${booking.clientEmail}`,
-    subject: `Reserva ${booking.branch.name}`,
-    text: `La resereva ha sido actualizada \n Comienzo: ${formattedStart}. \n Finaliza: ${formattedEnd}`,
-  }
-
-  transporter.sendMail(clientMailOptions, function (error, info) {
-    if (error) {
-      console.log(error)
-    } else {
-      console.log('Email sent: ' + info.response)
-    }
-  })
+  
+  updateBookingEmail(booking.clientEmail, booking.branch.name, formattedStart);
 
   ctx.pubsub.publish('UPDATED_BOOKING', {
     updatedBooking: booking,
@@ -217,21 +164,8 @@ const DeleteBooking = async (parent, { id }, ctx) => {
     deletedBooking: booking,
   })
 
-  const formattedStart = moment(booking.start).format('MMM DD h:mm A')
-  var clientMailOptions = {
-    from: 'ignacio@agendable.io',
-    to: `${booking.clientEmail}`,
-    subject: `Reserva ${booking.branch.name}`,
-    text: `Ha sido cancelada su reserva en el negocio ${booking.branch.business.name} para la fecha ${formattedStart}.`,
-  }
-
-  transporter.sendMail(clientMailOptions, function (error, info) {
-    if (error) {
-      console.log(error)
-    } else {
-      console.log('Email sent: ' + info.response)
-    }
-  })
+  const formattedStart = moment(booking.start).format('MMM DD h:mm A');
+  deleteBookingEmail(booking.clientEmail, booking.branch.name, formattedStart);
 
   return booking
 }
