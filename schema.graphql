@@ -261,6 +261,7 @@ enum Day {
 
 type Employee {
   availability(after: AvailabilityItemWhereUniqueInput, before: AvailabilityItemWhereUniqueInput, first: Int, last: Int): [AvailabilityItem!]!
+  availableTime(date: String, duration: Int): [EmployeeAvailableTime]
   bookings(after: BookingWhereUniqueInput, before: BookingWhereUniqueInput, first: Int, last: Int): [Booking!]!
   branches(after: BranchWhereUniqueInput, before: BranchWhereUniqueInput, first: Int, last: Int): [Branch!]!
   familyName: String!

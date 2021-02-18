@@ -19,8 +19,13 @@ const availabilityToMoment = (items, date) => {
     const itemEndingHour = item.to.split(':')[0]
     const itemEndingMinutes = item.to.split(':')[1]
 
-    const from = moment(date).hour(itemStartHour).minutes(itemStartMinutes)
-    const to = moment(date).hour(itemEndingHour).minutes(itemEndingMinutes)
+    const from = moment(date).hour(itemStartHour).minutes(itemStartMinutes).subtract(3, 'hours');
+    const to = moment(date).hour(itemEndingHour).minutes(itemEndingMinutes).subtract(3, 'hours');
+    // TODO: Temporary solution!!!!!
+    // FIX!!!!
+    if (to.hours() >= 21) {
+      to.add(1, 'days');
+    }
     return { from: from, to: to }
   })
 }
@@ -190,9 +195,11 @@ const queryObject = (id, day, dayOfTheWeek) => ({
 
 const getEmployeeAvailableTime = async (
   parent,
-  { id, date, duration },
+  { date, duration, id },
   ctx,
 ) => {
+  const newId = id ? id : parent.id;
+  // const { id } = parent;
   const day = date.split('T')[0] //2020-01-25
   const dayOfTheWeek = moment(date).format('dddd').toUpperCase()
 
@@ -200,7 +207,7 @@ const getEmployeeAvailableTime = async (
     availability,
     vacations,
     bookings,
-  } = await ctx.prisma.employee.findUnique(queryObject(id, day, dayOfTheWeek))
+  } = await ctx.prisma.employee.findUnique(queryObject(newId, day, dayOfTheWeek))
 
   if (isTodayVacation(vacations, date)) {
     return []

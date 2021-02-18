@@ -658,6 +658,7 @@ export interface NexusGenFieldTypes {
   }
   Employee: { // field return type
     availability: NexusGenRootTypes['AvailabilityItem'][]; // [AvailabilityItem!]!
+    availableTime: Array<NexusGenRootTypes['EmployeeAvailableTime'] | null> | null; // [EmployeeAvailableTime]
     bookings: NexusGenRootTypes['Booking'][]; // [Booking!]!
     branches: NexusGenRootTypes['Branch'][]; // [Branch!]!
     familyName: string; // String!
@@ -861,6 +862,7 @@ export interface NexusGenFieldTypeNames {
   }
   Employee: { // field return type name
     availability: 'AvailabilityItem'
+    availableTime: 'EmployeeAvailableTime'
     bookings: 'Booking'
     branches: 'Branch'
     familyName: 'String'
@@ -1070,6 +1072,10 @@ export interface NexusGenArgTypes {
       before?: NexusGenInputs['AvailabilityItemWhereUniqueInput'] | null; // AvailabilityItemWhereUniqueInput
       first?: number | null; // Int
       last?: number | null; // Int
+    }
+    availableTime: { // args
+      date?: string | null; // String
+      duration?: number | null; // Int
     }
     bookings: { // args
       after?: NexusGenInputs['BookingWhereUniqueInput'] | null; // BookingWhereUniqueInput
