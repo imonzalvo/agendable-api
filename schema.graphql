@@ -284,6 +284,11 @@ input EmployeeListRelationFilter {
   some: EmployeeWhereInput
 }
 
+type EmployeesAvailableTime {
+  availability: [EmployeeAvailableTime]
+  id: String
+}
+
 input EmployeeWhereInput {
   AND: [EmployeeWhereInput!]
   availability: AvailabilityItemListRelationFilter
@@ -579,6 +584,7 @@ type Query {
   getEmployeeAvailableDays(employeeId: ID, endDate: String, startDate: String): [String]
   getEmployeeAvailableTime(date: String, duration: Int, id: ID): [EmployeeAvailableTime]
   getEmployees: [Employee]
+  getEmployeesAvailableTime(date: String, duration: Int, ids: [ID]): [EmployeesAvailableTime]
   getService(id: String): Service
   getServices: [Service]
   getVacationsItem(id: ID): VacationsItem

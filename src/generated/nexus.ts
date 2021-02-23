@@ -532,6 +532,10 @@ export interface NexusGenObjects {
     from?: string | null; // String
     to?: string | null; // String
   }
+  EmployeesAvailableTime: { // root type
+    availability?: Array<NexusGenRootTypes['EmployeeAvailableTime'] | null> | null; // [EmployeeAvailableTime]
+    id?: string | null; // String
+  }
   LandingInfo: { // root type
     cta?: string | null; // String
     description: string; // String!
@@ -673,6 +677,10 @@ export interface NexusGenFieldTypes {
     from: string | null; // String
     to: string | null; // String
   }
+  EmployeesAvailableTime: { // field return type
+    availability: Array<NexusGenRootTypes['EmployeeAvailableTime'] | null> | null; // [EmployeeAvailableTime]
+    id: string | null; // String
+  }
   LandingInfo: { // field return type
     business: NexusGenRootTypes['Business'] | null; // Business
     cta: string | null; // String
@@ -747,6 +755,7 @@ export interface NexusGenFieldTypes {
     getEmployeeAvailableDays: Array<string | null> | null; // [String]
     getEmployeeAvailableTime: Array<NexusGenRootTypes['EmployeeAvailableTime'] | null> | null; // [EmployeeAvailableTime]
     getEmployees: Array<NexusGenRootTypes['Employee'] | null> | null; // [Employee]
+    getEmployeesAvailableTime: Array<NexusGenRootTypes['EmployeesAvailableTime'] | null> | null; // [EmployeesAvailableTime]
     getService: NexusGenRootTypes['Service'] | null; // Service
     getServices: Array<NexusGenRootTypes['Service'] | null> | null; // [Service]
     getVacationsItem: NexusGenRootTypes['VacationsItem'] | null; // VacationsItem
@@ -877,6 +886,10 @@ export interface NexusGenFieldTypeNames {
     from: 'String'
     to: 'String'
   }
+  EmployeesAvailableTime: { // field return type name
+    availability: 'EmployeeAvailableTime'
+    id: 'String'
+  }
   LandingInfo: { // field return type name
     business: 'Business'
     cta: 'String'
@@ -951,6 +964,7 @@ export interface NexusGenFieldTypeNames {
     getEmployeeAvailableDays: 'String'
     getEmployeeAvailableTime: 'EmployeeAvailableTime'
     getEmployees: 'Employee'
+    getEmployeesAvailableTime: 'EmployeesAvailableTime'
     getService: 'Service'
     getServices: 'Service'
     getVacationsItem: 'VacationsItem'
@@ -1351,6 +1365,11 @@ export interface NexusGenArgTypes {
       date?: string | null; // String
       duration?: number | null; // Int
       id?: string | null; // ID
+    }
+    getEmployeesAvailableTime: { // args
+      date?: string | null; // String
+      duration?: number | null; // Int
+      ids?: Array<string | null> | null; // [ID]
     }
     getService: { // args
       id?: string | null; // String

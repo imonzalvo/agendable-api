@@ -201,6 +201,26 @@ const Query = queryType({
         getEmployeeAvailableTime(parent, args, ctx),
     })
 
+    t.list.field('getEmployeesAvailableTime', {
+      type: 'EmployeesAvailableTime',
+      nullable: true,
+      args: {
+        ids: idArg({ list: true }),
+        date: stringArg(),
+        duration: intArg(),
+      },
+      resolve: async (parent, { ids, date, duration }, ctx) => {
+        const res = await Promise.all(ids.map(async id => {
+          const availability = await getEmployeeAvailableTime(parent, { id, date, duration }, ctx);
+        return {
+            id,
+            availability
+          } 
+        }))
+        return res;
+      }
+    })
+
     t.list.string('getEmployeeAvailableDays', {
       // type: 'EmployeeAvailableDays',
       nullable: true,
@@ -274,7 +294,7 @@ const Query = queryType({
           where: {
             id: Number(id),
           },
-        });
+        })
       },
     })
   },

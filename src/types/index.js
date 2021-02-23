@@ -13,6 +13,7 @@ module.exports = {
   ...require('./AvailabilityItem'),
   ...require('./VacationsItem'),
   ...require('./EmployeeAvailableTime'),
+  ...require('./EmployeesAvailableTime'),
   ...require('./Notification'),
   ...require('./LandingInfo'),
   ...require('./BusinessImage'),
