@@ -20,9 +20,9 @@ const verificationCodeEmail = (clientEmail, code) => {
 
 transporter.sendMail(clientMailOptions, function (error, info) {
   if (error) {
-    console.log(error)
+    // console.log(error)
   } else {
-    console.log('Email sent: ' + info.response)
+    // console.log('Email sent: ' + info.response)
   }
 })
 }
@@ -38,9 +38,9 @@ const confirmationEmail = (clientEmail, branchName, start) => {
 
   transporter.sendMail(clientMailOptions, function (error, info) {
     if (error) {
-      console.log(error)
+      // console.log(error)
     } else {
-      console.log('Email sent: ' + info.response)
+      // console.log('Email sent: ' + info.response)
     }
   })
 }
@@ -55,11 +55,11 @@ const updateBookingEmail = (clientEmail, branchName, start) => {
 }
 
 transporter.sendMail(clientMailOptions, function (error, info) {
-  if (error) {
-    console.log(error)
-  } else {
-    console.log('Email sent: ' + info.response)
-  }
+  // if (error) {
+  //   console.log(error)
+  // } else {
+  //   console.log('Email sent: ' + info.response)
+  // }
   })
 }
 
@@ -73,11 +73,11 @@ const deleteBookingEmail = (clientEmail, branchName, start) => {
 }
 
 transporter.sendMail(clientMailOptions, function (error, info) {
-  if (error) {
-    console.log(error)
-  } else {
-    console.log('Email sent: ' + info.response)
-  }
+  // if (error) {
+  //   console.log(error)
+  // } else {
+  //   console.log('Email sent: ' + info.response)
+  // }
   })
 }
 

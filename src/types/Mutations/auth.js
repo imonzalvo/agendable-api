@@ -57,7 +57,7 @@ const Login = {
   },
   resolve: async (parent, { email, password, phone }, context) => {
     const userQuery = phone ? { phone } : { email }
-    console.log('userr', userQuery)
+    // console.log('userr', userQuery)
     const user = await context.prisma.user.findUnique({
       where: userQuery,
     })

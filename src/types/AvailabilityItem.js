@@ -1,13 +1,14 @@
 const { objectType } = require('@nexus/schema')
+const AvailabilityItemType = require('nexus-prisma').AvailabilityItem
 
 const AvailabilityItem = objectType({
-  name: 'AvailabilityItem',
+  name: AvailabilityItemType.$name,
   definition(t) {
-    t.model.id()
-    t.model.day()
-    t.model.from()
-    t.model.to()
-    t.model.employee()
+    t.field(AvailabilityItemType.id)
+    t.field(AvailabilityItemType.day)
+    t.field(AvailabilityItemType.from)
+    t.field(AvailabilityItemType.to)
+    t.field(AvailabilityItemType.employee)
   },
 })
 

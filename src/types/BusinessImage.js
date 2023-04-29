@@ -1,11 +1,12 @@
 const { objectType } = require('@nexus/schema')
+const BusinessImageType = require('nexus-prisma').BusinessImage
 
 const BusinessImage = objectType({
-  name: 'BusinessImage',
+  name: BusinessImageType.$name,
   definition(t) {
-    t.model.id()
-    t.model.url()
-    t.model.landingInfo()
+    t.field(BusinessImageType.id)
+    t.field(BusinessImageType.url)
+    t.field(BusinessImageType.landingInfo)
   },
 })
 

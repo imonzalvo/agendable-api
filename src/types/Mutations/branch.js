@@ -8,7 +8,7 @@ const CreateBranch = async (
   { address, phone, email, name, description, image },
   ctx,
 ) => {
-  const ownerId = getUserId(ctx)
+  const ownerId = getUserId(ctx.req)
   const userBusiness = await ctx.prisma.business.findMany({
     where: {
       owner: {
@@ -84,7 +84,7 @@ const UpdateBranch = async (
     },
   })
 
-  console.log('holaaaa', branch)
+  // console.log('holaaaa', branch)
   if (servicesId) {
     const connectServices = servicesId.map((serviceId) => {
       return {

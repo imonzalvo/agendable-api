@@ -1,13 +1,15 @@
 const { objectType } = require('@nexus/schema')
+const PostType = require('nexus-prisma').Post
+
 
 const Post = objectType({
-  name: 'Post',
+  name: PostType.$name,
   definition(t) {
-    t.model.id()
-    t.model.published()
-    t.model.title()
-    t.model.content()
-    t.model.author()
+    t.field(PostType.id)
+    t.field(PostType.published)
+    t.field(PostType.title)
+    t.field(PostType.content)
+    t.field(PostType.author)
   },
 })
 

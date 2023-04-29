@@ -6,114 +6,121 @@ generator client {
 }
 
 datasource db {
-  provider = "postgres"
+  provider = "mongodb"
   url      = env("DATABASE_URL")
 }
 
+generator nexusPrisma {
+  provider = "nexus-prisma"
+  output   = "../generated/nexus-prisma"
+}
+
 model AvailabilityItem {
-  id         String   @default(cuid()) @id
-  day        Day
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  day        String
   from       String
   to         String
   employee   Employee @relation(fields: [employeeId], references: [id])
-  employeeId String
+  employeeId String   @db.ObjectId
 }
 
 model VacationsItem {
-  id         String   @default(cuid()) @id
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
   from       String
   to         String
   employee   Employee @relation(fields: [employeeId], references: [id])
-  employeeId String
+  employeeId String   @db.ObjectId
 }
 
 model Booking {
-  id               String        @default(cuid()) @id
+  id               String        @id @default(auto()) @map("_id") @db.ObjectId
   start            String
   end              String
-  status           BookingStatus
+  status           String
   client           User?         @relation(fields: [clientId], references: [id])
-  clientId         String?
+  clientId         String?       @db.ObjectId
   branch           Branch        @relation(fields: [branchId], references: [id])
-  branchId         String
-  services         Service[]
+  branchId         String        @db.ObjectId
+  services         Service[]     @relation(fields: [serviceIDs], references: [id])
+  serviceIDs       String[]      @db.ObjectId
   employee         Employee      @relation(fields: [employeeId], references: [id])
-  employeeId       String
+  employeeId       String        @db.ObjectId
   clientEmail      String?
   clientPhone      String?
   clientName       String?
   clientFamilyName String?
 }
 
-enum BookingStatus {
-  COMPLETED
-  CONFIRMED
-  PENDING
-  CANCELLED
-}
-
 model Employee {
-  id           String             @default(cuid()) @id
+  id           String             @id @default(auto()) @map("_id") @db.ObjectId
   givenName    String
   familyName   String
   user         User?              @relation(fields: [userId], references: [id])
-  userId       String?
+  userId       String?            @db.ObjectId
   phone        String
-  services     Service[]
-  branches     Branch[]
+  services     Service[]          @relation(fields: [serviceIDs], references: [id])
+  serviceIDs   String[]           @db.ObjectId
+  branches     Branch[]           @relation(fields: [branchesIDs], references: [id])
+  branchesIDs  String[]           @db.ObjectId
   bookings     Booking[]
   availability AvailabilityItem[]
   vacations    VacationsItem[]
 }
 
 model Service {
-  id          String     @default(cuid()) @id
-  name        String
-  price       Float
-  currency    String
-  duration    Int
-  branches    Branch[]
-  description String
-  employees   Employee[]
-  bookings    Booking[]
-  category    Category?  @relation(fields: [categoryId], references: [id])
-  categoryId  String?
-  Business    Business?  @relation(fields: [businessId], references: [id])
-  businessId  String?
+  id           String     @id @default(auto()) @map("_id") @db.ObjectId
+  name         String
+  price        Float
+  currency     String
+  duration     Int
+  branches     Branch[]   @relation(fields: [branchesIDs], references: [id])
+  branchesIDs  String[]   @db.ObjectId
+  description  String
+  employees    Employee[] @relation(fields: [employeesIDs], references: [id])
+  employeesIDs String[]   @db.ObjectId
+  bookings     Booking[]  @relation(fields: [bookingIDs], references: [id])
+  bookingIDs   String[]   @db.ObjectId
+
+  Business   Business? @relation(fields: [businessId], references: [id])
+  businessId String?   @db.ObjectId
 }
 
 model Branch {
-  id          String     @default(cuid()) @id
-  address     String
-  phone       String
-  email       String
-  name        String
-  description String
-  image       String?
-  business    Business   @relation(fields: [businessId], references: [id])
-  businessId  String
-  employees   Employee[]
-  services    Service[]
-  bookings    Booking[]
-  categories  Category[]
+  id            String     @id @default(auto()) @map("_id") @db.ObjectId
+  address       String
+  phone         String
+  email         String
+  name          String
+  description   String
+  image         String?
+  business      Business   @relation(fields: [businessId], references: [id])
+  businessId    String     @db.ObjectId
+  employees     Employee[] @relation(fields: [employeesIDs], references: [id])
+  employeesIDs  String[]   @db.ObjectId
+  services      Service[]  @relation(fields: [servicesIDs], references: [id])
+  servicesIDs   String[]   @db.ObjectId
+  bookings      Booking[]
+  categories    Category[] @relation(fields: [categoriesIDs], references: [id])
+  categoriesIDs String[]   @db.ObjectId
 }
 
 model Category {
-  id         String    @default(cuid()) @id
-  name       String
-  Business   Business? @relation(fields: [businessId], references: [id])
-  businessId String?
-  services   Service[]
-  branches   Branch[]
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  Business    Business? @relation(fields: [businessId], references: [id])
+  businessId  String?   @db.ObjectId
+  // services    Service[]
+  branches    Branch[]  @relation(fields: [branchesIDs], references: [id])
+  branchesIDs String[]  @db.ObjectId
 }
 
 model Business {
-  id           String       @default(cuid()) @id
+  id           String       @id @default(auto()) @map("_id") @db.ObjectId
   name         String
   email        String       @unique
   phone        String       @unique
   owner        User         @relation(fields: [ownerId], references: [id])
-  ownerId      String
+  ownerId      String       @unique @db.ObjectId
   handle       String       @unique
   branches     Branch[]
   landing      LandingInfo?
@@ -125,26 +132,26 @@ model Business {
 }
 
 model BusinessImage {
-  id            String       @default(cuid()) @id
+  id            String       @id @default(auto()) @map("_id") @db.ObjectId
   url           String
   landingInfo   LandingInfo? @relation(fields: [landingInfoId], references: [id])
-  landingInfoId String?
+  landingInfoId String?      @db.ObjectId
 }
 
 model LandingInfo {
-  id          String          @default(cuid()) @id
+  id          String          @id @default(auto()) @map("_id") @db.ObjectId
   images      BusinessImage[]
   displayName String
   cta         String?
   description String
   business    Business?       @relation(fields: [businessId], references: [id])
-  businessId  String?
+  businessId  String?         @unique @db.ObjectId
 }
 
 model Notification {
-  id         String   @default(cuid()) @id
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
   user       User     @relation(fields: [userId], references: [id])
-  userId     String
+  userId     String   @db.ObjectId
   type       String
   title      String
   resourceId String
@@ -154,7 +161,7 @@ model Notification {
 
 model User {
   email         String         @unique
-  id            String         @default(cuid()) @id
+  id            String         @id @default(auto()) @map("_id") @db.ObjectId
   name          String?
   password      String         @default("")
   posts         Post[]
@@ -163,7 +170,7 @@ model User {
   notifications Notification[]
   familyName    String
   userName      String
-  userType      UserType
+  userType      String
   bookings      Booking[]
   Employee      Employee[]
   verifyToken   String         @default("")
@@ -171,26 +178,10 @@ model User {
 }
 
 model Post {
-  authorId  String?
+  authorId  String? @db.ObjectId
   content   String?
-  id        String  @default(cuid()) @id
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
   published Boolean @default(false)
   title     String
   author    User?   @relation(fields: [authorId], references: [id])
-}
-
-enum UserType {
-  ADMIN
-  USER
-  GUEST
-}
-
-enum Day {
-  MONDAY
-  TUESDAY
-  WEDNESDAY
-  THURSDAY
-  FRIDAY
-  SATURDAY
-  SUNDAY
 }

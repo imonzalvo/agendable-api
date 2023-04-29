@@ -1,12 +1,13 @@
 const { objectType } = require('@nexus/schema')
+const VacationsItemType = require('nexus-prisma').VacationsItem
 
 const VacationsItem = objectType({
-  name: 'VacationsItem',
+  name: VacationsItemType.$name,
   definition(t) {
-    t.model.id()
-    t.model.from()
-    t.model.to()
-    t.model.employee()
+    t.field(VacationsItemType.id)
+    t.field(VacationsItemType.from)
+    t.field(VacationsItemType.to)
+    t.field(VacationsItemType.employee)
   },
 })
 

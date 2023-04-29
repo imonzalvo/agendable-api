@@ -4,10 +4,16 @@ const moment = require('moment')
 const APP_SECRET = 'appsecret321'
 
 function getUserId(req) {
+  const authHeader = req.headers
+  console.log("req", authHeader)
+
   const Authorization = req.headers.authorization;
+  console.log("req", Authorization)
   if (Authorization) {
     const token = Authorization.replace('Bearer ', '')
     const verifiedToken = verify(token, APP_SECRET)
+  console.log("req", Authorization, verifiedToken)
+
     return verifiedToken && verifiedToken.userId
   } else {
     throw new Error(`User not authenticated`)

@@ -1,19 +1,20 @@
 const { objectType, stringArg, intArg } = require('nexus')
 const { getEmployeeAvailableTime } = require('./Queries/singleQueries/getEmployeeAvailableTime')
+const EmployeeType = require('nexus-prisma').Employee
 
 const Employee = objectType({
-  name: 'Employee',
+  name: "Employee",
   definition(t) {
-    t.model.id()
-    t.model.givenName()
-    t.model.familyName()
-    t.model.user()
-    t.model.phone()
-    t.model.services()
-    t.model.branches()
-    t.model.bookings()
-    t.model.availability()
-    t.model.vacations()
+    t.field(EmployeeType.id)
+    t.field(EmployeeType.givenName)
+    t.field(EmployeeType.familyName)
+    t.field(EmployeeType.user)
+    t.field(EmployeeType.phone)
+    t.field(EmployeeType.services)
+    t.field(EmployeeType.branches)
+    t.field(EmployeeType.bookings)
+    t.field(EmployeeType.availability)
+    t.field(EmployeeType.vacations)
     t.list.field('availableTime', {
       type: 'EmployeeAvailableTime',
       nullable: true,

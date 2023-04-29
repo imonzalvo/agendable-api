@@ -1,19 +1,20 @@
 const { objectType, stringArg, intArg } = require('@nexus/schema')
+const UserType = require('nexus-prisma').User
 
 const User = objectType({
-  name: 'User',
+  name: UserType.$name,
   definition(t) {
-    t.model.id()
-    t.model.name()
-    t.model.phone()
-    t.model.email()
-    t.model.givenName()
-    t.model.familyName()
-    t.model.userType()
-    t.model.verifyToken()
-    t.model.posts({ pagination: true, filtering: true })
-    t.model.business({ pagination: false })
-    t.model.bookings({ pagination: false })
+    t.field(UserType.id)
+    t.field(UserType.name)
+    t.field(UserType.phone)
+    t.field(UserType.email)
+    t.field(UserType.givenName)
+    t.field(UserType.familyName)
+    t.field(UserType.userType)
+    t.field(UserType.verifyToken)
+    t.field(UserType.posts)
+    t.field(UserType.business)
+    t.field(UserType.bookings)
     t.list.field('notifications', {
       type: 'Notification',
       nullable: true,

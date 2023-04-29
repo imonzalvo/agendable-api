@@ -1,18 +1,18 @@
 const { objectType } = require('@nexus/schema')
+const ServiceType = require('nexus-prisma').Service
 
 const Service = objectType({
   name: 'Service',
   definition(t) {
-    t.model.id()
-    t.model.name()
-    t.model.price()
-    t.model.currency()
-    t.model.duration()
-    t.model.branches()
-    t.model.description()
-    t.model.employees()
-    t.model.bookings()
-    t.model.category()
+    t.field(ServiceType.id)
+    t.field(ServiceType.name)
+    t.field(ServiceType.price)
+    t.field(ServiceType.currency)
+    t.field(ServiceType.duration)
+    t.field(ServiceType.branches)
+    t.field(ServiceType.description)
+    t.field(ServiceType.employees)
+    t.field(ServiceType.bookings)
   },
 })
 

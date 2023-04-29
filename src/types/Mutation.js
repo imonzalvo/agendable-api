@@ -183,7 +183,6 @@ const Mutation = mutationType({
         duration: intArg({ required: true }),
         description: stringArg({ required: true }),
         branchesId: stringArg({ list: true, nullable: false }),
-        categoryId: idArg({ required: true }),
       },
       resolve: (parent, args, ctx) => CreateService(parent, args, ctx),
     })
@@ -197,7 +196,6 @@ const Mutation = mutationType({
         currency: stringArg({ required: false }),
         duration: intArg({ required: false }),
         description: stringArg({ required: false }),
-        categoryId: idArg({ required: false }),
       },
       resolve: (parent, args, ctx) => UpdateService(parent, args, ctx),
     })

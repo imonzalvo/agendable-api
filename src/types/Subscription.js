@@ -12,7 +12,6 @@ const Subscription = subscriptionType({
         return ctx.pubsub.asyncIterator('NEW_BOOKING')
       },
       resolve(payload, {branchId}) {
-        console.log("resolving", payload, branchId)
         if(payload.newBooking.branch.id === branchId) {
           return payload.newBooking
         }
@@ -27,7 +26,6 @@ const Subscription = subscriptionType({
         return ctx.pubsub.asyncIterator('DELETED_BOOKING')
       },
       resolve(payload, {branchId}) {
-        console.log("resolving", payload, branchId)
         if(payload.deletedBooking.branch.id === branchId) {
           return payload.deletedBooking
         }
@@ -42,7 +40,6 @@ const Subscription = subscriptionType({
         return ctx.pubsub.asyncIterator('UPDATED_BOOKING')
       },
       resolve(payload, {branchId}) {
-        console.log("resolving", payload, branchId)
         if(payload.updatedBooking.branch.id === branchId) {
           return payload.updatedBooking
         }

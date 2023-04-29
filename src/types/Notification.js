@@ -1,14 +1,15 @@
 const { objectType } = require('@nexus/schema')
+const NotificationType = require('nexus-prisma').Notification
 
 const Notification = objectType({
   name: 'Notification',
   definition(t) {
-    t.model.id()
-    t.model.title()
-    t.model.type()
-    t.model.seen()
-    t.model.createdAt()
-    t.model.user({ pagination: false })
+    t.field(NotificationType.id)
+    t.field(NotificationType.title)
+    t.field(NotificationType.type)
+    t.field(NotificationType.seen)
+    t.field(NotificationType.createdAt)
+    t.field(NotificationType.user)
   },
 })
 

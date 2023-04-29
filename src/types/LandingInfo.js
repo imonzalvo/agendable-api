@@ -1,14 +1,15 @@
 const { objectType } = require('@nexus/schema')
+const LandingInfoType = require('nexus-prisma').LandingInfo
 
 const LandingInfo = objectType({
-  name: 'LandingInfo',
+  name: LandingInfoType.$name,
   definition(t) {
-    t.model.id()
-    t.model.cta()
-    t.model.images()
-    t.model.business()
-    t.model.displayName()
-    t.model.description()
+    t.field(LandingInfoType.id)
+    t.field(LandingInfoType.cta)
+    t.field(LandingInfoType.images)
+    t.field(LandingInfoType.business)
+    t.field(LandingInfoType.displayName)
+    t.field(LandingInfoType.description)
   },
 })
 

@@ -17,7 +17,7 @@ const CreateBusiness = async (
   },
   ctx,
 ) => {
-  const ownerId = getUserId(ctx);
+  const ownerId = getUserId(ctx.req);
 
   let businessData = {
     name,

@@ -3,11 +3,15 @@ const { getUserId } = require('../utils')
 
 const rules = {
   isAuthenticatedUser: rule()((parent, args, context) => {
-    const userId = getUserId(context)
+    const authHeader = context.req.get('Authorization')
+
+    const userId = getUserId(context.req)
     return Boolean(userId)
   }),
   isAdminUser: rule()(async (parent, args, context) => {
-    const userId = getUserId(context)
+    const authHeader = context.req.get('Authorization')
+
+    const userId = getUserId(context.req)
     const user = await context.prisma.user.findUnique({
       where: {
         id: userId,
@@ -16,7 +20,7 @@ const rules = {
     return user.userType === 'ADMIN'
   }),
   isBookingBusinessAdminUser: rule()(async (parent, { id }, context) => {
-    const userId = getUserId(context)
+    const userId = getUserId(context.req)
     if (!userId) {
       return false
     }
@@ -57,7 +61,7 @@ const rules = {
     return isBusinessAdmin && user.userType === 'ADMIN'
   }),
   isPostOwner: rule()(async (parent, { id }, context) => {
-    const userId = getUserId(context)
+    const userId = getUserId(context.req)
     const author = await context.prisma.post
       .findUnique({
         where: {
@@ -68,7 +72,7 @@ const rules = {
     return userId === author.id
   }),
   isBusinessOwner: rule()(async (parent, { id }, context) => {
-    const userId = getUserId(context)
+    const userId = getUserId(context.req)
     const owner = await context.prisma.business
       .findUnique({
         where: {
@@ -79,7 +83,7 @@ const rules = {
     return userId === owner.id
   }),
   isEmployeeEmployer: rule()(async (parent, { employeeId }, context) => {
-    const userId = getUserId(context)
+    const userId = getUserId(context.req)
     const user = await context.prisma.user.findUnique({
       where: {
         id: userId,
@@ -102,7 +106,7 @@ const rules = {
     return isEmployer
   }),
   isBranchBusinessOwner: rule()(async (parent, { id, branchId }, context) => {
-    const userId = getUserId(context)
+    const userId = getUserId(context.req)
     if (!userId) {
       return false
     }
@@ -118,7 +122,7 @@ const rules = {
     return userId === owner.id
   }),
   branchesOwner: rule()(async (parent, { branchesId }, context) => {
-    const userId = getUserId(context)
+    const userId = getUserId(context.req)
     const userBusiness = await context.prisma.user
       .findUnique({
         where: {
@@ -150,7 +154,7 @@ const rules = {
   //Fields
   //Branch -> Bookings
   branchBookings: rule()(async ({ id }, args, context) => {
-    const userId = getUserId(context)
+    const userId = getUserId(context.req)
     if (!userId) {
       return false
     }
