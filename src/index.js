@@ -21,30 +21,17 @@ const {
   declarativeWrappingPlugin,
   asNexusMethod,
 } = require('nexus')
-const JSONObjectResolver = require('graphql-scalars').JSONObjectResolver
-const DateTimeResolver = require('graphql-scalars').DateTimeResolver
 const settings = require('nexus-prisma/generator').settings
-const GraphQLScalarType = require('graphql').GraphQLScalarType
 
-const { PrismaClient } = require('@prisma/client')
 const { permissions } = require('./permissions')
 const types = require('./types')
 const context = require('./context')
-const prisma = new PrismaClient({
-  log: ['query', 'info', 'warn', 'error'],
-})
-
-const jsonScalar = new GraphQLScalarType({
-  ...JSONObjectResolver,
-  // Override the default 'JsonObject' name with one that matches what Nexus Prisma expects.
-  name: 'Json',
-})
-
-const dateTimeScalar = new GraphQLScalarType(DateTimeResolver)
 
 settings({
   output: '../generated/nexus-prisma',
 })
+
+const port = process.env.PORT || 4000;
 // new GraphQLServer({
 //   schema: makeSchema({
 //     types,
@@ -197,8 +184,7 @@ const start = async () => {
 }
 
 start()
-const PORT = 4000
 // Now that our HTTP server is fully set up, we can listen to it.
-httpServer.listen(PORT, () => {
-  console.log(`Server is now running on http://localhost:${PORT}/graphql`)
+httpServer.listen(port, () => {
+  console.log(`Server is now running on http://localhost:${port}/graphql`)
 })

@@ -25,7 +25,7 @@
   },
   "scripts": {
     "dev": "nodemon src",
-    "start": "nodemon src",
+    "start": "node src",
     "clean": "rm -rf dist",
     "build": "npm -s run clean && npm -s run generate",
     "generate": "npm -s run generate:prisma",
