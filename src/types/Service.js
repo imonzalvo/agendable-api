@@ -13,6 +13,7 @@ const Service = objectType({
     t.field(ServiceType.description)
     t.field(ServiceType.employees)
     t.field(ServiceType.bookings)
+    t.field(ServiceType.category)
   },
 })
 

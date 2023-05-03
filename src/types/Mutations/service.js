@@ -2,10 +2,10 @@ const { APP_SECRET, getUserId, asyncForEach } = require('../../utils')
 
 const CreateService = async (
   parent,
-  { name, price, currency, duration, description, branchesId },
+  { name, price, currency, duration, description, branchesId, categoryId },
   ctx,
 ) => {
-  const ownerId = getUserId(ctx.req)
+  const ownerId = getUserId(ctx)
   const userBusiness = await ctx.prisma.business.findMany({
     where: {
       owner: {
@@ -25,6 +25,11 @@ const CreateService = async (
     if(!branch) {
       throw new Error(`Branch not found`)
     }
+    const validBranch =
+      branch.categories.filter((c) => c.id === categoryId).length > 0
+    if (!validBranch) {
+      throw new Error(`Branch does not have category ${categoryId}`)
+    }
   })
   const connectBranches = branchesId.map((branchId) => {
     return {
@@ -39,6 +44,7 @@ const CreateService = async (
       duration,
       description,
       branches: { connect: connectBranches },
+      category: { connect: { id: categoryId } },
       Business: { connect: { id: userBusiness[0].id } },
     },
   })
@@ -47,7 +53,7 @@ const CreateService = async (
 
 const UpdateService = async (
   parent,
-  { id, name, price, currency, duration, description },
+  { id, name, price, currency, duration, description, categoryId },
   ctx,
 ) => {
   const serviceData = {
@@ -77,6 +83,16 @@ const UpdateService = async (
       },
     },
   })
+
+  if (categoryId) {
+    const validCategory =
+      service.branches[0].business.categories.filter((c) => c.id === categoryId)
+        .length > 0
+    if (!validCategory) {
+      throw new Error(`Category ${categoryId} not valid`)
+    }
+    serviceData['category'] = { connect: { id: categoryId } }
+  }
 
   service = await ctx.prisma.service.update({
     where: { id: id },

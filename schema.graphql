@@ -214,6 +214,7 @@ type Query {
 type Service {
   bookings: [Booking!]!
   branches: [Branch!]!
+  category: Category
   currency: String!
   description: String!
   duration: Int!

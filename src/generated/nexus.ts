@@ -357,6 +357,7 @@ export interface NexusGenFieldTypes {
   Service: { // field return type
     bookings: NexusGenRootTypes['Booking'][]; // [Booking!]!
     branches: NexusGenRootTypes['Branch'][]; // [Branch!]!
+    category: NexusGenRootTypes['Category'] | null; // Category
     currency: string; // String!
     description: string; // String!
     duration: number; // Int!
@@ -564,6 +565,7 @@ export interface NexusGenFieldTypeNames {
   Service: { // field return type name
     bookings: 'Booking'
     branches: 'Branch'
+    category: 'Category'
     currency: 'String'
     description: 'String'
     duration: 'Int'

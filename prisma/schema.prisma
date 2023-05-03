@@ -79,7 +79,8 @@ model Service {
   employeesIDs String[]   @db.ObjectId
   bookings     Booking[]  @relation(fields: [bookingIDs], references: [id])
   bookingIDs   String[]   @db.ObjectId
-
+  category   Category? @relation(fields: [categoryId], references: [id])
+  categoryId String?   @db.ObjectId
   Business   Business? @relation(fields: [businessId], references: [id])
   businessId String?   @db.ObjectId
 }
@@ -108,7 +109,7 @@ model Category {
   name        String
   Business    Business? @relation(fields: [businessId], references: [id])
   businessId  String?   @db.ObjectId
-  // services    Service[]
+  services    Service[]
   branches    Branch[]  @relation(fields: [branchesIDs], references: [id])
   branchesIDs String[]  @db.ObjectId
 }
