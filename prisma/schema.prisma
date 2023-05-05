@@ -32,18 +32,18 @@ model VacationsItem {
 }
 
 model Booking {
-  id               String        @id @default(auto()) @map("_id") @db.ObjectId
+  id               String    @id @default(auto()) @map("_id") @db.ObjectId
   start            String
   end              String
   status           String
-  client           User?         @relation(fields: [clientId], references: [id])
-  clientId         String?       @db.ObjectId
-  branch           Branch        @relation(fields: [branchId], references: [id])
-  branchId         String        @db.ObjectId
-  services         Service[]     @relation(fields: [serviceIDs], references: [id])
-  serviceIDs       String[]      @db.ObjectId
-  employee         Employee      @relation(fields: [employeeId], references: [id])
-  employeeId       String        @db.ObjectId
+  client           User?     @relation(fields: [clientId], references: [id])
+  clientId         String?   @db.ObjectId
+  branch           Branch    @relation(fields: [branchId], references: [id])
+  branchId         String    @db.ObjectId
+  services         Service[] @relation(fields: [serviceIDs], references: [id])
+  serviceIDs       String[]  @db.ObjectId
+  employee         Employee  @relation(fields: [employeeId], references: [id])
+  employeeId       String    @db.ObjectId
   clientEmail      String?
   clientPhone      String?
   clientName       String?
@@ -64,6 +64,8 @@ model Employee {
   bookings     Booking[]
   availability AvailabilityItem[]
   vacations    VacationsItem[]
+  business     Business           @relation(fields: [businessId], references: [id])
+  businessId   String             @db.ObjectId
 }
 
 model Service {
@@ -79,10 +81,10 @@ model Service {
   employeesIDs String[]   @db.ObjectId
   bookings     Booking[]  @relation(fields: [bookingIDs], references: [id])
   bookingIDs   String[]   @db.ObjectId
-  category   Category? @relation(fields: [categoryId], references: [id])
-  categoryId String?   @db.ObjectId
-  Business   Business? @relation(fields: [businessId], references: [id])
-  businessId String?   @db.ObjectId
+  category     Category?  @relation(fields: [categoryId], references: [id])
+  categoryId   String?    @db.ObjectId
+  Business     Business?  @relation(fields: [businessId], references: [id])
+  businessId   String?    @db.ObjectId
 }
 
 model Branch {
@@ -129,6 +131,7 @@ model Business {
   facebookUrl  String?
   categories   Category[]
   services     Service[]
+  employee     Employee[]
 }
 
 model BusinessImage {

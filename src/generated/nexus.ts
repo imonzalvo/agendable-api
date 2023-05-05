@@ -229,6 +229,7 @@ export interface NexusGenFieldTypes {
     branches: NexusGenRootTypes['Branch'][]; // [Branch!]!
     categories: NexusGenRootTypes['Category'][]; // [Category!]!
     email: string; // String!
+    employee: NexusGenRootTypes['Employee'][]; // [Employee!]!
     facebookUrl: string | null; // String
     handle: string; // String!
     id: string; // ID!
@@ -256,6 +257,7 @@ export interface NexusGenFieldTypes {
     availableTime: Array<NexusGenRootTypes['EmployeeAvailableTime'] | null> | null; // [EmployeeAvailableTime]
     bookings: NexusGenRootTypes['Booking'][]; // [Booking!]!
     branches: NexusGenRootTypes['Branch'][]; // [Branch!]!
+    business: NexusGenRootTypes['Business']; // Business!
     familyName: string; // String!
     givenName: string; // String!
     id: string; // ID!
@@ -437,6 +439,7 @@ export interface NexusGenFieldTypeNames {
     branches: 'Branch'
     categories: 'Category'
     email: 'String'
+    employee: 'Employee'
     facebookUrl: 'String'
     handle: 'String'
     id: 'ID'
@@ -464,6 +467,7 @@ export interface NexusGenFieldTypeNames {
     availableTime: 'EmployeeAvailableTime'
     bookings: 'Booking'
     branches: 'Branch'
+    business: 'Business'
     familyName: 'String'
     givenName: 'String'
     id: 'ID'
@@ -664,6 +668,7 @@ export interface NexusGenArgTypes {
     }
     createEmployee: { // args
       branchesId?: Array<string | null> | null; // [String]
+      businessId: string; // String!
       familyName: string; // String!
       givenName: string; // String!
       phone: string; // String!

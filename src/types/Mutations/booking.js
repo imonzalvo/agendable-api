@@ -1,6 +1,11 @@
 const { createConnectObject } = require('../../utils')
 const moment = require('moment')
-const { confirmationEmail, updateBookingEmail, deleteBookingEmail } = require("../../mailer");
+const {
+  confirmationEmail,
+  updateBookingEmail,
+  deleteBookingEmail,
+  clientConfirmationEmail,
+} = require('../../mailer')
 const { NOTIFICATION_TYPES } = require('../../consts')
 
 const CreateBooking = async (
@@ -61,6 +66,7 @@ const CreateBooking = async (
     data: bookingInfo,
     include: {
       branch: true,
+      services: true,
     },
   })
 
@@ -76,10 +82,15 @@ const CreateBooking = async (
   })
 
   if (clientEmail) {
-    confirmationEmail(clientEmail, branch.name, formattedBookingStart);
+    confirmationEmail(
+      branch.business.owner.email,
+      branch.name,
+      formattedBookingStart,
+      booking,
+    )
   }
-  confirmationEmail(branch.business.owner.email, branch.name, formattedBookingStart);
-  
+  clientConfirmationEmail(clientEmail, branch.name, booking, branch)
+
   ctx.pubsub.publish('NEW_BOOKING', {
     newBooking: booking,
   })
@@ -143,8 +154,8 @@ const UpdateBooking = async (
 
   const formattedStart = moment(booking.start).format('MMM DD h:mm A')
   const formattedEnd = moment(booking.end).format('MMM DD h:mm A')
-  
-  updateBookingEmail(booking.clientEmail, booking.branch.name, formattedStart);
+
+  updateBookingEmail(booking.clientEmail, booking.branch.name, formattedStart)
 
   ctx.pubsub.publish('UPDATED_BOOKING', {
     updatedBooking: booking,
@@ -164,8 +175,8 @@ const DeleteBooking = async (parent, { id }, ctx) => {
     deletedBooking: booking,
   })
 
-  const formattedStart = moment(booking.start).format('MMM DD h:mm A');
-  deleteBookingEmail(booking.clientEmail, booking.branch.name, formattedStart);
+  const formattedStart = moment(booking.start).format('MMM DD h:mm A')
+  deleteBookingEmail(booking.clientEmail, booking.branch.name, formattedStart)
 
   return booking
 }

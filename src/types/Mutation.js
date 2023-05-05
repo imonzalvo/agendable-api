@@ -209,6 +209,7 @@ const Mutation = mutationType({
         phone: stringArg({ required: true }),
         branchesId: stringArg({ list: true, nullable: true }),
         servicesId: stringArg({ list: true, nullable: true }),
+        businessId: stringArg({ required: true }),
       },
       resolve: (parent, args, ctx) => CreateEmployee(parent, args, ctx),
     })

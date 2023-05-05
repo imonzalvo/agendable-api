@@ -1,7 +1,7 @@
 const { createConnectObject } = require('../../utils')
 const CreateEmployee = async (
   parent,
-  { givenName, familyName, userId, phone, branchesId, servicesId },
+  { givenName, familyName, userId, phone, branchesId, servicesId, businessId },
   ctx,
 ) => {
   const connectBranches = createConnectObject(branchesId)
@@ -12,6 +12,7 @@ const CreateEmployee = async (
       familyName,
       phone,
       user: { connect: userId },
+      business: { connect: businessId },
       branches: { connect: connectBranches },
       services: { connect: connectServices },
     },

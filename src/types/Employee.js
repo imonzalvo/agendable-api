@@ -15,6 +15,7 @@ const Employee = objectType({
     t.field(EmployeeType.bookings)
     t.field(EmployeeType.availability)
     t.field(EmployeeType.vacations)
+    t.field(EmployeeType.business)
     t.list.field('availableTime', {
       type: 'EmployeeAvailableTime',
       nullable: true,

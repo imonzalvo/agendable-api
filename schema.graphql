@@ -54,6 +54,7 @@ type Business {
   branches: [Branch!]!
   categories: [Category!]!
   email: String!
+  employee: [Employee!]!
   facebookUrl: String
   handle: String!
   id: ID!
@@ -89,6 +90,7 @@ type Employee {
   availableTime(date: String, duration: Int): [EmployeeAvailableTime]
   bookings: [Booking!]!
   branches: [Branch!]!
+  business: Business!
   familyName: String!
   givenName: String!
   id: ID!
@@ -142,7 +144,7 @@ type Mutation {
   createBranch(address: String!, description: String!, email: String!, image: String, name: String!, phone: String!): Branch
   createBusiness(categories: [String], email: String!, facebookUrl: String, handle: String!, instagramUrl: String, name: String!, phone: String!, website: String): Business
   createDraft(content: String, title: String): Post
-  createEmployee(branchesId: [String], familyName: String!, givenName: String!, phone: String!, servicesId: [String], userId: String): Employee
+  createEmployee(branchesId: [String], businessId: String!, familyName: String!, givenName: String!, phone: String!, servicesId: [String], userId: String): Employee
   createLandingInfo(businessId: ID!, cta: String, description: String!, displayName: String!, imagesUrl: [String!]!): LandingInfo
   createService(branchesId: [String!]!, currency: String!, description: String!, duration: Int!, name: String!, price: Float!): Service
   createVacationsItem(employeeId: String!, from: String!, to: String!): VacationsItem
