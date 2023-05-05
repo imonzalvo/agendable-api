@@ -8,7 +8,7 @@ const CreateBranch = async (
   { address, phone, email, name, description, image },
   ctx,
 ) => {
-  const ownerId = getUserId(ctx)
+  const ownerId = getUserId(ctx.req)
   const userBusiness = await ctx.prisma.business.findMany({
     where: {
       owner: {

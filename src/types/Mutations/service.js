@@ -5,7 +5,7 @@ const CreateService = async (
   { name, price, currency, duration, description, branchesId, categoryId },
   ctx,
 ) => {
-  const ownerId = getUserId(ctx)
+  const ownerId = getUserId(ctx.req)
   const userBusiness = await ctx.prisma.business.findMany({
     where: {
       owner: {

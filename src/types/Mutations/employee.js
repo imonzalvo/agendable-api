@@ -12,7 +12,7 @@ const CreateEmployee = async (
       familyName,
       phone,
       user: { connect: userId },
-      business: { connect: businessId },
+      business: { connect: {id: businessId} },
       branches: { connect: connectBranches },
       services: { connect: connectServices },
     },
