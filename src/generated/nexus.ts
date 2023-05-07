@@ -684,6 +684,7 @@ export interface NexusGenArgTypes {
     }
     createService: { // args
       branchesId: string[]; // [String!]!
+      categoryId: string; // String!
       currency: string; // String!
       description: string; // String!
       duration: number; // Int!

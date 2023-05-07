@@ -27,9 +27,9 @@ const CreateService = async (
     }
     const validBranch =
       branch.categories.filter((c) => c.id === categoryId).length > 0
-    if (!validBranch) {
-      throw new Error(`Branch does not have category ${categoryId}`)
-    }
+    // if (!validBranch) {
+    //   throw new Error(`Branch does not have category ${categoryId}`)
+    // }
   })
   const connectBranches = branchesId.map((branchId) => {
     return {

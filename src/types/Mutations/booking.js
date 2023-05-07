@@ -133,7 +133,7 @@ const UpdateBooking = async (
   }
 
   if (branchId) {
-    bookingInfo[branch] = { connect: { id: branchId } }
+    bookingInfo["branch"] = { connect: { id: branchId } }
   }
 
   if (servicesId && servicesId.length) {

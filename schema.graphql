@@ -146,7 +146,7 @@ type Mutation {
   createDraft(content: String, title: String): Post
   createEmployee(branchesId: [String], businessId: String!, familyName: String!, givenName: String!, phone: String!, servicesId: [String], userId: String): Employee
   createLandingInfo(businessId: ID!, cta: String, description: String!, displayName: String!, imagesUrl: [String!]!): LandingInfo
-  createService(branchesId: [String!]!, currency: String!, description: String!, duration: Int!, name: String!, price: Float!): Service
+  createService(branchesId: [String!]!, categoryId: String!, currency: String!, description: String!, duration: Int!, name: String!, price: Float!): Service
   createVacationsItem(employeeId: String!, from: String!, to: String!): VacationsItem
   deleteBooking(id: ID!): Booking
   deleteBranch(id: ID!): Branch
