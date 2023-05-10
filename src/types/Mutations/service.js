@@ -22,7 +22,7 @@ const CreateService = async (
         },
       },
     })
-    if(!branch) {
+    if (!branch) {
       throw new Error(`Branch not found`)
     }
     const validBranch =
@@ -49,6 +49,67 @@ const CreateService = async (
     },
   })
   return service
+}
+
+const SetUpServices = async (parent, { data: servicesData }, ctx) => {
+  console.log('services ', servicesData)
+  const ownerId = getUserId(ctx.req)
+  const { business } = await ctx.prisma.user.findUnique({
+    where: {
+      id: ownerId,
+    },
+    include: {
+      business: {
+        include: {
+          branches: {
+            select: {
+              id: true,
+            },
+          },
+          categories: {
+            select: {
+              id: true,
+            },
+          },
+        },
+      },
+    },
+  })
+  console.log('business', business)
+
+  const services = await Promise.all(
+    servicesData.map((service) =>
+    ctx.prisma.service.create({
+        data: {
+          name: service.name,
+          price: service.price,
+          currency: service.currency,
+          duration: service.duration,
+          description: service.description,
+          branchesIDs: [business.branches[0].id],
+          categoryId: business.categories[0].id,
+          businessId: business.id,
+        },
+      }),
+    ),
+  )
+
+  // const createData = servicesData.map((service) => ({
+  //   name: service.name,
+  //   price: service.price,
+  //   currency: service.currency,
+  //   duration: service.duration,
+  //   description: service.description,
+  //   branchesIDs: [business.branches[0].id],
+  //   categoryId: business.categories[0].id,
+  //   businessId: business.id,
+  // }))
+
+  // const service = await ctx.prisma.service.createMany({
+  //   data: createData,
+  // })
+  console.log('services', services)
+  return services
 }
 
 const UpdateService = async (
@@ -101,4 +162,11 @@ const UpdateService = async (
   return service
 }
 
-module.exports = { CreateService, UpdateService }
+const DeleteService = (parent, { id }, ctx) => {
+  const service = ctx.prisma.service.delete({
+    where: { id },
+  })
+  return service
+}
+
+module.exports = { CreateService, UpdateService, SetUpServices, DeleteService }

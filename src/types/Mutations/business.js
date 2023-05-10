@@ -154,13 +154,17 @@ const SetUpBusiness = async (
     },
   })
 
+  // There will only be one branch on the newly
+  // created business.
+  const connectBranch = [{ id: business.branches[0].id }]
+
   if (!!categories && categories.length) {
     await asyncForEach(categories, async (id) =>
       ctx.prisma.category.create({
         data: {
           name: id,
           Business: { connect: { id: business.id } },
-          branches: { connect: [{ id: business.branches[0].id }] },
+          branches: { connect: connectBranch },
         },
       }),
     )
@@ -169,7 +173,7 @@ const SetUpBusiness = async (
       data: {
         name: 'Otros',
         Business: { connect: { id: business.id } },
-        branches: { connect: [{ id: business.branches[0].id }] },
+        branches: { connect: connectBranch },
       },
     })
   }

@@ -8,6 +8,7 @@ const {
   intArg,
   booleanArg,
   arg,
+  list,
 } = require('nexus')
 const { APP_SECRET, getUserId } = require('../utils')
 const { SignUp, Login, ConfirmUser } = require('./Mutations/auth')
@@ -23,7 +24,12 @@ const {
   UpdateBranch,
   DeleteBranch,
 } = require('./Mutations/branch')
-const { CreateService, UpdateService } = require('./Mutations/service')
+const {
+  CreateService,
+  UpdateService,
+  SetUpServices,
+  DeleteService,
+} = require('./Mutations/service')
 const { CreateEmployee, UpdateEmployee } = require('./Mutations/employee')
 const {
   CreateBooking,
@@ -45,6 +51,7 @@ const {
   UpdateLandingInfo,
   AddImagesLandingInfo,
 } = require('./Mutations/landingInfo')
+const { CreateServicesInputType } = require('./Inputs/CreateServicesInputType')
 
 const Mutation = mutationType({
   definition(t) {
@@ -246,6 +253,12 @@ const Mutation = mutationType({
       resolve: (parent, args, ctx) => CreateService(parent, args, ctx),
     })
 
+    t.field('setUpServices', {
+      type: 'ServiceList',
+      args: { data: list(CreateServicesInputType) },
+      resolve: (parent, args, ctx) => SetUpServices(parent, args, ctx),
+    })
+
     t.field('updateService', {
       type: 'Service',
       args: {
@@ -257,6 +270,14 @@ const Mutation = mutationType({
         description: stringArg({ required: false }),
       },
       resolve: (parent, args, ctx) => UpdateService(parent, args, ctx),
+    })
+
+    t.field('deleteService', {
+      type: 'Service',
+      args: {
+        id: idArg({ required: true }),
+      },
+      resolve: (parent, { id }, ctx) => DeleteService(parent, { id }, ctx),
     })
 
     t.field('createEmployee', {

@@ -1,5 +1,5 @@
 const { objectType, stringArg, intArg } = require('nexus')
-const { getEmployeeAvailableTime } = require('./Queries/singleQueries/getEmployeeAvailableTime')
+const { getEmployeeAvailableTime } = require('../Queries/singleQueries/getEmployeeAvailableTime')
 const EmployeeType = require('nexus-prisma').Employee
 
 const Employee = objectType({

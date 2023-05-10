@@ -80,6 +80,14 @@ type Category {
   name: String!
 }
 
+input CreateServicesInputType {
+  currency: String!
+  description: String!
+  duration: Int!
+  name: String!
+  price: Float!
+}
+
 """
 A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
 """
@@ -153,9 +161,11 @@ type Mutation {
   deleteBusiness(id: ID!): Business
   deleteLandingInfo(id: ID): LandingInfo
   deletePost(id: ID): Post
+  deleteService(id: ID!): Service
   login(email: String, password: String, phone: String): AuthPayload
   publish(id: ID): Post
   setUpBusiness(address: String!, categories: [String], description: String!, email: String!, facebookUrl: String, handle: String!, instagramUrl: String, name: String!, phone: String!, website: String): Business
+  setUpServices(data: [CreateServicesInputType]): ServiceList
   signup(email: String, familyName: String, givenName: String, name: String, password: String, phone: String, userName: String, userType: String): AuthPayload
   updateAvailabilityItem(day: String, from: String, id: ID!, to: String): AvailabilityItem
   updateBooking(branchId: String, clientEmail: String, clientFamilyName: String, clientId: String, clientName: String, clientPhone: String, employeeId: String, end: String, id: ID!, servicesId: [String], start: String, status: String): Booking
@@ -226,6 +236,10 @@ type Service {
   id: ID!
   name: String!
   price: Float!
+}
+
+type ServiceList {
+  services: [Service]
 }
 
 type Subscription {

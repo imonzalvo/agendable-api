@@ -1,25 +1,27 @@
 const AuthPayload = require('./AuthPayload');
 const Mutation = require('./Mutation');
-const Post = require('./Post');
+const Post = require('./Entities/Post');
 const Query = require('./Query');
 const Subscription = require('./Subscription');
-const User = require('./User');
-const Business = require('./Business');
-const Branch = require('./Branch');
-const Service = require('./Service');
-const Employee = require('./Employee');
-const Booking = require('./Booking');
-const AvailabilityItem = require('./AvailabilityItem');
-const VacationsItem = require('./VacationsItem');
+const User = require('./Entities/User');
+const Business = require('./Entities/Business');
+const Branch = require('./Entities/Branch');
+const Service = require('./Entities/Service');
+const Employee = require('./Entities/Employee');
+const Booking = require('./Entities/Booking');
+const AvailabilityItem = require('./Entities/AvailabilityItem');
+const VacationsItem = require('./Entities/VacationsItem');
 const EmployeeAvailableTime = require('./EmployeeAvailableTime');
 const EmployeesAvailableTime = require('./EmployeesAvailableTime');
-const Notification = require('./Notification');
-const LandingInfo = require('./LandingInfo');
-const BusinessImage = require('./BusinessImage');
-const Category = require('./Category');
+const Notification = require('./Entities/Notification');
+const LandingInfo = require('./Entities/LandingInfo');
+const BusinessImage = require('./Entities/BusinessImage');
+const Category = require('./Entities/Category');
 const BookingsWhereInputType = require('./Inputs/BookingsWhereInputType');
 const LandingInfoInputType = require('./Inputs/LandingInfoInputType');
-const { makeSchema, declarativeWrappingPlugin, asNexusMethod } = require('nexus')
+const CreateServicesInputType = require('./Inputs/CreateServicesInputType');
+const { makeSchema, declarativeWrappingPlugin, asNexusMethod } = require('nexus');
+const { ServiceList } = require('./ServiceList');
 const JSONObjectResolver = require('graphql-scalars').JSONObjectResolver;
 const DateTimeResolver = require('graphql-scalars').DateTimeResolver;
 const GraphQLScalarType = require('graphql').GraphQLScalarType
@@ -56,6 +58,8 @@ BusinessImage,
 Category,
 BookingsWhereInputType,
 LandingInfoInputType,
+CreateServicesInputType,
+ServiceList,
 asNexusMethod(jsonScalar, 'json'), asNexusMethod(dateTimeScalar, 'dateTime')
   ],
 }

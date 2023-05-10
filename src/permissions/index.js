@@ -229,6 +229,7 @@ const permissions = shield(
       deleteBooking: rules.isBookingBusinessAdminUser,
       updateBooking: rules.isBookingBusinessAdminUser,
       createService: rules.branchesOwner,
+      setUpServices: rules.isAdminUser,
       createEmployee: rules.branchesOwner,
       updateEmployee: rules.isAdminUser,
       createBooking: allow,

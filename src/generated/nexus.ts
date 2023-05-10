@@ -41,6 +41,13 @@ export interface NexusGenInputs {
     from: string; // String!
     to: string; // String!
   }
+  CreateServicesInputType: { // input type
+    currency: string; // String!
+    description: string; // String!
+    duration: number; // Int!
+    name: string; // String!
+    price: number; // Float!
+  }
   LandingInfoInputType: { // input type
     businessId: string; // String!
     cta?: string | null; // String
@@ -157,6 +164,7 @@ export interface NexusGenObjects {
     name: string; // String!
     price: number; // Float!
   }
+  ServiceList: {};
   Subscription: {};
   User: { // root type
     email: string; // String!
@@ -300,9 +308,11 @@ export interface NexusGenFieldTypes {
     deleteBusiness: NexusGenRootTypes['Business'] | null; // Business
     deleteLandingInfo: NexusGenRootTypes['LandingInfo'] | null; // LandingInfo
     deletePost: NexusGenRootTypes['Post'] | null; // Post
+    deleteService: NexusGenRootTypes['Service'] | null; // Service
     login: NexusGenRootTypes['AuthPayload'] | null; // AuthPayload
     publish: NexusGenRootTypes['Post'] | null; // Post
     setUpBusiness: NexusGenRootTypes['Business'] | null; // Business
+    setUpServices: NexusGenRootTypes['ServiceList'] | null; // ServiceList
     signup: NexusGenRootTypes['AuthPayload'] | null; // AuthPayload
     updateAvailabilityItem: NexusGenRootTypes['AvailabilityItem'] | null; // AvailabilityItem
     updateBooking: NexusGenRootTypes['Booking'] | null; // Booking
@@ -369,6 +379,9 @@ export interface NexusGenFieldTypes {
     id: string; // ID!
     name: string; // String!
     price: number; // Float!
+  }
+  ServiceList: { // field return type
+    services: Array<NexusGenRootTypes['Service'] | null> | null; // [Service]
   }
   Subscription: { // field return type
     deletedBooking: NexusGenRootTypes['Booking'] | null; // Booking
@@ -512,9 +525,11 @@ export interface NexusGenFieldTypeNames {
     deleteBusiness: 'Business'
     deleteLandingInfo: 'LandingInfo'
     deletePost: 'Post'
+    deleteService: 'Service'
     login: 'AuthPayload'
     publish: 'Post'
     setUpBusiness: 'Business'
+    setUpServices: 'ServiceList'
     signup: 'AuthPayload'
     updateAvailabilityItem: 'AvailabilityItem'
     updateBooking: 'Booking'
@@ -581,6 +596,9 @@ export interface NexusGenFieldTypeNames {
     id: 'ID'
     name: 'String'
     price: 'Float'
+  }
+  ServiceList: { // field return type name
+    services: 'Service'
   }
   Subscription: { // field return type name
     deletedBooking: 'Booking'
@@ -715,6 +733,9 @@ export interface NexusGenArgTypes {
     deletePost: { // args
       id?: string | null; // ID
     }
+    deleteService: { // args
+      id: string; // ID!
+    }
     login: { // args
       email?: string | null; // String
       password?: string | null; // String
@@ -734,6 +755,9 @@ export interface NexusGenArgTypes {
       name: string; // String!
       phone: string; // String!
       website?: string | null; // String
+    }
+    setUpServices: { // args
+      data?: Array<NexusGenInputs['CreateServicesInputType'] | null> | null; // [CreateServicesInputType]
     }
     signup: { // args
       email?: string | null; // String
