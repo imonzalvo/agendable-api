@@ -1,5 +1,5 @@
 const { objectType } = require('@nexus/schema')
-const { Service } = require('./Entities/Service')
+const { Service } = require('../Entities/Service')
 const ServiceList = objectType({
   name: 'ServiceList',
   definition(t) {
