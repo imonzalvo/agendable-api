@@ -64,7 +64,7 @@ model Employee {
   bookings     Booking[]
   availability AvailabilityItem[]
   vacations    VacationsItem[]
-  business     Business           @relation(fields: [businessId], references: [id])
+  business     Business           @relation(fields: [businessId], references: [id], onDelete: Cascade)
   businessId   String             @db.ObjectId
 }
 
@@ -95,7 +95,7 @@ model Branch {
   name          String
   description   String
   image         String?
-  business      Business   @relation(fields: [businessId], references: [id])
+  business      Business   @relation(fields: [businessId], references: [id], onDelete: Cascade)
   businessId    String     @db.ObjectId
   employees     Employee[] @relation(fields: [employeesIDs], references: [id])
   employeesIDs  String[]   @db.ObjectId
@@ -109,7 +109,7 @@ model Branch {
 model Category {
   id          String    @id @default(auto()) @map("_id") @db.ObjectId
   name        String
-  Business    Business? @relation(fields: [businessId], references: [id])
+  Business    Business? @relation(fields: [businessId], references: [id], onDelete: Cascade)
   businessId  String?   @db.ObjectId
   services    Service[]
   branches    Branch[]  @relation(fields: [branchesIDs], references: [id])

@@ -297,10 +297,12 @@ export interface NexusGenFieldTypes {
     createVacationsItem: NexusGenRootTypes['VacationsItem'] | null; // VacationsItem
     deleteBooking: NexusGenRootTypes['Booking'] | null; // Booking
     deleteBranch: NexusGenRootTypes['Branch'] | null; // Branch
+    deleteBusiness: NexusGenRootTypes['Business'] | null; // Business
     deleteLandingInfo: NexusGenRootTypes['LandingInfo'] | null; // LandingInfo
     deletePost: NexusGenRootTypes['Post'] | null; // Post
     login: NexusGenRootTypes['AuthPayload'] | null; // AuthPayload
     publish: NexusGenRootTypes['Post'] | null; // Post
+    setUpBusiness: NexusGenRootTypes['Business'] | null; // Business
     signup: NexusGenRootTypes['AuthPayload'] | null; // AuthPayload
     updateAvailabilityItem: NexusGenRootTypes['AvailabilityItem'] | null; // AvailabilityItem
     updateBooking: NexusGenRootTypes['Booking'] | null; // Booking
@@ -507,10 +509,12 @@ export interface NexusGenFieldTypeNames {
     createVacationsItem: 'VacationsItem'
     deleteBooking: 'Booking'
     deleteBranch: 'Branch'
+    deleteBusiness: 'Business'
     deleteLandingInfo: 'LandingInfo'
     deletePost: 'Post'
     login: 'AuthPayload'
     publish: 'Post'
+    setUpBusiness: 'Business'
     signup: 'AuthPayload'
     updateAvailabilityItem: 'AvailabilityItem'
     updateBooking: 'Booking'
@@ -702,6 +706,9 @@ export interface NexusGenArgTypes {
     deleteBranch: { // args
       id: string; // ID!
     }
+    deleteBusiness: { // args
+      id: string; // ID!
+    }
     deleteLandingInfo: { // args
       id?: string | null; // ID
     }
@@ -715,6 +722,18 @@ export interface NexusGenArgTypes {
     }
     publish: { // args
       id?: string | null; // ID
+    }
+    setUpBusiness: { // args
+      address: string; // String!
+      categories?: Array<string | null> | null; // [String]
+      description: string; // String!
+      email: string; // String!
+      facebookUrl?: string | null; // String
+      handle: string; // String!
+      instagramUrl?: string | null; // String
+      name: string; // String!
+      phone: string; // String!
+      website?: string | null; // String
     }
     signup: { // args
       email?: string | null; // String

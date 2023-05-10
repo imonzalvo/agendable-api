@@ -71,6 +71,28 @@ const rules = {
       .author()
     return userId === author.id
   }),
+  isNotOwner: rule()(async (parent, args, context) => {
+    const userId = getUserId(context.req)
+    
+    if (!userId) {
+      return false
+    }
+    const user = await context.prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+      select: {
+        userType: true,
+        business: {
+          select: {
+            id: true,
+          },
+        },
+      },
+    })
+    
+    return !user.business
+  }),
   isBusinessOwner: rule()(async (parent, { id }, context) => {
     const userId = getUserId(context.req)
     const owner = await context.prisma.business
@@ -199,7 +221,8 @@ const permissions = shield(
       createDraft: rules.isAuthenticatedUser,
       deletePost: rules.isPostOwner,
       publish: rules.isPostOwner,
-      createBusiness: rules.isAdminUser,
+      createBusiness: rules.isNotOwner,
+      setUpBusiness: rules.isNotOwner,
       updateBusiness: rules.isBusinessOwner,
       createBranch: rules.isAdminUser,
       updateBranch: rules.isBranchBusinessOwner,

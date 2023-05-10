@@ -2,7 +2,6 @@ const { stringArg } = require('@nexus/schema')
 const { sign } = require('jsonwebtoken')
 const { hash, compare } = require('bcryptjs')
 const { APP_SECRET, getUserId, asyncForEach } = require('../../utils')
-
 const CreateBusiness = async (
   parent,
   {
@@ -17,7 +16,7 @@ const CreateBusiness = async (
   },
   ctx,
 ) => {
-  const ownerId = getUserId(ctx.req);
+  const ownerId = getUserId(ctx.req)
 
   let businessData = {
     name,
@@ -37,9 +36,9 @@ const CreateBusiness = async (
     businessData['facebookUrl'] = facebookUrl
   }
 
-     const business = await ctx.prisma.business.create({
-      data: businessData,
-    })
+  const business = await ctx.prisma.business.create({
+    data: businessData,
+  })
 
   await asyncForEach(categories, async (id) =>
     ctx.prisma.category.create({
@@ -73,6 +72,13 @@ const UpdateBusiness = (
   return business
 }
 
+const DeleteBusiness = (parent, { id }, ctx) => {
+  const business = ctx.prisma.business.delete({
+    where: { id: id },
+  })
+  return business
+}
+
 const AddCategoriesToBusiness = async (
   parent,
   { businessId, categories },
@@ -87,7 +93,94 @@ const AddCategoriesToBusiness = async (
     }),
   )
 
-  return ctx.prisma.business.findUnique({ where: { id: businessId } });
+  return ctx.prisma.business.findUnique({ where: { id: businessId } })
 }
 
-module.exports = { CreateBusiness, UpdateBusiness, AddCategoriesToBusiness }
+const SetUpBusiness = async (
+  parent,
+  {
+    name,
+    email,
+    phone,
+    handle,
+    address,
+    description,
+    categories,
+    website,
+    instagramUrl,
+    facebookUrl,
+  },
+  ctx,
+) => {
+  const ownerId = getUserId(ctx.req)
+
+  const branchData = {
+    address,
+    name,
+    email,
+    phone,
+    description,
+  }
+
+  let businessData = {
+    name,
+    email,
+    phone,
+    handle,
+    owner: { connect: { id: ownerId } },
+    branches: {
+      create: branchData,
+    },
+  }
+
+  if (website) {
+    businessData['website'] = website
+  }
+  if (instagramUrl) {
+    businessData['instagramUrl'] = instagramUrl
+  }
+  if (facebookUrl) {
+    businessData['facebookUrl'] = facebookUrl
+  }
+
+  const business = await ctx.prisma.business.create({
+    data: businessData,
+    include: {
+      branches: {
+        select: {
+          id: true,
+        },
+      },
+    },
+  })
+
+  if (!!categories && categories.length) {
+    await asyncForEach(categories, async (id) =>
+      ctx.prisma.category.create({
+        data: {
+          name: id,
+          Business: { connect: { id: business.id } },
+          branches: { connect: [{ id: business.branches[0].id }] },
+        },
+      }),
+    )
+  } else {
+    await ctx.prisma.category.create({
+      data: {
+        name: 'Otros',
+        Business: { connect: { id: business.id } },
+        branches: { connect: [{ id: business.branches[0].id }] },
+      },
+    })
+  }
+
+  return business
+}
+
+module.exports = {
+  CreateBusiness,
+  UpdateBusiness,
+  AddCategoriesToBusiness,
+  SetUpBusiness,
+  DeleteBusiness,
+}

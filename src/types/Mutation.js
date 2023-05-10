@@ -15,6 +15,8 @@ const {
   CreateBusiness,
   UpdateBusiness,
   AddCategoriesToBusiness,
+  SetUpBusiness,
+  DeleteBusiness,
 } = require('./Mutations/business')
 const {
   CreateBranch,
@@ -94,6 +96,54 @@ const Mutation = mutationType({
         ),
     })
 
+    t.field('setUpBusiness', {
+      type: 'Business',
+      args: {
+        name: stringArg({ required: true }),
+        email: stringArg({ required: true }),
+        phone: stringArg({ required: true }),
+        handle: stringArg({ required: true }),
+        address: stringArg({ required: true }),
+        description: stringArg({ required: true }),
+        website: stringArg({ required: false }),
+        instagramUrl: stringArg({ required: false }),
+        facebookUrl: stringArg({ required: false }),
+        categories: stringArg({ required: false, list: true }),
+      },
+      resolve: (
+        parent,
+        {
+          name,
+          email,
+          phone,
+          handle,
+          address,
+          description,
+          website,
+          categories,
+          instagramUrl,
+          facebookUrl,
+        },
+        ctx,
+      ) =>
+        SetUpBusiness(
+          parent,
+          {
+            name,
+            email,
+            phone,
+            handle,
+            address,
+            description,
+            website,
+            categories,
+            instagramUrl,
+            facebookUrl,
+          },
+          ctx,
+        ),
+    })
+
     t.field('updateBusiness', {
       type: 'Business',
       args: {
@@ -125,6 +175,14 @@ const Mutation = mutationType({
           },
           ctx,
         ),
+    })
+
+    t.field('deleteBusiness', {
+      type: 'Business',
+      args: {
+        id: idArg({ required: true }),
+      },
+      resolve: (parent, { id }, ctx) => DeleteBusiness(parent, { id }, ctx),
     })
 
     t.field('addCategoryToBusiness', {
