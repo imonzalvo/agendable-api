@@ -52,7 +52,6 @@ const CreateService = async (
 }
 
 const SetUpServices = async (parent, { data: servicesData }, ctx) => {
-  console.log('services ', servicesData)
   const ownerId = getUserId(ctx.req)
   const { business } = await ctx.prisma.user.findUnique({
     where: {
@@ -75,18 +74,17 @@ const SetUpServices = async (parent, { data: servicesData }, ctx) => {
       },
     },
   })
-  console.log('business', business)
 
   const services = await Promise.all(
     servicesData.map((service) =>
-    ctx.prisma.service.create({
+      ctx.prisma.service.create({
         data: {
           name: service.name,
           price: service.price,
           currency: service.currency,
           duration: service.duration,
           description: service.description,
-          branchesIDs: [business.branches[0].id],
+          branches: { connect: business.branches },
           categoryId: business.categories[0].id,
           businessId: business.id,
         },
@@ -94,21 +92,6 @@ const SetUpServices = async (parent, { data: servicesData }, ctx) => {
     ),
   )
 
-  // const createData = servicesData.map((service) => ({
-  //   name: service.name,
-  //   price: service.price,
-  //   currency: service.currency,
-  //   duration: service.duration,
-  //   description: service.description,
-  //   branchesIDs: [business.branches[0].id],
-  //   categoryId: business.categories[0].id,
-  //   businessId: business.id,
-  // }))
-
-  // const service = await ctx.prisma.service.createMany({
-  //   data: createData,
-  // })
-  console.log('services', services)
   return services
 }
 

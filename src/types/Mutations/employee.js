@@ -1,4 +1,4 @@
-const { createConnectObject } = require('../../utils')
+const { createConnectObject, getUserId } = require('../../utils')
 const CreateEmployee = async (
   parent,
   { givenName, familyName, userId, phone, branchesId, servicesId, businessId },
@@ -12,12 +12,77 @@ const CreateEmployee = async (
       familyName,
       phone,
       user: { connect: userId },
-      business: { connect: {id: businessId} },
+      business: { connect: { id: businessId } },
       branches: { connect: connectBranches },
       services: { connect: connectServices },
     },
   })
   return employee
+}
+
+const SetUpEmployees = async (parent, { data: employeesData }, ctx) => {
+  const ownerId = getUserId(ctx.req)
+
+  const { business } = await ctx.prisma.user.findUnique({
+    where: {
+      id: ownerId,
+    },
+    include: {
+      business: {
+        include: {
+          branches: {
+            select: {
+              id: true,
+            },
+          },
+          services: {
+            select: {
+              id: true,
+            },
+          },
+        },
+      },
+    },
+  })
+
+  const createdEmployees = await Promise.all(
+    employeesData.map((employee) =>
+      ctx.prisma.employee.create({
+        data: {
+          givenName: employee.givenName,
+          familyName: employee.familyName,
+          phone: employee.phone,
+          branches: { connect: business.branches },
+          business: { connect: { id: business.id } },
+          services: { connect: business.services },
+        },
+      }),
+    ),
+  )
+
+  const createdAvailabilityItems = await Promise.all(
+    employeesData.map((employee) => {
+      return Promise.all(
+        employee.availabilityItems.map((availabilityItem) => {
+          const employee = createdEmployees.find(
+            (employee) =>
+              employee.givenName == employee.givenName &&
+              employee.familyName == employee.familyName,
+          )
+
+          return ctx.prisma.availabilityItem.create({
+            data: {
+              day: availabilityItem.day,
+              from: availabilityItem.from,
+              to: availabilityItem.to,
+              employee: { connect: { id: employee.id } },
+            },
+          })
+        }),
+      )
+    }),
+  )
+  return createdEmployees
 }
 
 const UpdateEmployee = (
@@ -42,4 +107,11 @@ const UpdateEmployee = (
   return employee
 }
 
-module.exports = { CreateEmployee, UpdateEmployee }
+const DeleteEmployee = (parent, { id }, ctx) => {
+  const employee = ctx.prisma.employee.delete({
+    where: { id },
+  })
+  return employee
+}
+
+module.exports = { CreateEmployee, UpdateEmployee, SetUpEmployees, DeleteEmployee }

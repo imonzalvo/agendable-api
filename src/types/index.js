@@ -20,8 +20,9 @@ const Category = require('./Entities/Category');
 const BookingsWhereInputType = require('./Inputs/BookingsWhereInputType');
 const LandingInfoInputType = require('./Inputs/LandingInfoInputType');
 const CreateServicesInputType = require('./Inputs/CreateServicesInputType');
-const { makeSchema, declarativeWrappingPlugin, asNexusMethod } = require('nexus');
+const { asNexusMethod } = require('nexus');
 const { ServiceList } = require('./UtilityTypes/ServiceList');
+const { EmployeeList } = require('./UtilityTypes/EmployeeList');
 const JSONObjectResolver = require('graphql-scalars').JSONObjectResolver;
 const DateTimeResolver = require('graphql-scalars').DateTimeResolver;
 const GraphQLScalarType = require('graphql').GraphQLScalarType
@@ -60,30 +61,7 @@ BookingsWhereInputType,
 LandingInfoInputType,
 CreateServicesInputType,
 ServiceList,
+EmployeeList,
 asNexusMethod(jsonScalar, 'json'), asNexusMethod(dateTimeScalar, 'dateTime')
   ],
 }
-
-// module.exports = {
-//   ...require('./AuthPayload'),
-//   ...require('./Mutation'),
-//   ...require('./Post'),
-//   ...require('./Query'),
-//   ...require('./Subscription'),
-//   ...require('./User'),
-//   ...require('./Business'),
-//   ...require('./Branch'),
-//   ...require('./Service'),
-//   ...require('./Employee'),
-//   ...require('./Booking'),
-//   ...require('./AvailabilityItem'),
-//   ...require('./VacationsItem'),
-//   ...require('./EmployeeAvailableTime'),
-//   ...require('./EmployeesAvailableTime'),
-//   ...require('./Notification'),
-//   ...require('./LandingInfo'),
-//   ...require('./BusinessImage'),
-//   ...require('./Category'),
-//   ...require('./Inputs/BookingsWhereInputType'),
-//   ...require('./Inputs/LandingInfoInputType'),
-// }

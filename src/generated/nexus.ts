@@ -37,9 +37,20 @@ declare global {
 }
 
 export interface NexusGenInputs {
+  AvailabilityItemEmployeeInputType: { // input type
+    day: string; // String!
+    from: string; // String!
+    to: string; // String!
+  }
   BookingsWhereInputType: { // input type
     from: string; // String!
     to: string; // String!
+  }
+  CreateEmployeesInputType: { // input type
+    availabilityItems?: Array<NexusGenInputs['AvailabilityItemEmployeeInputType'] | null> | null; // [AvailabilityItemEmployeeInputType]
+    familyName: string; // String!
+    givenName: string; // String!
+    phone?: string | null; // String
   }
   CreateServicesInputType: { // input type
     currency: string; // String!
@@ -125,12 +136,13 @@ export interface NexusGenObjects {
     familyName: string; // String!
     givenName: string; // String!
     id: string; // ID!
-    phone: string; // String!
+    phone?: string | null; // String
   }
   EmployeeAvailableTime: { // root type
     from?: string | null; // String
     to?: string | null; // String
   }
+  EmployeeList: {};
   EmployeesAvailableTime: { // root type
     availability?: Array<NexusGenRootTypes['EmployeeAvailableTime'] | null> | null; // [EmployeeAvailableTime]
     id?: string | null; // String
@@ -269,7 +281,7 @@ export interface NexusGenFieldTypes {
     familyName: string; // String!
     givenName: string; // String!
     id: string; // ID!
-    phone: string; // String!
+    phone: string | null; // String
     services: NexusGenRootTypes['Service'][]; // [Service!]!
     user: NexusGenRootTypes['User'] | null; // User
     vacations: NexusGenRootTypes['VacationsItem'][]; // [VacationsItem!]!
@@ -277,6 +289,9 @@ export interface NexusGenFieldTypes {
   EmployeeAvailableTime: { // field return type
     from: string | null; // String
     to: string | null; // String
+  }
+  EmployeeList: { // field return type
+    employees: Array<NexusGenRootTypes['Employee'] | null> | null; // [Employee]
   }
   EmployeesAvailableTime: { // field return type
     availability: Array<NexusGenRootTypes['EmployeeAvailableTime'] | null> | null; // [EmployeeAvailableTime]
@@ -306,12 +321,14 @@ export interface NexusGenFieldTypes {
     deleteBooking: NexusGenRootTypes['Booking'] | null; // Booking
     deleteBranch: NexusGenRootTypes['Branch'] | null; // Branch
     deleteBusiness: NexusGenRootTypes['Business'] | null; // Business
+    deleteEmployee: NexusGenRootTypes['Employee'] | null; // Employee
     deleteLandingInfo: NexusGenRootTypes['LandingInfo'] | null; // LandingInfo
     deletePost: NexusGenRootTypes['Post'] | null; // Post
     deleteService: NexusGenRootTypes['Service'] | null; // Service
     login: NexusGenRootTypes['AuthPayload'] | null; // AuthPayload
     publish: NexusGenRootTypes['Post'] | null; // Post
     setUpBusiness: NexusGenRootTypes['Business'] | null; // Business
+    setUpEmployees: NexusGenRootTypes['EmployeeList'] | null; // EmployeeList
     setUpServices: NexusGenRootTypes['ServiceList'] | null; // ServiceList
     signup: NexusGenRootTypes['AuthPayload'] | null; // AuthPayload
     updateAvailabilityItem: NexusGenRootTypes['AvailabilityItem'] | null; // AvailabilityItem
@@ -495,6 +512,9 @@ export interface NexusGenFieldTypeNames {
     from: 'String'
     to: 'String'
   }
+  EmployeeList: { // field return type name
+    employees: 'Employee'
+  }
   EmployeesAvailableTime: { // field return type name
     availability: 'EmployeeAvailableTime'
     id: 'String'
@@ -523,12 +543,14 @@ export interface NexusGenFieldTypeNames {
     deleteBooking: 'Booking'
     deleteBranch: 'Branch'
     deleteBusiness: 'Business'
+    deleteEmployee: 'Employee'
     deleteLandingInfo: 'LandingInfo'
     deletePost: 'Post'
     deleteService: 'Service'
     login: 'AuthPayload'
     publish: 'Post'
     setUpBusiness: 'Business'
+    setUpEmployees: 'EmployeeList'
     setUpServices: 'ServiceList'
     signup: 'AuthPayload'
     updateAvailabilityItem: 'AvailabilityItem'
@@ -727,6 +749,9 @@ export interface NexusGenArgTypes {
     deleteBusiness: { // args
       id: string; // ID!
     }
+    deleteEmployee: { // args
+      id: string; // ID!
+    }
     deleteLandingInfo: { // args
       id?: string | null; // ID
     }
@@ -755,6 +780,9 @@ export interface NexusGenArgTypes {
       name: string; // String!
       phone: string; // String!
       website?: string | null; // String
+    }
+    setUpEmployees: { // args
+      data?: Array<NexusGenInputs['CreateEmployeesInputType'] | null> | null; // [CreateEmployeesInputType]
     }
     setUpServices: { // args
       data?: Array<NexusGenInputs['CreateServicesInputType'] | null> | null; // [CreateServicesInputType]

@@ -1,5 +1,3 @@
-const { compare, hash } = require('bcryptjs')
-const { sign } = require('jsonwebtoken')
 const {
   idArg,
   mutationType,
@@ -30,7 +28,7 @@ const {
   SetUpServices,
   DeleteService,
 } = require('./Mutations/service')
-const { CreateEmployee, UpdateEmployee } = require('./Mutations/employee')
+const { CreateEmployee, UpdateEmployee, SetUpEmployees } = require('./Mutations/employee')
 const {
   CreateBooking,
   UpdateBooking,
@@ -52,6 +50,7 @@ const {
   AddImagesLandingInfo,
 } = require('./Mutations/landingInfo')
 const { CreateServicesInputType } = require('./Inputs/CreateServicesInputType')
+const { CreateEmployeesInputType } = require('./Inputs/CreateEmployeeInputType')
 
 const Mutation = mutationType({
   definition(t) {
@@ -306,6 +305,20 @@ const Mutation = mutationType({
         servicesId: stringArg({ list: true, nullable: true }),
       },
       resolve: (parent, args, ctx) => UpdateEmployee(parent, args, ctx),
+    })
+
+    t.field('deleteEmployee', {
+      type: 'Employee',
+      args: {
+        id: idArg({ required: true }),
+      },
+      resolve: (parent, { id }, ctx) => DeleteEmployee(parent, { id }, ctx),
+    })
+
+    t.field('setUpEmployees', {
+      type: 'EmployeeList',
+      args: { data: list(CreateEmployeesInputType) },
+      resolve: (parent, args, ctx) => SetUpEmployees(parent, args, ctx),
     })
 
     t.field('createBooking', {

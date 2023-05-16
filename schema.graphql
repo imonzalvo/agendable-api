@@ -15,6 +15,12 @@ type AvailabilityItem {
   to: String!
 }
 
+input AvailabilityItemEmployeeInputType {
+  day: String!
+  from: String!
+  to: String!
+}
+
 type Booking {
   branch: Branch!
   client: User
@@ -80,6 +86,13 @@ type Category {
   name: String!
 }
 
+input CreateEmployeesInputType {
+  availabilityItems: [AvailabilityItemEmployeeInputType]
+  familyName: String!
+  givenName: String!
+  phone: String
+}
+
 input CreateServicesInputType {
   currency: String!
   description: String!
@@ -102,7 +115,7 @@ type Employee {
   familyName: String!
   givenName: String!
   id: ID!
-  phone: String!
+  phone: String
   services: [Service!]!
   user: User
   vacations: [VacationsItem!]!
@@ -111,6 +124,10 @@ type Employee {
 type EmployeeAvailableTime {
   from: String
   to: String
+}
+
+type EmployeeList {
+  employees: [Employee]
 }
 
 type EmployeesAvailableTime {
@@ -159,12 +176,14 @@ type Mutation {
   deleteBooking(id: ID!): Booking
   deleteBranch(id: ID!): Branch
   deleteBusiness(id: ID!): Business
+  deleteEmployee(id: ID!): Employee
   deleteLandingInfo(id: ID): LandingInfo
   deletePost(id: ID): Post
   deleteService(id: ID!): Service
   login(email: String, password: String, phone: String): AuthPayload
   publish(id: ID): Post
   setUpBusiness(address: String!, categories: [String], description: String!, email: String!, facebookUrl: String, handle: String!, instagramUrl: String, name: String!, phone: String!, website: String): Business
+  setUpEmployees(data: [CreateEmployeesInputType]): EmployeeList
   setUpServices(data: [CreateServicesInputType]): ServiceList
   signup(email: String, familyName: String, givenName: String, name: String, password: String, phone: String, userName: String, userType: String): AuthPayload
   updateAvailabilityItem(day: String, from: String, id: ID!, to: String): AvailabilityItem
