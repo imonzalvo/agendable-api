@@ -42,7 +42,7 @@ model Booking {
   branchId         String    @db.ObjectId
   services         Service[] @relation(fields: [serviceIDs], references: [id])
   serviceIDs       String[]  @db.ObjectId
-  employee         Employee  @relation(fields: [employeeId], references: [id])
+  employee         Employee  @relation(fields: [employeeId], references: [id], onDelete: Cascade)
   employeeId       String    @db.ObjectId
   clientEmail      String?
   clientPhone      String?
@@ -137,17 +137,18 @@ model Business {
 model BusinessImage {
   id            String       @id @default(auto()) @map("_id") @db.ObjectId
   url           String
-  landingInfo   LandingInfo? @relation(fields: [landingInfoId], references: [id])
+  landingInfo   LandingInfo? @relation(fields: [landingInfoId], references: [id], onDelete: Cascade)
   landingInfoId String?      @db.ObjectId
 }
 
 model LandingInfo {
   id          String          @id @default(auto()) @map("_id") @db.ObjectId
   images      BusinessImage[]
+  logoUrl     String?
   displayName String
   cta         String?
   description String
-  business    Business?       @relation(fields: [businessId], references: [id])
+  business    Business?       @relation(fields: [businessId], references: [id], onDelete: Cascade)
   businessId  String?         @unique @db.ObjectId
 }
 

@@ -147,6 +147,7 @@ type LandingInfo {
   displayName: String!
   id: ID!
   images: [BusinessImage!]!
+  logoUrl: String
 }
 
 input LandingInfoInputType {
@@ -170,7 +171,7 @@ type Mutation {
   createBusiness(categories: [String], email: String!, facebookUrl: String, handle: String!, instagramUrl: String, name: String!, phone: String!, website: String): Business
   createDraft(content: String, title: String): Post
   createEmployee(branchesId: [String], businessId: String!, familyName: String!, givenName: String!, phone: String!, servicesId: [String], userId: String): Employee
-  createLandingInfo(businessId: ID!, cta: String, description: String!, displayName: String!, imagesUrl: [String!]!): LandingInfo
+  createLandingInfo(businessId: ID!, cta: String, description: String!, displayName: String!, imagesUrl: [String!]!, logoUrl: String!): LandingInfo
   createService(branchesId: [String!]!, categoryId: String!, currency: String!, description: String!, duration: Int!, name: String!, price: Float!): Service
   createVacationsItem(employeeId: String!, from: String!, to: String!): VacationsItem
   deleteBooking(id: ID!): Booking
@@ -191,7 +192,7 @@ type Mutation {
   updateBranch(address: String, categoriesId: [String], description: String, email: String, id: ID!, image: String, name: String, phone: String, servicesId: [String]): Branch
   updateBusiness(email: String, facebookUrl: String, handle: String, id: ID!, instagramUrl: String, name: String, phone: String, website: String): Business
   updateEmployee(branchesId: [String], familyName: String, givenName: String, id: ID!, phone: String, servicesId: [String], userId: String): Employee
-  updateLandingInfo(cta: String, description: String, displayName: String, id: ID!): LandingInfo
+  updateLandingInfo(cta: String, description: String, displayName: String, id: ID!, logoUrl: String): LandingInfo
   updateNotification(id: ID!, seen: Boolean!): Notification
   updateService(currency: String, description: String, duration: Int, id: String!, name: String, price: Float): Service
   updateVacationsItem(employeeId: String, from: String, id: ID!, to: String): VacationsItem

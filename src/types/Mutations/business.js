@@ -2,6 +2,7 @@ const { stringArg } = require('@nexus/schema')
 const { sign } = require('jsonwebtoken')
 const { hash, compare } = require('bcryptjs')
 const { APP_SECRET, getUserId, asyncForEach } = require('../../utils')
+const { CreateLandingInfo } = require('./landingInfo')
 const CreateBusiness = async (
   parent,
   {
@@ -177,6 +178,24 @@ const SetUpBusiness = async (
       },
     })
   }
+
+  const landingInfo = await CreateLandingInfo(
+    parent,
+    {
+      cta: 'Aqui va su titulo!',
+      businessId: business.id,
+      displayName: business.name,
+      description: description,
+      // TODO: Set default image
+      logoUrl: "https://www.academiadechoferesdelparque.com.uy/images/academialogo.svg",
+      imagesUrl: [
+        'https://scontent.fmvd1-1.fna.fbcdn.net/v/t1.6435-9/64595531_2556091514409261_4583925518784528384_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=730e14&_nc_ohc=ZjqDZj5ZrwEAX-2qPn1&_nc_ht=scontent.fmvd1-1.fna&oh=00_AfB6BvG49Nerb90o6_OfyyW8BDpHWc4CbSgHUd4KUvUw4w&oe=64793FE3',
+      ],
+    },
+    ctx,
+  )
+
+  console.log('landingInfo', landingInfo)
 
   return business
 }

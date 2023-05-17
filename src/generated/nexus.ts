@@ -152,6 +152,7 @@ export interface NexusGenObjects {
     description: string; // String!
     displayName: string; // String!
     id: string; // ID!
+    logoUrl?: string | null; // String
   }
   Mutation: {};
   Notification: { // root type
@@ -304,6 +305,7 @@ export interface NexusGenFieldTypes {
     displayName: string; // String!
     id: string; // ID!
     images: NexusGenRootTypes['BusinessImage'][]; // [BusinessImage!]!
+    logoUrl: string | null; // String
   }
   Mutation: { // field return type
     addCategoryToBusiness: NexusGenRootTypes['Business'] | null; // Business
@@ -526,6 +528,7 @@ export interface NexusGenFieldTypeNames {
     displayName: 'String'
     id: 'ID'
     images: 'BusinessImage'
+    logoUrl: 'String'
   }
   Mutation: { // field return type name
     addCategoryToBusiness: 'Business'
@@ -725,6 +728,7 @@ export interface NexusGenArgTypes {
       description: string; // String!
       displayName: string; // String!
       imagesUrl: string[]; // [String!]!
+      logoUrl: string; // String!
     }
     createService: { // args
       branchesId: string[]; // [String!]!
@@ -852,6 +856,7 @@ export interface NexusGenArgTypes {
       description?: string | null; // String
       displayName?: string | null; // String
       id: string; // ID!
+      logoUrl?: string | null; // String
     }
     updateNotification: { // args
       id: string; // ID!

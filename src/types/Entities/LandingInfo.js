@@ -6,6 +6,7 @@ const LandingInfo = objectType({
   definition(t) {
     t.field(LandingInfoType.id)
     t.field(LandingInfoType.cta)
+    t.field(LandingInfoType.logoUrl)
     t.field(LandingInfoType.images)
     t.field(LandingInfoType.business)
     t.field(LandingInfoType.displayName)

@@ -423,6 +423,7 @@ const Mutation = mutationType({
         id: idArg({ required: true }),
         cta: stringArg({ required: false }),
         displayName: stringArg({ required: false }),
+        logoUrl: stringArg({ required: false }),
         description: stringArg({ required: false }),
       },
       resolve: (parent, args, ctx) => UpdateLandingInfo(parent, args, ctx),
@@ -436,6 +437,7 @@ const Mutation = mutationType({
         imagesUrl: stringArg({ required: true, list: true }),
         displayName: stringArg({ required: true }),
         description: stringArg({ required: true }),
+        logoUrl: stringArg({ required: true }),
       },
       resolve: (parent, args, ctx) => CreateLandingInfo(parent, args, ctx),
     })

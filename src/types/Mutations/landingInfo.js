@@ -6,12 +6,13 @@ async function asyncForEach(array, callback) {
 
 const CreateLandingInfo = async (
   parent,
-  { cta, businessId, description, displayName, imagesUrl },
+  { cta, businessId, description, displayName, imagesUrl, logoUrl },
   ctx,
 ) => {
   let landingInfoData = {
     displayName,
     description,
+    logoUrl
   }
   if (cta) {
     landingInfoData['cta'] = cta
@@ -36,7 +37,7 @@ const CreateLandingInfo = async (
 
 const UpdateLandingInfo = (
   parent,
-  { id, cta, description, displayName },
+  { id, cta, description, displayName, logoUrl },
   ctx,
 ) => {
   const landingInfo = ctx.prisma.landingInfo.update({
@@ -45,6 +46,7 @@ const UpdateLandingInfo = (
       cta,
       description,
       displayName,
+      logoUrl
     },
   })
   return landingInfo
