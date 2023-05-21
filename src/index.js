@@ -1,7 +1,7 @@
-require('dotenv').config()
-// const { GraphQLServer, PubSub } = require('graphql-yoga')
-// const { nexusPrismaPlugin } = require('nexus-prisma')
-// const { makeSchema, connectionPlugin } = require('@nexus/schema')
+require('dotenv').config({ path: '../.env' })
+const AWS = require('aws-sdk')
+
+
 const {
   ApolloServerPluginDrainHttpServer,
 } = require('@apollo/server/plugin/drainHttpServer')
@@ -14,83 +14,32 @@ const cors = require('cors')
 const { expressMiddleware } = require('@apollo/server/express4')
 
 const { ApolloServer } = require('@apollo/server')
-const { startStandaloneServer } = require('@apollo/server/standalone')
 const { applyMiddleware } = require('graphql-middleware')
 const {
   makeSchema,
   declarativeWrappingPlugin,
-  asNexusMethod,
 } = require('nexus')
 const settings = require('nexus-prisma/generator').settings
 
 const { permissions } = require('./permissions')
 const types = require('./types')
 const context = require('./context')
+const { uploadLandingImages } = require('./entrypoints/landingImages')
 
 settings({
   output: '../generated/nexus-prisma',
 })
 
-const port = process.env.PORT || 4000;
-// new GraphQLServer({
-//   schema: makeSchema({
-//     types,
-//     plugins: [nexusPrismaPlugin(), connectionPlugin()],
-//     outputs: {
-//       schema: __dirname + '/../schema.graphql',
-//       typegen: __dirname + '/generated/nexus.ts',
-//     },
-//   }),
-//   middlewares: [permissions],
-//   context: (request) => {
-//     return {
-//       ...request,
-//       prisma,
-//       pubsub,
-//     }
-//   },
-// }).start(() =>
-//   console.log(
-//     `🚀 ${process.env.PORT}Server ready at: http://localhost:4000\n⭐️ See sample queries: http://pris.ly/e/js/graphql-auth#using-the-graphql-api`,
-//   ),
-// )
-
-// const server = new ApolloServer({
-//   schema: applyMiddleware(
-//     makeSchema({
-//       types,
-//       subscriptions: {
-//         path: '/subscriptions'
-//       },
-//       // types: [asNexusMethod(jsonScalar, 'json'), asNexusMethod(dateTimeScalar, 'dateTime')],
-//       plugins: [declarativeWrappingPlugin()],
-//       outputs: {
-//         schema: __dirname + '/../schema.graphql',
-//         typegen: __dirname + '/generated/nexus.ts',
-//       },
-//     }),
-//     permissions,
-//   ),
-//   context: ({ req }) => {
-//     return {
-//       ...req,
-//       prisma,
-//       pubsub
-//     }
-//   },
-// })
-
-// // console.log("server", server)
-// // server
-// //   .listen(8081)
-// //   .then(({ url }) =>
-// //     console.log(
-// //       `🚀 Server ready at: ${url}\n⭐️ See sample queries: http://pris.ly/e/js/graphql-auth#using-the-graphql-api`,
-// //     ),
-// //   )
+const port = process.env.PORT || 4000
 
 const app = express()
 const httpServer = createServer(app)
+
+// configure the keys for accessing AWS
+AWS.config.update({
+  accessKeyId: process.env.S3_ACCESS_KEY_ID,
+  secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+})
 
 const start = async () => {
   const wsServer = new WebSocket.Server({
@@ -110,7 +59,6 @@ const start = async () => {
         module: require.resolve('./context'),
         export: 'Context',
       },
-      // types: [asNexusMethod(jsonScalar, 'json'), asNexusMethod(dateTimeScalar, 'dateTime')],
       plugins: [declarativeWrappingPlugin()],
       outputs: {
         schema: __dirname + '/../schema.graphql',
@@ -119,20 +67,11 @@ const start = async () => {
     }),
     permissions,
   )
-  const getDynamicContext = async (ctx, msg, args) => {
-    // ctx is the graphql-ws Context where connectionParams live
-    // if (ctx.connectionParams.authentication) {
-    //   const currentUser = await findUser(ctx.connectionParams.authentication);
-    //   return { currentUser };
-    // }
-    // Otherwise let our resolvers know we don't have a current user
-    console.log("context", ctx)
-    return ctx
-  }
+
   const serverCleanup = useServer(
     {
       schema,
-      context
+      context,
     },
     wsServer,
   )
@@ -156,18 +95,6 @@ const start = async () => {
     ],
   })
 
-  // const { url } = await startStandaloneServer(server, {
-  //   // context: ({ req }) => {
-  //   //   console.log("req???", req.headers)
-  //   //   return {
-  //   //     ...req,
-  //   //     prisma,
-  //   //     // pubsub
-  //   //   }
-  //   // },
-  //   context: context,
-  //   listen: { port: 4000 },
-  // })
   await server.start()
 
   app.use(
@@ -177,6 +104,17 @@ const start = async () => {
     expressMiddleware(server, { context }),
   )
 
+  app.use(
+    '/images',
+    cors({
+      credentials: true,
+      preflightContinue: true,
+      methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+      origin: true,
+    }),
+  )
+
+  app.post('/images', uploadLandingImages)
 
   console.log(`\
     ⭐️ See sample queries: http://pris.ly/e/ts/graphql-nexus#using-the-graphql-api
