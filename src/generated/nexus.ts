@@ -714,6 +714,7 @@ export interface NexusGenArgTypes {
       title?: string | null; // String
     }
     createEmployee: { // args
+      availabilityItems?: Array<NexusGenInputs['AvailabilityItemEmployeeInputType'] | null> | null; // [AvailabilityItemEmployeeInputType]
       branchesId?: Array<string | null> | null; // [String]
       businessId: string; // String!
       familyName: string; // String!
@@ -844,6 +845,7 @@ export interface NexusGenArgTypes {
       website?: string | null; // String
     }
     updateEmployee: { // args
+      availabilityItems?: Array<NexusGenInputs['AvailabilityItemEmployeeInputType'] | null> | null; // [AvailabilityItemEmployeeInputType]
       branchesId?: Array<string | null> | null; // [String]
       familyName?: string | null; // String
       givenName?: string | null; // String

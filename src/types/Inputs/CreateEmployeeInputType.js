@@ -22,4 +22,4 @@ const AvailabilityItemEmployeeInputType = inputObjectType({
   },
 })
 
-module.exports = { CreateEmployeesInputType }
+module.exports = { CreateEmployeesInputType, AvailabilityItemEmployeeInputType }

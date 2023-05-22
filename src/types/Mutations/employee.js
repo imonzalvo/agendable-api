@@ -1,7 +1,16 @@
 const { createConnectObject, getUserId } = require('../../utils')
 const CreateEmployee = async (
   parent,
-  { givenName, familyName, userId, phone, branchesId, servicesId, businessId },
+  {
+    givenName,
+    familyName,
+    userId,
+    phone,
+    branchesId,
+    servicesId,
+    businessId,
+    availabilityItems,
+  },
   ctx,
 ) => {
   const connectBranches = createConnectObject(branchesId)
@@ -17,6 +26,22 @@ const CreateEmployee = async (
       services: { connect: connectServices },
     },
   })
+
+  if (!!availabilityItems) {
+    await Promise.all(
+      availabilityItems.map((availabilityItem) => {
+        return ctx.prisma.availabilityItem.create({
+          data: {
+            day: availabilityItem.day,
+            from: availabilityItem.from,
+            to: availabilityItem.to,
+            employee: { connect: { id: employee.id } },
+          },
+        })
+      }),
+    )
+  }
+
   return employee
 }
 
@@ -85,13 +110,37 @@ const SetUpEmployees = async (parent, { data: employeesData }, ctx) => {
   return createdEmployees
 }
 
-const UpdateEmployee = (
+const UpdateEmployee = async (
   parent,
-  { id, givenName, familyName, userId, phone, branchesId, servicesId },
+  {
+    id,
+    givenName,
+    familyName,
+    userId,
+    phone,
+    branchesId,
+    servicesId,
+    availabilityItems,
+  },
   ctx,
 ) => {
   const connectBranches = createConnectObject(branchesId)
   const connectServices = createConnectObject(servicesId)
+
+  if (!!availabilityItems) {
+    const createdAvailabilityItems = await Promise.all(
+      availabilityItems.map((availabilityItem) => {
+        return ctx.prisma.availabilityItem.create({
+          data: {
+            day: availabilityItem.day,
+            from: availabilityItem.from,
+            to: availabilityItem.to,
+            employee: { connect: { id } },
+          },
+        })
+      }),
+    )
+  }
 
   const employee = ctx.prisma.employee.update({
     where: { id: id },
@@ -114,4 +163,9 @@ const DeleteEmployee = (parent, { id }, ctx) => {
   return employee
 }
 
-module.exports = { CreateEmployee, UpdateEmployee, SetUpEmployees, DeleteEmployee }
+module.exports = {
+  CreateEmployee,
+  UpdateEmployee,
+  SetUpEmployees,
+  DeleteEmployee,
+}
