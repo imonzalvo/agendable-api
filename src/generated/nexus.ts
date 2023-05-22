@@ -736,6 +736,7 @@ export interface NexusGenArgTypes {
       currency: string; // String!
       description: string; // String!
       duration: number; // Int!
+      employeesId?: Array<string | null> | null; // [String]
       name: string; // String!
       price: number; // Float!
     }

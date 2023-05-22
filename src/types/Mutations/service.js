@@ -1,8 +1,22 @@
-const { APP_SECRET, getUserId, asyncForEach } = require('../../utils')
+const {
+  APP_SECRET,
+  getUserId,
+  asyncForEach,
+  createConnectObject,
+} = require('../../utils')
 
 const CreateService = async (
   parent,
-  { name, price, currency, duration, description, branchesId, categoryId },
+  {
+    name,
+    price,
+    currency,
+    duration,
+    description,
+    branchesId,
+    categoryId,
+    employeesId,
+  },
   ctx,
 ) => {
   const ownerId = getUserId(ctx.req)
@@ -36,6 +50,9 @@ const CreateService = async (
       id: branchId,
     }
   })
+
+  const employeesConnect = employeesId ? createConnectObject(employeesId) : []
+
   const service = ctx.prisma.service.create({
     data: {
       name,
@@ -46,6 +63,7 @@ const CreateService = async (
       branches: { connect: connectBranches },
       category: { connect: { id: categoryId } },
       Business: { connect: { id: userBusiness[0].id } },
+      employees: { connect: employeesConnect },
     },
   })
   return service
@@ -101,7 +119,6 @@ const UpdateService = async (
   ctx,
 ) => {
   const serviceData = {
-    id,
     name,
     price,
     currency,
@@ -127,16 +144,6 @@ const UpdateService = async (
       },
     },
   })
-
-  if (categoryId) {
-    const validCategory =
-      service.branches[0].business.categories.filter((c) => c.id === categoryId)
-        .length > 0
-    if (!validCategory) {
-      throw new Error(`Category ${categoryId} not valid`)
-    }
-    serviceData['category'] = { connect: { id: categoryId } }
-  }
 
   service = await ctx.prisma.service.update({
     where: { id: id },
