@@ -191,7 +191,7 @@ type Mutation {
   updateBooking(branchId: String, clientEmail: String, clientFamilyName: String, clientId: String, clientName: String, clientPhone: String, employeeId: String, end: String, id: ID!, servicesId: [String], start: String, status: String): Booking
   updateBranch(address: String, categoriesId: [String], description: String, email: String, id: ID!, image: String, name: String, phone: String, servicesId: [String]): Branch
   updateBusiness(email: String, facebookUrl: String, handle: String, id: ID!, instagramUrl: String, name: String, phone: String, website: String): Business
-  updateEmployee(availabilityItems: [AvailabilityItemEmployeeInputType], branchesId: [String], familyName: String, givenName: String, id: ID!, phone: String, servicesId: [String], userId: String): Employee
+  updateEmployee(availabilityItems: [UpdateAvailabilityItemEmployeeInputType], branchesId: [String], familyName: String, givenName: String, id: ID!, phone: String, servicesId: [String], userId: String): Employee
   updateLandingInfo(cta: String, description: String, displayName: String, id: ID!, logoUrl: String): LandingInfo
   updateNotification(id: ID!, seen: Boolean!): Notification
   updateService(currency: String, description: String, duration: Int, id: String!, name: String, price: Float): Service
@@ -266,6 +266,13 @@ type Subscription {
   deletedBooking(branchId: String): Booking
   newBooking(branchId: String): Booking
   updatedBooking(branchId: String): Booking
+}
+
+input UpdateAvailabilityItemEmployeeInputType {
+  day: String!
+  from: String!
+  id: String
+  to: String!
 }
 
 type User {

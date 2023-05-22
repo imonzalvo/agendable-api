@@ -32,6 +32,7 @@ const {
   CreateEmployee,
   UpdateEmployee,
   SetUpEmployees,
+  DeleteEmployee
 } = require('./Mutations/employee')
 const {
   CreateBooking,
@@ -58,6 +59,8 @@ const {
   CreateEmployeesInputType,
   AvailabilityItemEmployeeInputType,
 } = require('./Inputs/CreateEmployeeInputType')
+
+const { UpdateAvailabilityItemEmployeeInputType } = require('./Inputs/UpdateAvailabilityItemEmployeeInputType')
 
 const Mutation = mutationType({
   definition(t) {
@@ -312,7 +315,7 @@ const Mutation = mutationType({
         phone: stringArg(),
         branchesId: stringArg({ list: true, nullable: true }),
         servicesId: stringArg({ list: true, nullable: true }),
-        availabilityItems: list(AvailabilityItemEmployeeInputType),
+        availabilityItems: list(UpdateAvailabilityItemEmployeeInputType),
       },
       resolve: (parent, args, ctx) => UpdateEmployee(parent, args, ctx),
     })

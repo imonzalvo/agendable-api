@@ -69,6 +69,12 @@ export interface NexusGenInputs {
     instagramUrl?: string | null; // String
     website?: string | null; // String
   }
+  UpdateAvailabilityItemEmployeeInputType: { // input type
+    day: string; // String!
+    from: string; // String!
+    id?: string | null; // String
+    to: string; // String!
+  }
 }
 
 export interface NexusGenEnums {
@@ -845,7 +851,7 @@ export interface NexusGenArgTypes {
       website?: string | null; // String
     }
     updateEmployee: { // args
-      availabilityItems?: Array<NexusGenInputs['AvailabilityItemEmployeeInputType'] | null> | null; // [AvailabilityItemEmployeeInputType]
+      availabilityItems?: Array<NexusGenInputs['UpdateAvailabilityItemEmployeeInputType'] | null> | null; // [UpdateAvailabilityItemEmployeeInputType]
       branchesId?: Array<string | null> | null; // [String]
       familyName?: string | null; // String
       givenName?: string | null; // String
