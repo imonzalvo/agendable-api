@@ -19,12 +19,16 @@ const availabilityToMoment = (items, date) => {
     const itemEndingHour = item.to.split(':')[0]
     const itemEndingMinutes = item.to.split(':')[1]
 
-    const from = moment(date).hour(itemStartHour).minutes(itemStartMinutes).subtract(3, 'hours');
-    const to = moment(date).hour(itemEndingHour).minutes(itemEndingMinutes).subtract(3, 'hours');
+    const from = moment(date).hour(itemStartHour).minutes(itemStartMinutes)
+    // Commented this line. Not sure the consequences
+    // .subtract(3, 'hours')
+    const to = moment(date).hour(itemEndingHour).minutes(itemEndingMinutes)
+    // Commented this line. Not sure the consequences
+    // .subtract(3, 'hours')
     // TODO: Temporary solution!!!!!
     // FIX!!!!
     if (to.hours() >= 21) {
-      to.add(1, 'days');
+      to.add(1, 'days')
     }
     return { from: from, to: to }
   })
@@ -77,13 +81,12 @@ const getDayVacations = (vacations, date) =>
 const formattedAvailabilityItems = (availability, duration) => {
   let res = []
   // cambieé en el diff el orden puse primero el to y despues el from, sino daba negativo. kevin.
-  availability.forEach(
-    (item) =>
-      (res =
-        item.to.diff(item.from) > duration
-          ? [...res, { from: parseTime(item.from), to: parseTime(item.to) }]
-          : res),
-  )
+  availability.forEach((item) => {
+    res =
+      item.to.diff(item.from) >= duration
+        ? [...res, { from: parseTime(item.from), to: parseTime(item.to) }]
+        : res
+  })
   return res
 }
 
@@ -198,16 +201,13 @@ const getEmployeeAvailableTime = async (
   { date, duration, id },
   ctx,
 ) => {
-  const newId = id ? id : parent.id;
+  const newId = id ? id : parent.id
   // const { id } = parent;
   const day = date.split('T')[0] //2020-01-25
   const dayOfTheWeek = moment(date).format('dddd').toUpperCase()
 
-  const {
-    availability,
-    vacations,
-    bookings,
-  } = await ctx.prisma.employee.findUnique(queryObject(newId, day, dayOfTheWeek))
+  const { availability, vacations, bookings } =
+    await ctx.prisma.employee.findUnique(queryObject(newId, day, dayOfTheWeek))
 
   if (isTodayVacation(vacations, date)) {
     return []
