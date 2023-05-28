@@ -138,6 +138,11 @@ export interface NexusGenObjects {
     id: string; // ID!
     name: string; // String!
   }
+  Configuration: { // root type
+    enableEmailsNotifications: boolean; // Boolean!
+    id: string; // ID!
+    scheduleMinutesSeparation: number; // Int!
+  }
   Employee: { // root type
     familyName: string; // String!
     givenName: string; // String!
@@ -253,6 +258,7 @@ export interface NexusGenFieldTypes {
     services: NexusGenRootTypes['Service'][]; // [Service!]!
   }
   Business: { // field return type
+    Configuration: NexusGenRootTypes['Configuration'] | null; // Configuration
     branches: NexusGenRootTypes['Branch'][]; // [Branch!]!
     categories: NexusGenRootTypes['Category'][]; // [Category!]!
     email: string; // String!
@@ -278,6 +284,12 @@ export interface NexusGenFieldTypes {
     branches: NexusGenRootTypes['Branch'][]; // [Branch!]!
     id: string; // ID!
     name: string; // String!
+  }
+  Configuration: { // field return type
+    business: NexusGenRootTypes['Business'] | null; // Business
+    enableEmailsNotifications: boolean; // Boolean!
+    id: string; // ID!
+    scheduleMinutesSeparation: number; // Int!
   }
   Employee: { // field return type
     availability: NexusGenRootTypes['AvailabilityItem'][]; // [AvailabilityItem!]!
@@ -476,6 +488,7 @@ export interface NexusGenFieldTypeNames {
     services: 'Service'
   }
   Business: { // field return type name
+    Configuration: 'Configuration'
     branches: 'Branch'
     categories: 'Category'
     email: 'String'
@@ -501,6 +514,12 @@ export interface NexusGenFieldTypeNames {
     branches: 'Branch'
     id: 'ID'
     name: 'String'
+  }
+  Configuration: { // field return type name
+    business: 'Business'
+    enableEmailsNotifications: 'Boolean'
+    id: 'ID'
+    scheduleMinutesSeparation: 'Int'
   }
   Employee: { // field return type name
     availability: 'AvailabilityItem'

@@ -57,6 +57,7 @@ type Branch {
 }
 
 type Business {
+  Configuration: Configuration
   branches: [Branch!]!
   categories: [Category!]!
   email: String!
@@ -84,6 +85,13 @@ type Category {
   branches: [Branch!]!
   id: ID!
   name: String!
+}
+
+type Configuration {
+  business: Business
+  enableEmailsNotifications: Boolean!
+  id: ID!
+  scheduleMinutesSeparation: Int!
 }
 
 input CreateEmployeesInputType {

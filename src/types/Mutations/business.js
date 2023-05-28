@@ -25,6 +25,10 @@ const CreateBusiness = async (
     phone,
     handle,
     owner: { connect: { id: ownerId } },
+    configuration: {
+      enableEmailNotifications: true,
+      scheduleMinutesSeparation: 15,
+    },
   }
 
   if (website) {
@@ -132,6 +136,12 @@ const SetUpBusiness = async (
     branches: {
       create: branchData,
     },
+    Configuration: {
+      create: {
+        enableEmailsNotifications: true,
+        scheduleMinutesSeparation: 30,
+      },
+    },
   }
 
   if (website) {
@@ -187,7 +197,8 @@ const SetUpBusiness = async (
       displayName: business.name,
       description: description,
       // TODO: Set default image
-      logoUrl: "https://www.academiadechoferesdelparque.com.uy/images/academialogo.svg",
+      logoUrl:
+        'https://www.academiadechoferesdelparque.com.uy/images/academialogo.svg',
       imagesUrl: [
         'https://scontent.fmvd1-1.fna.fbcdn.net/v/t1.6435-9/64595531_2556091514409261_4583925518784528384_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=730e14&_nc_ohc=ZjqDZj5ZrwEAX-2qPn1&_nc_ht=scontent.fmvd1-1.fna&oh=00_AfB6BvG49Nerb90o6_OfyyW8BDpHWc4CbSgHUd4KUvUw4w&oe=64793FE3',
       ],

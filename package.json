@@ -37,7 +37,8 @@
     "build": "npm -s run clean && npm -s run generate",
     "generate": "npm -s run generate:prisma",
     "generate:prisma": "prisma generate",
-    "generate:nexus": "ts-node --transpile-only src/index"
+    "generate:nexus": "ts-node --transpile-only src/index",
+    "seed": "ts-node prisma/seed.ts"
   },
   "devDependencies": {
     "nodemon": "1.18.3",

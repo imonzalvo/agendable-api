@@ -117,21 +117,31 @@ model Category {
 }
 
 model Business {
-  id           String       @id @default(auto()) @map("_id") @db.ObjectId
-  name         String
-  email        String       @unique
-  phone        String       @unique
-  owner        User         @relation(fields: [ownerId], references: [id])
-  ownerId      String       @unique @db.ObjectId
-  handle       String       @unique
-  branches     Branch[]
-  landing      LandingInfo?
-  website      String?
-  instagramUrl String?
-  facebookUrl  String?
-  categories   Category[]
-  services     Service[]
-  employee     Employee[]
+  id              String         @id @default(auto()) @map("_id") @db.ObjectId
+  name            String
+  email           String         @unique
+  phone           String         @unique
+  owner           User           @relation(fields: [ownerId], references: [id])
+  ownerId         String         @unique @db.ObjectId
+  handle          String         @unique
+  branches        Branch[]
+  landing         LandingInfo?
+  website         String?
+  instagramUrl    String?
+  facebookUrl     String?
+  categories      Category[]
+  services        Service[]
+  employee        Employee[]
+  configurationId String?        @db.ObjectId
+  Configuration   Configuration?
+}
+
+model Configuration {
+  id                        String    @id @default(auto()) @map("_id") @db.ObjectId
+  business                  Business? @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  businessId                String?   @unique @db.ObjectId
+  scheduleMinutesSeparation Int
+  enableEmailsNotifications Boolean
 }
 
 model BusinessImage {

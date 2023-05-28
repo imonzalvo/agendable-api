@@ -19,6 +19,7 @@ const Business = objectType({
     t.field(BusinessType.branches)
     t.field(BusinessType.services)
     t.field(BusinessType.employee)
+    t.field(BusinessType.Configuration)
   },
 })
 
