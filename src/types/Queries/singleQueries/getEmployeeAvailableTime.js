@@ -8,7 +8,8 @@ const parseTime = (time) => {
 
 const bookingsToMoment = (items) => {
   return items.map((item) => {
-    return { start: moment(item.start), end: moment(item.end) }
+    // TODO: Chanchada? Si. Solo funciona para uruguay
+    return { start: moment.utc(item.start).subtract(3, 'hours'), end: moment.utc(item.end).subtract(3, 'hours') }
   })
 }
 
@@ -19,10 +20,10 @@ const availabilityToMoment = (items, date) => {
     const itemEndingHour = item.to.split(':')[0]
     const itemEndingMinutes = item.to.split(':')[1]
 
-    const from = moment(date).hour(itemStartHour).minutes(itemStartMinutes)
+    const from = moment.utc(date).hour(itemStartHour).minutes(itemStartMinutes)
     // Commented this line. Not sure the consequences
     // .subtract(3, 'hours')
-    const to = moment(date).hour(itemEndingHour).minutes(itemEndingMinutes)
+    const to = moment.utc(date).hour(itemEndingHour).minutes(itemEndingMinutes)
     // Commented this line. Not sure the consequences
     // .subtract(3, 'hours')
     // TODO: Temporary solution!!!!!
@@ -46,19 +47,19 @@ const sortBookings = (bookings) => {
 
 const isTodayVacation = (vacations, date) => {
   const reducer = (acc, item) => {
-    let startDate = moment(item.from)
-    let endDate = moment(item.to)
-    let currentDate = moment(date)
+    let startDate = moment.utc(item.from)
+    let endDate = moment.utc(item.to)
+    let currentDate = moment.utc(date)
 
-    return acc || moment(currentDate).isBetween(startDate, endDate)
+    return acc || moment.utc(currentDate).isBetween(startDate, endDate)
   }
 
   return vacations.reduce(reducer, false)
 }
 
 const isVacationToday = (from, to, date) => {
-  const start = moment(from)
-  const end = moment(to)
+  const start = moment.utc(from)
+  const end = moment.utc(to)
   const isToday =
     start.isSame(date, 'year') &&
     start.isSame(date, 'month') &&
@@ -73,9 +74,9 @@ const getDayVacations = (vacations, date) =>
   vacations
     .filter((vacation) => isVacationToday(vacation.from, vacation.to, date))
     .map((item) => {
-      item.start = moment(item.from)
-      item.end = moment(item.to)
-      return { start: moment(item.start), end: moment(item.end) }
+      item.start = moment.utc(item.from)
+      item.end = moment.utc(item.to)
+      return { start: moment.utc(item.start), end: moment.utc(item.end) }
     })
 
 const formattedAvailabilityItems = (availability, duration) => {
@@ -204,7 +205,7 @@ const getEmployeeAvailableTime = async (
   const newId = id ? id : parent.id
   // const { id } = parent;
   const day = date.split('T')[0] //2020-01-25
-  const dayOfTheWeek = moment(date).format('dddd').toUpperCase()
+  const dayOfTheWeek = moment.utc(date).format('dddd').toUpperCase()
 
   const { availability, vacations, bookings } =
     await ctx.prisma.employee.findUnique(queryObject(newId, day, dayOfTheWeek))
